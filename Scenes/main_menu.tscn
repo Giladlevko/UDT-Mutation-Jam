@@ -1,0 +1,28 @@
+[gd_scene load_steps=2 format=3 uid="uid://cgcrk6imk7y2b"]
+
+[ext_resource type="Script" uid="uid://b2fatneuc3a36" path="res://Scripts/main_menu.gd" id="1_28flt"]
+
+[node name="main_menu" type="Control" node_paths=PackedStringArray("dark_screen")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_28flt")
+dark_screen = NodePath("dark_screen")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="dark_screen" type="ColorRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
