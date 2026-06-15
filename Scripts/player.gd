@@ -1,18 +1,22 @@
 extends CREATURE_CLASS
 class_name PLAYER
+
 var damage_amount:float = 10
 var can_dash:bool = true
-var can_shoot:bool = true
 var gun_cooldown:float = 0.2
-var BULLET:PackedScene = preload("res://Scenes/bullet.tscn")
+
 @onready var gun: Node2D = $gun
 
 func _ready() -> void:
 	speed = 100
+	recalculate_stats()
 	SignalBus.dash_ready.connect(on_dash_ready)
 
 func on_dash_ready():
 	can_dash = true
+
+func mutation_cards():
+	SignalBus.display_cards.emit(current_mutations)
 
 func taking_damage(damage_type:STATES):
 	match damage_type:
@@ -36,20 +40,9 @@ func constant_state():
 	move_and_slide()
 	look_at(get_global_mouse_position())
 	if Input.is_action_just_pressed("SHOOT") and can_shoot:
-		shoot()
+		shoot_projectile(gun)
 
-func shoot():
-	can_shoot = false
-	var bullet:PROJECTILE = BULLET.instantiate()
-	bullet.direction = Vector2(cos(rotation),sin(rotation))
-	bullet.global_position = gun.global_position
-	bullet.collision_mask = collision_mask
-	bullet.collision_layer = collision_layer
-	owner.add_child(bullet)
-	await get_tree().create_timer(gun_cooldown).timeout
-	can_shoot = true
-	
-	pass
+
 
 func idle():
 	velocity = Vector2.ZERO
