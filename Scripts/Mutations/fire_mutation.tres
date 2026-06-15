@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="MutationData" load_steps=2 format=3 uid="uid://cch6flcq23ry5"]
+
+[ext_resource type="Script" uid="uid://dicwgk5dwandi" path="res://Scripts/mutation_data.gd" id="1_uf5ff"]
+
+[resource]
+script = ExtResource("1_uf5ff")
+name = "Fire Mutation"
+health_mult = 1.0
+fire_damage_mult = 0.3
+freeze_time_mult = 0.5
+attack_power_mult = 1.0
+speed_mult = 1.3
+protection_bonus = 0
+projectile_mult = 0
+projectile_cool_mult = 1.0
+projectile_chance_to_split = 0.1
+metadata/_custom_type_script = "uid://dicwgk5dwandi"

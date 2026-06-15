@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://clg72b0wvnmb0"]
+[gd_scene load_steps=4 format=3 uid="uid://clg72b0wvnmb0"]
 
 [ext_resource type="Script" uid="uid://hl6vx05w5wh4" path="res://Scripts/game_ui.gd" id="1_gek4i"]
 [ext_resource type="Theme" uid="uid://rgyna2d0tcac" path="res://Scenes/UI_theme.tres" id="2_bw2rt"]
+[ext_resource type="PackedScene" uid="uid://coqysvcynx4x" path="res://Scenes/mutation_card.tscn" id="3_xjnnq"]
 
 [node name="game_ui" type="Control" node_paths=PackedStringArray("dark_screen")]
 process_mode = 3
@@ -106,6 +107,19 @@ theme = ExtResource("2_bw2rt")
 value = 50.0
 rounded = true
 show_percentage = false
+
+[node name="card_cont" type="MarginContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="mutation_card" parent="MarginContainer/card_cont" instance=ExtResource("3_xjnnq")]
+layout_mode = 2
+
+[node name="mutation_card2" parent="MarginContainer/card_cont" instance=ExtResource("3_xjnnq")]
+layout_mode = 2
+
+[node name="mutation_card3" parent="MarginContainer/card_cont" node_paths=PackedStringArray("dark_screen") instance=ExtResource("3_xjnnq")]
+layout_mode = 2
+dark_screen = NodePath("../../../ColorRect")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 visible = false

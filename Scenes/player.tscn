@@ -1,8 +1,22 @@
-[gd_scene load_steps=6 format=3 uid="uid://dbfvx0grahmc8"]
+[gd_scene load_steps=8 format=3 uid="uid://dbfvx0grahmc8"]
 
 [ext_resource type="Script" uid="uid://cpanfg41ublgn" path="res://Scripts/player.gd" id="1_v0iea"]
 [ext_resource type="PackedScene" uid="uid://clg72b0wvnmb0" path="res://Scenes/game_ui.tscn" id="2_cvnsp"]
+[ext_resource type="Script" uid="uid://xxcb07qv28jf" path="res://Scripts/creature_stats.gd" id="2_vgqql"]
 [ext_resource type="Texture2D" uid="uid://b4iruy4gxsdkg" path="res://icon.svg" id="3_6t5aa"]
+
+[sub_resource type="Resource" id="Resource_vgqql"]
+script = ExtResource("2_vgqql")
+damage_from_fire = 1.0
+freeze_time = 1.0
+attack_power = 10.0
+speed = 100.0
+health = 100.0
+protection_from_damage = 0
+projectile_amount = 2
+projectile_cooldown = 0.2
+projectile_chance_to_split = 0.1
+metadata/_custom_type_script = "uid://xxcb07qv28jf"
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_cvnsp"]
 
@@ -10,6 +24,7 @@
 
 [node name="player" type="CharacterBody2D"]
 script = ExtResource("1_v0iea")
+base_stats = SubResource("Resource_vgqql")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_cvnsp")

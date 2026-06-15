@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="MutationData" load_steps=2 format=3 uid="uid://cahkbixitw8o6"]
+
+[ext_resource type="Script" uid="uid://dicwgk5dwandi" path="res://Scripts/mutation_data.gd" id="1_5v8oj"]
+
+[resource]
+script = ExtResource("1_5v8oj")
+name = "Quick Mutation"
+health_mult = 0.8
+fire_damage_mult = 1.0
+freeze_time_mult = 0.5
+attack_power_mult = 0.8
+speed_mult = 1.6
+protection_bonus = 0
+projectile_mult = 0
+projectile_cool_mult = 1.0
+projectile_chance_to_split = 0.1
+metadata/_custom_type_script = "uid://dicwgk5dwandi"

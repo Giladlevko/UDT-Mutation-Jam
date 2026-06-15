@@ -8,6 +8,7 @@ extends UI
 @onready var pause_menu: MarginContainer = $MarginContainer/pause_menu
 
 @onready var dash_bar: ProgressBar = $MarginContainer/dash_cont/dash_bar
+@onready var card_cont: MarginContainer = $MarginContainer/card_cont
 
 
 var in_countdown:bool
@@ -23,6 +24,8 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	if Input.is_action_just_pressed("DASH"):
+		display_cards([])
 	pass
 
 
@@ -74,3 +77,16 @@ func dash_cooldown(dur:float):
 	SignalBus.dash_ready.emit()
 	
 	
+
+func display_cards(player_mut:Array[MutationData]):
+	var mutation_copy:Array[MutationData] = Global.ALL_MUTATIONS.duplicate()
+	mutation_copy.filter(func (x):return !player_mut.has(x))
+	mutation_copy.shuffle()
+	var offset:float = 1
+	for card:MUTATION_CARD in card_cont.get_children():
+		tween_visibility(card,true)
+		card.mutation_type = mutation_copy.pop_back()
+		card.move_card(offset)
+		await get_tree().create_timer(0.4).timeout
+		offset-=1
+		
