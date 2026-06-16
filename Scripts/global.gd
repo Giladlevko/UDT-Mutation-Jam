@@ -12,6 +12,8 @@ const ALL_MUTATIONS:Array[MutationData] = [
 	FIRE_MUTATION,ICE_MUTATION,QUICK_MUTATION,SHIELD_MUTATION,SPLIT_PROJECTILE
 	]
 
+var player:PLAYER
+
 func switch_scenes(new_scene_path:String):
 	var current_scene = get_tree().current_scene
 	current_scene.queue_free()

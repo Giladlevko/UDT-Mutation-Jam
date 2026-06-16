@@ -33,6 +33,20 @@ layout_mode = 2
 theme = ExtResource("2_bw2rt")
 text = "Pause"
 
+[node name="countdown_cont" type="MarginContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="countdown_label" type="Label" parent="MarginContainer/countdown_cont"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("2_bw2rt")
+text = "3"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="pause_menu" type="MarginContainer" parent="MarginContainer"]
 visible = false
 layout_mode = 2
@@ -79,18 +93,6 @@ layout_mode = 2
 theme = ExtResource("2_bw2rt")
 text = "Main Menu"
 
-[node name="countdown_cont" type="MarginContainer" parent="MarginContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-
-[node name="countdown_label" type="Label" parent="MarginContainer/countdown_cont"]
-layout_mode = 2
-size_flags_horizontal = 4
-theme = ExtResource("2_bw2rt")
-text = "3"
-horizontal_alignment = 1
-
 [node name="dash_cont" type="MarginContainer" parent="MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
@@ -110,6 +112,7 @@ show_percentage = false
 
 [node name="card_cont" type="MarginContainer" parent="MarginContainer"]
 layout_mode = 2
+size_flags_vertical = 4
 
 [node name="mutation_card" parent="MarginContainer/card_cont" instance=ExtResource("3_xjnnq")]
 layout_mode = 2

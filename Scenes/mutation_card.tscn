@@ -1,12 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://coqysvcynx4x"]
+[gd_scene load_steps=4 format=3 uid="uid://coqysvcynx4x"]
 
 [ext_resource type="Script" uid="uid://id2ombwry7p1" path="res://Scripts/mutation_card.gd" id="1_k6i3b"]
 [ext_resource type="Theme" uid="uid://rgyna2d0tcac" path="res://Scenes/UI_theme.tres" id="2_voi0s"]
-[ext_resource type="Texture2D" uid="uid://b4iruy4gxsdkg" path="res://icon.svg" id="3_hgxis"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_304yd"]
-atlas = ExtResource("3_hgxis")
-region = Rect2(59, 61, 10, 15)
+[ext_resource type="Texture2D" uid="uid://bl0abs8hhmv47" path="res://Assets/sprites/UI/mutations/mystery.png" id="3_voi0s"]
 
 [node name="mutation_card" type="Control"]
 modulate = Color(1, 1, 1, 0)
@@ -37,7 +33,8 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme = ExtResource("2_voi0s")
-texture_normal = SubResource("AtlasTexture_304yd")
+toggle_mode = true
+texture_normal = ExtResource("3_voi0s")
 stretch_mode = 5
 
 [connection signal="pressed" from="MarginContainer/card" to="." method="_on_card_pressed"]

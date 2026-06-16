@@ -52,6 +52,7 @@ func countdown(sec:int = 3):
 func _on_pause_pressed() -> void:
 	if !get_tree().paused:
 		tween_visibility(pause_menu,true)
+		get_tree().paused = true
 	else:
 		if !in_countdown:
 			tween_visibility(pause_menu,false)
@@ -86,6 +87,9 @@ func display_cards(player_mut:Array[MutationData]):
 	for card:MUTATION_CARD in card_cont.get_children():
 		tween_visibility(card,true)
 		card.mutation_type = mutation_copy.pop_back()
+		for m:MutationData in mutation_copy:
+			print(m.name)
+		print()
 		card.move_card(offset)
 		await get_tree().create_timer(0.4).timeout
 		offset-=1
