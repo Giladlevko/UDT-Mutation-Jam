@@ -1,0 +1,98 @@
+[gd_scene load_steps=10 format=3 uid="uid://d2w8l0kfb0f7o"]
+
+[ext_resource type="Script" uid="uid://dfrguhjsgsnvn" path="res://Scripts/enemy.gd" id="1_hghv2"]
+[ext_resource type="Script" uid="uid://xxcb07qv28jf" path="res://Scripts/creature_stats.gd" id="2_1f0kj"]
+[ext_resource type="Texture2D" uid="uid://e2261vv7tt2c" path="res://Assets/sprites/enemy/enemy.png" id="3_afpow"]
+[ext_resource type="Script" uid="uid://owaf6dcijagk" path="res://Scripts/gun.gd" id="4_0830c"]
+[ext_resource type="PackedScene" uid="uid://bqti7278jk71g" path="res://Scenes/health_bar.tscn" id="5_0830c"]
+
+[sub_resource type="Resource" id="Resource_afpow"]
+script = ExtResource("2_1f0kj")
+damage_from_fire = 1.0
+freeze_time = 1.0
+attack_power = 10.0
+speed = 100.0
+health = 100.0
+protection_from_damage = 0
+projectile_amount = 1
+projectile_cooldown = 0.8
+projectile_chance_to_split = 0.1
+metadata/_custom_type_script = "uid://xxcb07qv28jf"
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_hghv2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_afpow")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ne65n"]
+radius = 17.1172
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0830c"]
+radius = 15.1327
+
+[node name="Enemy" type="CharacterBody2D" node_paths=PackedStringArray("anim", "colli", "hurt_area", "hurt_colli", "health_bar")]
+collision_layer = 2
+script = ExtResource("1_hghv2")
+anim = NodePath("AnimatedSprite2D")
+colli = NodePath("CollisionShape2D")
+hurt_area = NodePath("hurt_area")
+hurt_colli = NodePath("hurt_area/CollisionShape2D")
+health_bar = NodePath("Node/health_bar")
+base_stats = SubResource("Resource_afpow")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(3, -2)
+sprite_frames = SubResource("SpriteFrames_hghv2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_ne65n")
+
+[node name="navigation" type="Node2D" parent="."]
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="navigation"]
+target_desired_distance = 100.0
+avoidance_enabled = true
+radius = 50.0
+neighbor_distance = 100.0
+time_horizon_agents = 0.1
+time_horizon_obstacles = 0.1
+debug_enabled = true
+debug_use_custom = true
+debug_path_custom_color = Color(0, 0.537255, 0, 1)
+debug_path_custom_line_width = 0.5
+
+[node name="gun" type="Node2D" parent="."]
+script = ExtResource("4_0830c")
+
+[node name="barrel" type="Node2D" parent="gun"]
+position = Vector2(12, 0)
+
+[node name="hurt_area" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hurt_area"]
+shape = SubResource("CircleShape2D_0830c")
+debug_color = Color(1, 0.00696271, 0.0518057, 0.42)
+
+[node name="Node" type="Node" parent="."]
+
+[node name="health_bar" parent="Node" instance=ExtResource("5_0830c")]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -626.0
+offset_top = -371.0
+offset_right = -626.0
+offset_bottom = -371.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+bar_size = Vector2(30, 5)
+
+[connection signal="velocity_computed" from="navigation/NavigationAgent2D" to="." method="_on_navigation_agent_2d_velocity_computed"]

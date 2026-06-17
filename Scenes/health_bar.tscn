@@ -1,0 +1,45 @@
+[gd_scene load_steps=6 format=3 uid="uid://bqti7278jk71g"]
+
+[ext_resource type="Script" uid="uid://dg6bkmmcqtsjp" path="res://Scripts/health_bar.gd" id="1_78m4n"]
+[ext_resource type="Theme" uid="uid://rgyna2d0tcac" path="res://Scenes/UI_theme.tres" id="2_m34ix"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qay8w"]
+bg_color = Color(0.254902, 0.254902, 0.254902, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wjrfg"]
+bg_color = Color(0, 0.701961, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ap322"]
+bg_color = Color(0.615686, 0, 0, 1)
+
+[node name="health_bar" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 0
+script = ExtResource("1_78m4n")
+
+[node name="health" type="ProgressBar" parent="."]
+custom_minimum_size = Vector2(100, 15)
+layout_mode = 1
+offset_right = 100.0
+offset_bottom = 14.25
+theme = ExtResource("2_m34ix")
+theme_override_styles/background = SubResource("StyleBoxFlat_qay8w")
+theme_override_styles/fill = SubResource("StyleBoxFlat_wjrfg")
+value = 50.0
+show_percentage = false
+
+[node name="damage" type="ProgressBar" parent="health"]
+show_behind_parent = true
+custom_minimum_size = Vector2(100, 15)
+layout_mode = 0
+offset_right = 50.0
+offset_bottom = 15.0
+theme = ExtResource("2_m34ix")
+theme_override_styles/fill = SubResource("StyleBoxFlat_ap322")
+value = 70.0
+show_percentage = false

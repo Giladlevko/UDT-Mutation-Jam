@@ -1,22 +1,23 @@
-extends CharacterBody2D
+extends Area2D
 class_name PROJECTILE
 var direction:Vector2
 @export var speed:float = 1000
-@export var lifetime:float = 2
+@export var lifetime:float = 1
+enum bullet_types{normal,fire,ice}
+@export var type:bullet_types = bullet_types.normal
+@export var damage:float = 10
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	death_timer(lifetime)
-	emit_bullet()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	
-	move_and_slide()
+	emit_bullet(delta)
 
-func emit_bullet():
+func emit_bullet(delta:float):
 	direction = direction.normalized()
-	velocity = speed * direction
+	position += speed * direction * delta
 
 func death_timer(dur:float):
 	await get_tree().create_timer(dur).timeout

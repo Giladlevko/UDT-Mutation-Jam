@@ -4,12 +4,15 @@ class_name PLAYER
 var damage_amount:float = 10
 var can_dash:bool = true
 var gun_cooldown:float = 0.2
+@onready var cam: PLAYER_CAM = $Camera2D
 
 @onready var gun: Node2D = $gun
 
 func _ready() -> void:
+	Global.player = self
 	speed = 100
-	recalculate_stats()
+	initialize_setup()
+	
 	SignalBus.dash_ready.connect(on_dash_ready)
 
 func on_dash_ready():
@@ -41,11 +44,14 @@ func constant_state():
 	look_at(get_global_mouse_position())
 	if Input.is_action_just_pressed("SHOOT") and can_shoot:
 		shoot_projectile(gun)
+		cam_shake()
+		knock_back(1000)
 
-
+func cam_shake():
+	cam.shake()
 
 func idle():
-	velocity = Vector2.ZERO
+	velocity = lerp(velocity,Vector2.ZERO,0.5)
 	if movement_action_pressed():
 		change_state(STATES.RUNNING,state)
 	check_dash()
@@ -61,20 +67,24 @@ func movement_action_pressed()->bool:
 func move(delta:float):
 	var x_dir:= Input.get_axis("LEFT", "RIGHT")
 	var y_dir := Input.get_axis("DOWN", "UP")
+	var vel:Vector2
 	if x_dir and !y_dir:
-		velocity.x = x_dir * speed
-		velocity.y = 0
+		vel.x = x_dir * speed
+		
+		vel.y = 0
 	elif  y_dir and !x_dir:
-		velocity.y = -y_dir * speed
-		velocity.x = 0
+		vel.y = -y_dir * speed
+		vel.x = 0
 	elif  y_dir and x_dir:
 		var norm_speed = sqrt(speed*speed/2)
-		velocity = Vector2(norm_speed*x_dir,-norm_speed*y_dir)
+		vel = Vector2(norm_speed*x_dir,-norm_speed*y_dir)
 	elif !movement_action_pressed():
 		change_state(STATES.IDLE,state)
 	elif !x_dir and !y_dir:
-		velocity = Vector2.ZERO
-	
+		vel = Vector2.ZERO
+	if x_dir !=0:
+		anim.flip_h = (x_dir == -1)
+	velocity = lerp(velocity,vel,0.5)
 	check_dash()
 
 func check_dash():

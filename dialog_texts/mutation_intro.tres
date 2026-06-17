@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="DialogLine" load_steps=2 format=3 uid="uid://ccejs4mhrxmli"]
+
+[ext_resource type="Script" uid="uid://bey5c0r582piw" path="res://dialog_texts/dialog_line.gd" id="1_4c0p2"]
+
+[resource]
+script = ExtResource("1_4c0p2")
+speaker = "Game"
+lines = Array[String](["Wave completed, congratulations!", "It is now time to pick a mutation!", "You can only hold two mutations at a time.", "If you currently hold two mutations, you can either skip to the next phase...", "or let go of one of your mutations by clicking its Icon!", "Soon three Mutation Cards will appear. ", "The one you choose will be your new mutation...", "the other two will apply to the enemies of the next wave"])
+metadata/_custom_type_script = "uid://bey5c0r582piw"

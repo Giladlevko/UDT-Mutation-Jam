@@ -5,8 +5,10 @@ var BULLET:PackedScene = preload("res://Scenes/bullet.tscn")
 
 @export var anim:AnimatedSprite2D
 @export var colli:CollisionShape2D
+@export var hurt_area:Area2D
 @export var hurt_colli:CollisionShape2D
 @export var attack_colli:CollisionShape2D
+@export var health_bar:HEALTH_BAR
 
 @export var base_stats:CreatureStats
 
@@ -31,6 +33,13 @@ var current_mutations: Array[MutationData] = []
 func _ready() -> void:
 	pass # Replace with function body.
 
+
+func initialize_setup():
+	recalculate_stats()
+	hurt_area.area_entered.connect(on_hurt_area_body_entered)
+	hurt_area.collision_layer = collision_layer
+	hurt_area.collision_mask = collision_mask
+	health_bar.max_health = health
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -73,7 +82,7 @@ func remove_mutation(mutation:MutationData):
 		recalculate_stats()
 
 var can_shoot:bool = true
-func shoot_projectile(gun:Node2D):
+func shoot_projectile(gun:GUN):
 	can_shoot = false
 	var starter_angle:float = 0.0
 	var projectils_to_shoot:int = 1
@@ -89,7 +98,7 @@ func shoot_projectile(gun:Node2D):
 		elif (i+1)%3==0:  angle_offset = -(1)*starter_angle
 		var rot:float = rotation +starter_angle+angle_offset
 		bullet.direction = Vector2(cos(rot),sin(rot))
-		bullet.global_position = gun.global_position
+		bullet.global_position = gun.barrel.global_position
 		bullet.collision_mask = collision_mask
 		bullet.collision_layer = collision_layer
 		owner.add_child(bullet)
@@ -98,3 +107,26 @@ func shoot_projectile(gun:Node2D):
 	can_shoot = true
 	pass
 	pass
+
+func knock_back(strength:float = 5):
+	velocity -= Vector2(cos(rotation),sin(rotation)) * strength
+	pass
+
+func take_damage(val:float):
+	assert(health_bar)
+	health-=val
+	health_bar.set_health(health)
+	if health<=0:
+		kill_creature()
+	
+
+func on_hurt_area_body_entered(area:Area2D):
+	if area is PROJECTILE:
+		take_damage(area.damage)
+	pass
+
+func kill_creature():
+	if self is PLAYER:
+		get_tree().reload_current_scene()
+		return
+	queue_free()

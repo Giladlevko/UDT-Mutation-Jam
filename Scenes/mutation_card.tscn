@@ -2,42 +2,75 @@
 
 [ext_resource type="Script" uid="uid://id2ombwry7p1" path="res://Scripts/mutation_card.gd" id="1_k6i3b"]
 [ext_resource type="Theme" uid="uid://rgyna2d0tcac" path="res://Scenes/UI_theme.tres" id="2_voi0s"]
-[ext_resource type="Texture2D" uid="uid://b4iruy4gxsdkg" path="res://icon.svg" id="3_hgxis"]
+[ext_resource type="Texture2D" uid="uid://bl0abs8hhmv47" path="res://Assets/sprites/UI/mutations/mystery.png" id="3_voi0s"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_304yd"]
-atlas = ExtResource("3_hgxis")
-region = Rect2(59, 61, 10, 15)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_voi0s"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
 
 [node name="mutation_card" type="Control"]
-modulate = Color(1, 1, 1, 0)
 layout_mode = 3
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+size_flags_vertical = 0
+script = ExtResource("1_k6i3b")
+base_tex = ExtResource("3_voi0s")
+
+[node name="card_button" type="Button" parent="."]
+custom_minimum_size = Vector2(150, 230)
+layout_mode = 1
+offset_right = 128.0
+offset_bottom = 128.0
+theme = ExtResource("2_voi0s")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_voi0s")
+theme_override_styles/hover = SubResource("StyleBoxFlat_voi0s")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_voi0s")
+theme_override_styles/normal = SubResource("StyleBoxFlat_voi0s")
+toggle_mode = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="card_button"]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-size_flags_horizontal = 0
-size_flags_vertical = 4
-script = ExtResource("1_k6i3b")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 1
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_top = -25.0
-offset_right = 50.0
-offset_bottom = 25.0
-grow_vertical = 2
-
-[node name="card" type="TextureButton" parent="MarginContainer"]
-custom_minimum_size = Vector2(50, 50)
+[node name="Control" type="Control" parent="card_button/VBoxContainer"]
 layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
+
+[node name="Control2" type="Control" parent="card_button/VBoxContainer"]
+layout_mode = 2
+
+[node name="mutation_name" type="Label" parent="card_button/VBoxContainer"]
+layout_mode = 2
+text = "Name"
+horizontal_alignment = 1
+
+[node name="card_texture" type="TextureRect" parent="card_button/VBoxContainer"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
 theme = ExtResource("2_voi0s")
-texture_normal = SubResource("AtlasTexture_304yd")
+texture = ExtResource("3_voi0s")
 stretch_mode = 5
 
-[connection signal="pressed" from="MarginContainer/card" to="." method="_on_card_pressed"]
+[node name="stats" type="Label" parent="card_button/VBoxContainer"]
+custom_minimum_size = Vector2(100, 90)
+layout_mode = 2
+theme = ExtResource("2_voi0s")
+text = "Stats"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[connection signal="mouse_entered" from="card_button" to="." method="_on_card_button_mouse_entered"]
+[connection signal="mouse_exited" from="card_button" to="." method="_on_card_button_mouse_exited"]
+[connection signal="pressed" from="card_button" to="." method="_on_card_pressed"]

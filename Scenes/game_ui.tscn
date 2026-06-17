@@ -1,8 +1,23 @@
-[gd_scene load_steps=4 format=3 uid="uid://clg72b0wvnmb0"]
+[gd_scene load_steps=9 format=3 uid="uid://clg72b0wvnmb0"]
 
 [ext_resource type="Script" uid="uid://hl6vx05w5wh4" path="res://Scripts/game_ui.gd" id="1_gek4i"]
 [ext_resource type="Theme" uid="uid://rgyna2d0tcac" path="res://Scenes/UI_theme.tres" id="2_bw2rt"]
 [ext_resource type="PackedScene" uid="uid://coqysvcynx4x" path="res://Scenes/mutation_card.tscn" id="3_xjnnq"]
+[ext_resource type="Texture2D" uid="uid://bcmhxv7iveiw3" path="res://Assets/sprites/UI/mutations/dna_dark.png" id="4_gjn1n"]
+[ext_resource type="Shader" uid="uid://bwd31woa55j2f" path="res://Scripts/moving_background.gdshader" id="5_3t1kc"]
+[ext_resource type="PackedScene" uid="uid://biawi0iex0w1a" path="res://Scenes/text_box.tscn" id="6_1t2s1"]
+
+[sub_resource type="Environment" id="Environment_3t1kc"]
+background_mode = 3
+glow_enabled = true
+glow_normalized = true
+glow_intensity = 0.05
+glow_strength = 2.0
+glow_hdr_threshold = 4.0
+glow_hdr_scale = 4.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_y8vuf"]
+shader = ExtResource("5_3t1kc")
 
 [node name="game_ui" type="Control" node_paths=PackedStringArray("dark_screen")]
 process_mode = 3
@@ -32,6 +47,20 @@ size_flags_vertical = 0
 layout_mode = 2
 theme = ExtResource("2_bw2rt")
 text = "Pause"
+
+[node name="countdown_cont" type="MarginContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="countdown_label" type="Label" parent="MarginContainer/countdown_cont"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("2_bw2rt")
+text = "3"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="pause_menu" type="MarginContainer" parent="MarginContainer"]
 visible = false
@@ -79,18 +108,6 @@ layout_mode = 2
 theme = ExtResource("2_bw2rt")
 text = "Main Menu"
 
-[node name="countdown_cont" type="MarginContainer" parent="MarginContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-
-[node name="countdown_label" type="Label" parent="MarginContainer/countdown_cont"]
-layout_mode = 2
-size_flags_horizontal = 4
-theme = ExtResource("2_bw2rt")
-text = "3"
-horizontal_alignment = 1
-
 [node name="dash_cont" type="MarginContainer" parent="MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
@@ -108,18 +125,137 @@ value = 50.0
 rounded = true
 show_percentage = false
 
-[node name="card_cont" type="MarginContainer" parent="MarginContainer"]
+[node name="mutation_display" type="MarginContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/mutation_display"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/mutation_display/HBoxContainer"]
+modulate = Color(2, 2, 2, 1)
+custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
 
-[node name="mutation_card" parent="MarginContainer/card_cont" instance=ExtResource("3_xjnnq")]
+[node name="mutation_1" type="TextureRect" parent="MarginContainer/mutation_display/HBoxContainer/TextureRect"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -40.0
+offset_top = -40.0
+offset_right = 40.0
+offset_bottom = 40.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_bw2rt")
+stretch_mode = 5
+
+[node name="TextureRect2" type="TextureRect" parent="MarginContainer/mutation_display/HBoxContainer"]
+modulate = Color(2, 2, 2, 1)
+custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
 
-[node name="mutation_card2" parent="MarginContainer/card_cont" instance=ExtResource("3_xjnnq")]
+[node name="mutation_2" type="TextureRect" parent="MarginContainer/mutation_display/HBoxContainer/TextureRect2"]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+offset_right = 80.0
+offset_bottom = 80.0
+theme = ExtResource("2_bw2rt")
+stretch_mode = 5
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="MarginContainer/mutation_display/HBoxContainer"]
+environment = SubResource("Environment_3t1kc")
+
+[node name="mutation_menu" type="Control" parent="MarginContainer"]
+visible = false
 layout_mode = 2
 
-[node name="mutation_card3" parent="MarginContainer/card_cont" node_paths=PackedStringArray("dark_screen") instance=ExtResource("3_xjnnq")]
+[node name="ColorRect" type="ColorRect" parent="MarginContainer/mutation_menu"]
 layout_mode = 2
-dark_screen = NodePath("../../../ColorRect")
+offset_right = 1152.0
+offset_bottom = 648.0
+color = Color(0, 0, 0, 1)
+
+[node name="texture" type="TextureRect" parent="MarginContainer/mutation_menu"]
+texture_repeat = 2
+material = SubResource("ShaderMaterial_y8vuf")
+layout_mode = 2
+offset_right = 1152.0
+offset_bottom = 648.0
+texture = ExtResource("4_gjn1n")
+stretch_mode = 1
+
+[node name="card_cont" type="MarginContainer" parent="MarginContainer/mutation_menu"]
+layout_mode = 2
+offset_top = 324.0
+offset_right = 1152.0
+offset_bottom = 324.0
+size_flags_vertical = 4
+
+[node name="card1" parent="MarginContainer/mutation_menu/card_cont" instance=ExtResource("3_xjnnq")]
+layout_mode = 2
+
+[node name="card2" parent="MarginContainer/mutation_menu/card_cont" instance=ExtResource("3_xjnnq")]
+layout_mode = 2
+
+[node name="card3" parent="MarginContainer/mutation_menu/card_cont" instance=ExtResource("3_xjnnq")]
+layout_mode = 2
+
+[node name="mut_button_cont" type="MarginContainer" parent="MarginContainer/mutation_menu"]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.475694
+anchor_top = 0.401235
+anchor_right = 0.524306
+anchor_bottom = 0.449074
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+metadata/_edit_use_anchors_ = true
+
+[node name="accept_choice" type="Button" parent="MarginContainer/mutation_menu/mut_button_cont"]
+layout_mode = 2
+theme = ExtResource("2_bw2rt")
+text = "Got it!"
+
+[node name="text_cont" type="MarginContainer" parent="MarginContainer/mutation_menu"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.3
+anchor_right = 0.5
+anchor_bottom = 0.312
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="TextBox" parent="MarginContainer/mutation_menu/text_cont" instance=ExtResource("6_1t2s1")]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="message_cont" type="MarginContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_constants/margin_top = 115
+
+[node name="message_label" type="Label" parent="MarginContainer/message_cont"]
+layout_mode = 2
+theme = ExtResource("2_bw2rt")
+text = "messege"
+horizontal_alignment = 1
 
 [node name="ColorRect" type="ColorRect" parent="."]
 visible = false
@@ -134,3 +270,4 @@ color = Color(0, 0, 0, 1)
 [connection signal="pressed" from="MarginContainer/pause_button_cont/pause" to="." method="_on_pause_pressed"]
 [connection signal="pressed" from="MarginContainer/pause_menu/NinePatchRect/VBoxContainer/resume" to="." method="_on_pause_pressed"]
 [connection signal="pressed" from="MarginContainer/pause_menu/NinePatchRect/VBoxContainer/back_to_main" to="." method="_on_back_to_main_pressed"]
+[connection signal="pressed" from="MarginContainer/mutation_menu/mut_button_cont/accept_choice" to="." method="_on_accept_choice_pressed"]

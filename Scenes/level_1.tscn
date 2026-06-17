@@ -1,7 +1,9 @@
-[gd_scene load_steps=5 format=4 uid="uid://cwqb0wwblpymn"]
+[gd_scene load_steps=8 format=4 uid="uid://cwqb0wwblpymn"]
 
+[ext_resource type="Script" uid="uid://chu8bmlu7n0vh" path="res://Scripts/level_manager.gd" id="1_7p6j4"]
 [ext_resource type="Texture2D" uid="uid://b4iruy4gxsdkg" path="res://icon.svg" id="1_vk57k"]
 [ext_resource type="PackedScene" uid="uid://dbfvx0grahmc8" path="res://Scenes/player.tscn" id="2_8ffim"]
+[ext_resource type="PackedScene" uid="uid://d2w8l0kfb0f7o" path="res://Scenes/enemy.tscn" id="3_xfk5q"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_8ffim"]
 texture = ExtResource("1_vk57k")
@@ -73,7 +75,13 @@ texture = ExtResource("1_vk57k")
 [sub_resource type="TileSet" id="TileSet_xfk5q"]
 sources/0 = SubResource("TileSetAtlasSource_8ffim")
 
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_7p6j4"]
+vertices = PackedVector2Array(462.609, 245.188, -363.289, 264.742, -332.594, -197.711, 555.828, -268)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-342, -207, -374, 275, 471, 255, 568, -279)])
+
 [node name="Level_1" type="Node2D"]
+script = ExtResource("1_7p6j4")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
 tile_map_data = PackedByteArray("AAD8/wEAAAABAAAAAAD9/wEAAAACAAAAAAD+/wEAAAADAAAAAAD//wEAAAAEAAAAAAAAAAEAAAAFAAAAAAABAAEAAAABAAAAAAACAAEAAAACAAAAAAADAAEAAAADAAAAAAAEAAEAAAAEAAAAAAAFAAEAAAAFAAAAAAAHAP//AAAFAAEAAAAHAP7/AAAFAAEAAAAHAP3/AAAFAAEAAAAHAPz/AAAFAAEAAAAGAPz/AAAFAAEAAAAGAPv/AAAFAAEAAAAFAPv/AAAFAAEAAAAEAPv/AAAFAAEAAAAEAPr/AAAFAAEAAAADAPr/AAAFAAEAAAACAPr/AAAFAAEAAAABAPr/AAAFAAEAAAAAAPr/AAAFAAEAAAD///n/AAAFAAEAAAD+//n/AAAFAAEAAAD+//j/AAAFAAEAAAD///j/AAAFAAEAAAAAAPf/AAAFAAEAAAABAPf/AAAFAAEAAAACAPf/AAAFAAEAAAADAPb/AAAFAAEAAAAEAPb/AAAFAAEAAAAFAPb/AAAFAAEAAAAGAPb/AAAFAAEAAAAHAPb/AAAFAAEAAAAIAPb/AAAFAAEAAAAIAPX/AAAFAAEAAAAJAPX/AAAFAAEAAAAKAPX/AAAFAAEAAAALAPX/AAAFAAEAAAD5//f/AAAFAAEAAAD4//f/AAAFAAEAAAD3//j/AAAFAAEAAAD2//j/AAAFAAEAAAD1//n/AAAFAAEAAAD1//r/AAAFAAEAAAD1//v/AAAFAAEAAAD1//z/AAAFAAEAAAD1//3/AAAFAAEAAAD2//7/AAAFAAEAAAD2////AAAFAAEAAAD1////AAAFAAEAAAD1/wAAAAAFAAEAAAD1/wEAAAAFAAEAAAD2/wEAAAAFAAEAAAD2/wIAAAAFAAEAAAD3/wIAAAAFAAEAAAD4/wIAAAAFAAEAAAAKAAIAAAAFAAEAAAALAAEAAAAFAAEAAAALAAAAAAAFAAEAAAAMAP//AAAFAAEAAAAMAP7/AAAFAAEAAAANAP3/AAAFAAEAAAAOAP3/AAAFAAEAAAAPAPz/AAAFAAEAAAAQAPz/AAAFAAEAAAARAPz/AAAFAAEAAAASAPz/AAAFAAEAAAATAPz/AAAFAAEAAAATAP3/AAAFAAEAAAATAPv/AAAFAAEAAAATAPr/AAAFAAEAAAASAPr/AAAFAAEAAAASAPn/AAAFAAEAAAARAPn/AAAFAAEAAAARAPj/AAAFAAEAAAARAPf/AAAFAAEAAAA=")
@@ -81,3 +89,12 @@ tile_set = SubResource("TileSet_xfk5q")
 
 [node name="player" parent="." instance=ExtResource("2_8ffim")]
 collision_mask = 2
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+navigation_polygon = SubResource("NavigationPolygon_7p6j4")
+
+[node name="Enemy" parent="." instance=ExtResource("3_xfk5q")]
+position = Vector2(186, 285)
+
+[node name="Enemy2" parent="." instance=ExtResource("3_xfk5q")]
+position = Vector2(128, -46)
