@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="DialogData" load_steps=4 format=3 uid="uid://bfj75tnev1g75"]
+
+[ext_resource type="Script" uid="uid://bey5c0r582piw" path="res://dialog_texts/dialog_line.gd" id="1_ivwdb"]
+[ext_resource type="Resource" uid="uid://ccejs4mhrxmli" path="res://dialog_texts/mutation_intro.tres" id="2_nraqh"]
+[ext_resource type="Script" uid="uid://b4uswk5emgdee" path="res://dialog_texts/dialog_data.gd" id="2_xrn4n"]
+
+[resource]
+script = ExtResource("2_xrn4n")
+entries = Dictionary[String, ExtResource("1_ivwdb")]({
+"Mutation Intro": ExtResource("2_nraqh")
+})
+metadata/_custom_type_script = "uid://b4uswk5emgdee"

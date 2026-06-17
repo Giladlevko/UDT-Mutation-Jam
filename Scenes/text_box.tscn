@@ -1,0 +1,57 @@
+[gd_scene load_steps=4 format=3 uid="uid://biawi0iex0w1a"]
+
+[ext_resource type="Script" uid="uid://didpxj0u6ekhn" path="res://Scripts/text_box.gd" id="1_nwibb"]
+[ext_resource type="Theme" uid="uid://rgyna2d0tcac" path="res://Scenes/UI_theme.tres" id="2_0kxgl"]
+[ext_resource type="Resource" uid="uid://bfj75tnev1g75" path="res://dialog_texts/dialog_resource.tres" id="2_ot2p7"]
+
+[node name="TextBox" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_nwibb")
+dialog_data = ExtResource("2_ot2p7")
+
+[node name="Panel" type="Panel" parent="."]
+custom_minimum_size = Vector2(300, 100)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="Label" type="RichTextLabel" parent="Panel/MarginContainer"]
+layout_mode = 2
+bbcode_enabled = true
+text = "[wave]wave[/wave]"
+fit_content = true
+scroll_active = false
+
+[node name="end_label" type="RichTextLabel" parent="Panel"]
+visible = false
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -54.0
+offset_top = -23.0
+grow_horizontal = 0
+grow_vertical = 0
+theme = ExtResource("2_0kxgl")
+bbcode_enabled = true
+text = "[wave]E[/wave]"
+horizontal_alignment = 1

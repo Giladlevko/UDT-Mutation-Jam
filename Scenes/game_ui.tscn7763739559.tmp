@@ -3,8 +3,8 @@
 [ext_resource type="Script" uid="uid://hl6vx05w5wh4" path="res://Scripts/game_ui.gd" id="1_gek4i"]
 [ext_resource type="Theme" uid="uid://rgyna2d0tcac" path="res://Scenes/UI_theme.tres" id="2_bw2rt"]
 [ext_resource type="PackedScene" uid="uid://coqysvcynx4x" path="res://Scenes/mutation_card.tscn" id="3_xjnnq"]
-[ext_resource type="Texture2D" uid="uid://bcmhxv7iveiw3" path="res://Assets/sprites/UI/mutations/dna_dark.png" id="4_gjn1n"]
 [ext_resource type="Shader" uid="uid://bwd31woa55j2f" path="res://Scripts/moving_background.gdshader" id="5_3t1kc"]
+[ext_resource type="Texture2D" uid="uid://bl0abs8hhmv47" path="res://Assets/sprites/UI/mutations/mystery.png" id="6_rxsu6"]
 
 [sub_resource type="Environment" id="Environment_3t1kc"]
 background_mode = 3
@@ -107,6 +107,18 @@ layout_mode = 2
 theme = ExtResource("2_bw2rt")
 text = "Main Menu"
 
+[node name="message_cont" type="MarginContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_constants/margin_top = 115
+
+[node name="message_label" type="Label" parent="MarginContainer/message_cont"]
+layout_mode = 2
+theme = ExtResource("2_bw2rt")
+text = "messege"
+horizontal_alignment = 1
+
 [node name="dash_cont" type="MarginContainer" parent="MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
@@ -174,29 +186,22 @@ stretch_mode = 5
 [node name="WorldEnvironment" type="WorldEnvironment" parent="MarginContainer/mutation_display/HBoxContainer"]
 environment = SubResource("Environment_3t1kc")
 
-[node name="mutation_menu" type="Control" parent="MarginContainer"]
+[node name="mutation_menu" type="MarginContainer" parent="MarginContainer"]
 layout_mode = 2
 
 [node name="ColorRect" type="ColorRect" parent="MarginContainer/mutation_menu"]
 layout_mode = 2
-offset_right = 1152.0
-offset_bottom = 648.0
 color = Color(0, 0, 0, 1)
 
 [node name="texture" type="TextureRect" parent="MarginContainer/mutation_menu"]
 texture_repeat = 2
 material = SubResource("ShaderMaterial_y8vuf")
 layout_mode = 2
-offset_right = 1152.0
-offset_bottom = 648.0
-texture = ExtResource("4_gjn1n")
+texture = ExtResource("6_rxsu6")
 stretch_mode = 1
 
 [node name="card_cont" type="MarginContainer" parent="MarginContainer/mutation_menu"]
 layout_mode = 2
-offset_top = 324.0
-offset_right = 1152.0
-offset_bottom = 324.0
 size_flags_vertical = 4
 
 [node name="card1" parent="MarginContainer/mutation_menu/card_cont" instance=ExtResource("3_xjnnq")]
@@ -207,57 +212,6 @@ layout_mode = 2
 
 [node name="card3" parent="MarginContainer/mutation_menu/card_cont" instance=ExtResource("3_xjnnq")]
 layout_mode = 2
-
-[node name="mut_button_cont" type="MarginContainer" parent="MarginContainer/mutation_menu"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.475694
-anchor_top = 0.401235
-anchor_right = 0.524306
-anchor_bottom = 0.449074
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-metadata/_edit_use_anchors_ = true
-
-[node name="accept_choice" type="Button" parent="MarginContainer/mutation_menu/mut_button_cont"]
-layout_mode = 2
-text = "Got it!"
-
-[node name="text_cont" type="MarginContainer" parent="MarginContainer/mutation_menu"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.5
-anchor_top = 0.262
-anchor_right = 0.5
-anchor_bottom = 0.262
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="mutation_explanation" type="Label" parent="MarginContainer/mutation_menu/text_cont"]
-custom_minimum_size = Vector2(400, 100)
-layout_mode = 2
-size_flags_horizontal = 4
-theme = ExtResource("2_bw2rt")
-text = "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
-autowrap_mode = 3
-
-[node name="message_cont" type="MarginContainer" parent="MarginContainer"]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 0
-theme_override_constants/margin_top = 115
-
-[node name="message_label" type="Label" parent="MarginContainer/message_cont"]
-layout_mode = 2
-theme = ExtResource("2_bw2rt")
-text = "messege"
-horizontal_alignment = 1
 
 [node name="ColorRect" type="ColorRect" parent="."]
 visible = false
