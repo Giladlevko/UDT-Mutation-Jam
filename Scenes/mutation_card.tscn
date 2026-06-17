@@ -6,6 +6,15 @@
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_voi0s"]
 bg_color = Color(0, 0, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
 
 [node name="mutation_card" type="Control"]
 layout_mode = 3
@@ -17,7 +26,7 @@ script = ExtResource("1_k6i3b")
 base_tex = ExtResource("3_voi0s")
 
 [node name="card_button" type="Button" parent="."]
-custom_minimum_size = Vector2(100, 200)
+custom_minimum_size = Vector2(150, 230)
 layout_mode = 1
 offset_right = 128.0
 offset_bottom = 128.0
@@ -33,13 +42,13 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -8.0
-offset_bottom = 10.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 5
 
 [node name="Control" type="Control" parent="card_button/VBoxContainer"]
+layout_mode = 2
+
+[node name="Control2" type="Control" parent="card_button/VBoxContainer"]
 layout_mode = 2
 
 [node name="mutation_name" type="Label" parent="card_button/VBoxContainer"]

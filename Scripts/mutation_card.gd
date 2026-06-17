@@ -14,6 +14,7 @@ class_name MUTATION_CARD
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	modulate.a = 0
 	stats.text = ""
 	mutation_name.text = ""
 	pass
@@ -31,7 +32,7 @@ func _process(delta: float) -> void:
 func move_card(offset:float):
 	
 	tween_visibility(self,true)
-	offset/=4
+	offset/=3
 	var tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BACK).set_parallel()
 	card_button.position.x = -card_button.custom_minimum_size.x/2
 	tween.tween_property(card_button,"anchor_left",0.5+offset,0.8)

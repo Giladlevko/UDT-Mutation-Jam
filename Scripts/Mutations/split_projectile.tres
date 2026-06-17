@@ -14,4 +14,5 @@ protection_bonus = 0
 projectile_mult = 2
 projectile_cool_mult = 1.0
 projectile_chance_to_split = 0.1
+rgb_color_for_text = Color(1, 0, 0, 1)
 metadata/_custom_type_script = "uid://dicwgk5dwandi"

@@ -1,14 +1,28 @@
-[gd_scene load_steps=4 format=3 uid="uid://biawi0iex0w1a"]
+[gd_scene load_steps=5 format=3 uid="uid://biawi0iex0w1a"]
 
 [ext_resource type="Script" uid="uid://didpxj0u6ekhn" path="res://Scripts/text_box.gd" id="1_nwibb"]
 [ext_resource type="Theme" uid="uid://rgyna2d0tcac" path="res://Scenes/UI_theme.tres" id="2_0kxgl"]
 [ext_resource type="Resource" uid="uid://bfj75tnev1g75" path="res://dialog_texts/dialog_resource.tres" id="2_ot2p7"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ot2p7"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
 [node name="TextBox" type="Control"]
 layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_nwibb")
@@ -16,9 +30,20 @@ dialog_data = ExtResource("2_ot2p7")
 
 [node name="Panel" type="Panel" parent="."]
 custom_minimum_size = Vector2(300, 100)
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -50.0
+offset_right = 150.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_0kxgl")
+theme_override_styles/panel = SubResource("StyleBoxFlat_ot2p7")
 
 [node name="MarginContainer" type="MarginContainer" parent="Panel"]
 layout_mode = 1
@@ -34,6 +59,7 @@ theme_override_constants/margin_bottom = 5
 
 [node name="Label" type="RichTextLabel" parent="Panel/MarginContainer"]
 layout_mode = 2
+theme = ExtResource("2_0kxgl")
 bbcode_enabled = true
 text = "[wave]wave[/wave]"
 fit_content = true

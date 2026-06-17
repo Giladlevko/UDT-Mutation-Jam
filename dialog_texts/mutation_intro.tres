@@ -5,5 +5,5 @@
 [resource]
 script = ExtResource("1_4c0p2")
 speaker = "Game"
-lines = Array[String](["Wave completed, congratulations!", "It is now time to pick a mutation!", "You can only hold two mutations at a time.", "If you currently hold two mutations, you can either skip to the next phase...", "or let go of one of your mutations by clicking it's Icon!", "Soon three Mutation Cards will appear. ", "The one you choose will be your new mutation...", "the other two will aplly to the enemies of the next wave"])
+lines = Array[String](["Wave completed, congratulations!", "It is now time to pick a mutation!", "You can only hold two mutations at a time.", "If you currently hold two mutations, you can either skip to the next phase...", "or let go of one of your mutations by clicking its Icon!", "Soon three Mutation Cards will appear. ", "The one you choose will be your new mutation...", "the other two will apply to the enemies of the next wave"])
 metadata/_custom_type_script = "uid://bey5c0r582piw"

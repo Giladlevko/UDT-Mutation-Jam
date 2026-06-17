@@ -16,7 +16,10 @@ const MUT_CARD = preload("res://Scenes/mutation_card.tscn")
 
 @onready var card_cont: MarginContainer = $MarginContainer/mutation_menu/card_cont
 
-@onready var mutation_menu: MarginContainer = $MarginContainer/mutation_menu
+@onready var mutation_menu: Control = $MarginContainer/mutation_menu
+@onready var text_box: TEXT_BOX = $MarginContainer/mutation_menu/text_cont/TextBox
+@onready var accept_choice: Button = $MarginContainer/mutation_menu/mut_button_cont/accept_choice
+@onready var mut_button_cont: MarginContainer = $MarginContainer/mutation_menu/mut_button_cont
 
 
 var in_countdown:bool
@@ -37,9 +40,9 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("DASH"):
-		display_cards()
-	if Input.is_action_just_pressed("DOWN"):
-		remove_cards()
+		on_init_mut_select()
+	#if Input.is_action_just_pressed("DOWN"):
+		#remove_cards()
 	pass
 
 
@@ -130,11 +133,13 @@ func display_cards():
 		await get_tree().create_timer(0.4).timeout
 		offset-=1
 
+signal removed_cards
 func remove_cards():
 	for card:MUTATION_CARD in card_cont.get_children():
 		card.remove_card()
 		await get_tree().create_timer(0.2).timeout
-	
+	removed_cards.emit()
+
 
 func get_current_mutations()->Array[MutationData]:
 	if Global.player:
@@ -142,7 +147,6 @@ func get_current_mutations()->Array[MutationData]:
 	else: return []
 
 func add_mutation(mutation:MutationData):
-	
 	if mutation_display_1.texture == null:
 		mutation_display_1.texture = Global.assign_texture(mutation)
 	elif mutation_display_2.texture == null:
@@ -154,25 +158,71 @@ func add_mutation(mutation:MutationData):
 		return
 	if Global.player:
 		Global.player.current_mutations.append(mutation)
-	display_message(mutation.name+" selected!")
 	print(mutation.name," Added!")
-	reveal_cards()
+	reveal_cards(mutation)
+	
 	pass
 
-func reveal_cards():
+func reveal_cards(selected_mut:MutationData):
 	var cards:Array = card_cont.get_children()
+	var unselected_mutations:Array[MutationData]
 	cards.reverse()
 	for card:MUTATION_CARD in cards:
+		if card.mutation_type !=selected_mut:
+			unselected_mutations.append(card.mutation_type)
 		card.disable_card_and_reveal()
 		await get_tree().create_timer(0.1).timeout
-	await get_tree().create_timer(3).timeout
-	remove_cards()
+	on_mutation_selection_end(selected_mut,unselected_mutations)
 	pass
 
+
 func on_init_mut_select():
-	tween_visibility(mutation_menu,true)
+	mutation_menu_transotion(true)
 	await vis_changed
-	display_message("Wave Completed!\nTime to Choose a Mutation!")
-	await message_finished
-	display_cards()
+	text_box.play_dialog("Mutation Intro")
+	await text_box.dialog_finished
+	tween_visibility(mut_button_cont,true)
 	pass
+
+func mut_name_to_txt(mutation:MutationData)->String:
+	print(mutation.txt_color)
+	print(mutation.rgb_color_for_text)
+	mutation.txt_color = "#"+mutation.rgb_color_for_text.to_html(false)
+	return "[color="+mutation.txt_color+"]"+"[shake]"+mutation.name+"[/shake][/color]"
+	pass
+
+func on_mutation_selection_end(selected_mut:MutationData,unselected_mutations:Array[MutationData]):
+	var text_lines:DialogLine = DialogLine.new()
+	text_lines.speaker = "Game"
+	text_lines.lines = [
+		mut_name_to_txt(selected_mut)+" Selected!",
+		mut_name_to_txt(unselected_mutations[0])+" and "+mut_name_to_txt(unselected_mutations[1])+
+		" will apply to the enemies on the next wave!"
+	]
+	text_box.dialog_data.entries["Mutation Selection End"]=text_lines
+	text_box.play_dialog("Mutation Selection End")
+	await text_box.dialog_finished
+	tween_visibility(mut_button_cont,true)
+	pass
+
+var cards_displayed:bool
+func _on_accept_choice_pressed() -> void:
+	tween_visibility(mut_button_cont,false)
+	await vis_changed
+	if !cards_displayed:
+		display_cards()
+		cards_displayed = true
+	else:
+		cards_displayed = false
+		remove_cards()
+		await removed_cards
+		mutation_menu_transotion(false)
+		pass
+
+func mutation_menu_transotion(to_visible:bool):
+	darken_screen()
+	await vis_changed
+	tween_visibility(mutation_menu,to_visible)
+	await vis_changed
+	lighten_screen()
+	await vis_changed

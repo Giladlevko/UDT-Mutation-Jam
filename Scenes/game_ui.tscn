@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://clg72b0wvnmb0"]
+[gd_scene load_steps=9 format=3 uid="uid://clg72b0wvnmb0"]
 
 [ext_resource type="Script" uid="uid://hl6vx05w5wh4" path="res://Scripts/game_ui.gd" id="1_gek4i"]
 [ext_resource type="Theme" uid="uid://rgyna2d0tcac" path="res://Scenes/UI_theme.tres" id="2_bw2rt"]
 [ext_resource type="PackedScene" uid="uid://coqysvcynx4x" path="res://Scenes/mutation_card.tscn" id="3_xjnnq"]
 [ext_resource type="Texture2D" uid="uid://bcmhxv7iveiw3" path="res://Assets/sprites/UI/mutations/dna_dark.png" id="4_gjn1n"]
 [ext_resource type="Shader" uid="uid://bwd31woa55j2f" path="res://Scripts/moving_background.gdshader" id="5_3t1kc"]
+[ext_resource type="PackedScene" uid="uid://biawi0iex0w1a" path="res://Scenes/text_box.tscn" id="6_1t2s1"]
 
 [sub_resource type="Environment" id="Environment_3t1kc"]
 background_mode = 3
@@ -175,6 +176,7 @@ stretch_mode = 5
 environment = SubResource("Environment_3t1kc")
 
 [node name="mutation_menu" type="Control" parent="MarginContainer"]
+visible = false
 layout_mode = 2
 
 [node name="ColorRect" type="ColorRect" parent="MarginContainer/mutation_menu"]
@@ -209,6 +211,7 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="mut_button_cont" type="MarginContainer" parent="MarginContainer/mutation_menu"]
+visible = false
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.475694
@@ -223,29 +226,24 @@ metadata/_edit_use_anchors_ = true
 
 [node name="accept_choice" type="Button" parent="MarginContainer/mutation_menu/mut_button_cont"]
 layout_mode = 2
+theme = ExtResource("2_bw2rt")
 text = "Got it!"
 
 [node name="text_cont" type="MarginContainer" parent="MarginContainer/mutation_menu"]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5
-anchor_top = 0.262
+anchor_top = 0.3
 anchor_right = 0.5
-anchor_bottom = 0.262
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
+anchor_bottom = 0.312
 grow_horizontal = 2
 grow_vertical = 2
+metadata/_edit_use_anchors_ = true
 
-[node name="mutation_explanation" type="Label" parent="MarginContainer/mutation_menu/text_cont"]
-custom_minimum_size = Vector2(400, 100)
+[node name="TextBox" parent="MarginContainer/mutation_menu/text_cont" instance=ExtResource("6_1t2s1")]
 layout_mode = 2
 size_flags_horizontal = 4
-theme = ExtResource("2_bw2rt")
-text = "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
-autowrap_mode = 3
+size_flags_vertical = 4
 
 [node name="message_cont" type="MarginContainer" parent="MarginContainer"]
 layout_mode = 2
@@ -272,3 +270,4 @@ color = Color(0, 0, 0, 1)
 [connection signal="pressed" from="MarginContainer/pause_button_cont/pause" to="." method="_on_pause_pressed"]
 [connection signal="pressed" from="MarginContainer/pause_menu/NinePatchRect/VBoxContainer/resume" to="." method="_on_pause_pressed"]
 [connection signal="pressed" from="MarginContainer/pause_menu/NinePatchRect/VBoxContainer/back_to_main" to="." method="_on_back_to_main_pressed"]
+[connection signal="pressed" from="MarginContainer/mutation_menu/mut_button_cont/accept_choice" to="." method="_on_accept_choice_pressed"]
