@@ -57,6 +57,7 @@ func reset_card():
 	card_button.anchor_right = 0
 	card_button.offset_left = 0
 	card_button.offset_right = 0
+	card_button.scale = Vector2.ONE
 
 func assign_texture(mutation:MutationData):
 	var tex:Texture = Global.assign_texture(mutation)

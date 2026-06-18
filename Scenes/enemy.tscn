@@ -1,10 +1,16 @@
-[gd_scene load_steps=10 format=3 uid="uid://d2w8l0kfb0f7o"]
+[gd_scene load_steps=22 format=3 uid="uid://d2w8l0kfb0f7o"]
 
 [ext_resource type="Script" uid="uid://dfrguhjsgsnvn" path="res://Scripts/enemy.gd" id="1_hghv2"]
 [ext_resource type="Script" uid="uid://xxcb07qv28jf" path="res://Scripts/creature_stats.gd" id="2_1f0kj"]
 [ext_resource type="Texture2D" uid="uid://e2261vv7tt2c" path="res://Assets/sprites/enemy/enemy.png" id="3_afpow"]
+[ext_resource type="Shader" uid="uid://djcn8nd6womvx" path="res://Scripts/hurt_shader.gdshader" id="3_ghaa6"]
 [ext_resource type="Script" uid="uid://owaf6dcijagk" path="res://Scripts/gun.gd" id="4_0830c"]
 [ext_resource type="PackedScene" uid="uid://bqti7278jk71g" path="res://Scenes/health_bar.tscn" id="5_0830c"]
+[ext_resource type="AudioStream" uid="uid://bvniacyvnah7d" path="res://Assets/Audio/sfx/sfx_footstep.ogg" id="7_po0sg"]
+[ext_resource type="AudioStream" uid="uid://ch8e66f0duslp" path="res://Assets/Audio/sfx/sfx_enemy_damage.ogg" id="8_haro7"]
+[ext_resource type="AudioStream" uid="uid://de60q6m7wf50b" path="res://Assets/Audio/sfx/sfx_player_damage.ogg" id="9_56vhr"]
+[ext_resource type="AudioStream" uid="uid://ybi622tfvca1" path="res://Assets/Audio/sfx/sfx_gunshot.ogg" id="10_ta2yt"]
+[ext_resource type="Texture2D" uid="uid://babdkvql6ykon" path="res://Assets/sprites/UI/mutations/dna_small.png" id="11_haro7"]
 
 [sub_resource type="Resource" id="Resource_afpow"]
 script = ExtResource("2_1f0kj")
@@ -18,6 +24,9 @@ projectile_amount = 1
 projectile_cooldown = 0.8
 projectile_chance_to_split = 0.1
 metadata/_custom_type_script = "uid://xxcb07qv28jf"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1dp5w"]
+shader = ExtResource("3_ghaa6")
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_hghv2"]
 animations = [{
@@ -36,7 +45,31 @@ radius = 17.1172
 [sub_resource type="CircleShape2D" id="CircleShape2D_0830c"]
 radius = 15.1327
 
-[node name="Enemy" type="CharacterBody2D" node_paths=PackedStringArray("anim", "colli", "hurt_area", "hurt_colli", "health_bar")]
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_m4x7e"]
+random_pitch = 1.15
+streams_count = 1
+stream_0/stream = ExtResource("7_po0sg")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_vt4ob"]
+random_pitch = 1.15
+streams_count = 1
+stream_0/stream = ExtResource("8_haro7")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_hgeoe"]
+random_pitch = 1.15
+streams_count = 1
+stream_0/stream = ExtResource("9_56vhr")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_tk7xo"]
+random_pitch = 1.15
+streams_count = 1
+stream_0/stream = ExtResource("10_ta2yt")
+
+[sub_resource type="Curve" id="Curve_56vhr"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="Enemy" type="CharacterBody2D" node_paths=PackedStringArray("anim", "colli", "hurt_area", "hurt_colli", "health_bar", "shoot_sfx", "hurt_sfx", "dead_sfx", "particles")]
 collision_layer = 2
 script = ExtResource("1_hghv2")
 anim = NodePath("AnimatedSprite2D")
@@ -45,8 +78,13 @@ hurt_area = NodePath("hurt_area")
 hurt_colli = NodePath("hurt_area/CollisionShape2D")
 health_bar = NodePath("Node/health_bar")
 base_stats = SubResource("Resource_afpow")
+shoot_sfx = NodePath("audio/shoot")
+hurt_sfx = NodePath("audio/hurt")
+dead_sfx = NodePath("audio/dead")
+particles = NodePath("vfx/CPUParticles2D")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_1dp5w")
 position = Vector2(3, -2)
 sprite_frames = SubResource("SpriteFrames_hghv2")
 
@@ -82,17 +120,48 @@ debug_color = Color(1, 0.00696271, 0.0518057, 0.42)
 [node name="Node" type="Node" parent="."]
 
 [node name="health_bar" parent="Node" instance=ExtResource("5_0830c")]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -626.0
-offset_top = -371.0
-offset_right = -626.0
-offset_bottom = -371.0
+offset_left = -576.0
+offset_top = -374.0
+offset_right = -576.0
+offset_bottom = -374.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 bar_size = Vector2(30, 5)
+
+[node name="audio" type="Node2D" parent="."]
+
+[node name="walk" type="AudioStreamPlayer2D" parent="audio"]
+stream = SubResource("AudioStreamRandomizer_m4x7e")
+max_distance = 200.0
+
+[node name="hurt" type="AudioStreamPlayer2D" parent="audio"]
+stream = SubResource("AudioStreamRandomizer_vt4ob")
+volume_db = -15.0
+max_distance = 1000.0
+
+[node name="dead" type="AudioStreamPlayer2D" parent="audio"]
+stream = SubResource("AudioStreamRandomizer_hgeoe")
+max_distance = 1000.0
+
+[node name="shoot" type="AudioStreamPlayer2D" parent="audio"]
+stream = SubResource("AudioStreamRandomizer_tk7xo")
+volume_db = -15.0
+max_distance = 500.0
+
+[node name="vfx" type="Node2D" parent="."]
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="vfx"]
+emitting = false
+amount = 48
+texture = ExtResource("11_haro7")
+local_coords = true
+emission_shape = 1
+emission_sphere_radius = 30.0
+direction = Vector2(0, 0)
+spread = 0.0
+gravity = Vector2(0, 0)
+scale_amount_min = 0.0
+scale_amount_max = 0.5
+scale_amount_curve = SubResource("Curve_56vhr")
 
 [connection signal="velocity_computed" from="navigation/NavigationAgent2D" to="." method="_on_navigation_agent_2d_velocity_computed"]

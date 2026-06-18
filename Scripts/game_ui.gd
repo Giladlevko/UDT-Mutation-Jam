@@ -12,7 +12,9 @@ const MUT_CARD = preload("res://Scenes/mutation_card.tscn")
 @onready var mutation_display_1: TextureRect = $MarginContainer/mutation_display/HBoxContainer/TextureRect/mutation_1
 @onready var mutation_display_2: TextureRect = $MarginContainer/mutation_display/HBoxContainer/TextureRect2/mutation_2
 
-@onready var message_label: Label = $MarginContainer/message_cont/message_label
+@onready var message_label: Label = $MarginContainer/message_cont/message_panel/message_label
+@onready var message_panel: Panel = $MarginContainer/message_cont/message_panel
+
 
 @onready var card_cont: MarginContainer = $MarginContainer/mutation_menu/card_cont
 
@@ -20,6 +22,9 @@ const MUT_CARD = preload("res://Scenes/mutation_card.tscn")
 @onready var text_box: TEXT_BOX = $MarginContainer/mutation_menu/text_cont/TextBox
 @onready var accept_choice: Button = $MarginContainer/mutation_menu/mut_button_cont/accept_choice
 @onready var mut_button_cont: MarginContainer = $MarginContainer/mutation_menu/mut_button_cont
+@onready var mutation_delet_display: DEL_MUT_DISPLAY = $MarginContainer/mutation_menu/delete_mut_cont/mutation_delet_display
+
+@onready var mutation_song: AudioStreamPlayer = $songs/mutation_song
 
 
 var in_countdown:bool
@@ -29,17 +34,21 @@ signal message_finished
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	message_label.text = ""
+	message_panel.modulate.a = 0
 	buttons = [pause,resume,back_to_main]
 	countdown_label.text = ""
 	enter_trans()
 	SignalBus.start_dash_cooldown.connect(dash_cooldown)
 	SignalBus.init_mutation_selection.connect(on_init_mut_select)
 	SignalBus.mutation_selected.connect(add_mutation)
+	SignalBus.display_message.connect(display_message)
+	SignalBus.remove_mutation_from_diplay.connect(on_mutation_removed)
+	song_on(song,-15,5)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	if Input.is_action_just_pressed("DASH"):
+	if Input.is_action_just_pressed("Debug Test"):
 		on_init_mut_select()
 	#if Input.is_action_just_pressed("DOWN"):
 		#remove_cards()
@@ -84,11 +93,16 @@ var messages_to_tween:Array[String] = []
 func display_message(message:String):
 	if !message_tweening:
 		message_label.text = message
+		var new_panel_length = (
+			(message.length()-message.count(" "))*
+			message_label.get_theme_font_size("font_size")
+			)
+		message_panel.custom_minimum_size.x = new_panel_length
 		message_tweening = true
 		var tween = create_tween()
-		tween.tween_property(message_label,"modulate",Color(1,1,1,1),0.2)
+		tween.tween_property(message_panel,"modulate",Color(1,1,1,1),0.2)
 		tween.tween_interval(1.5)
-		tween.tween_property(message_label,"modulate",Color(1,1,1,0),0.2)
+		tween.tween_property(message_panel,"modulate",Color(1,1,1,0),0.2)
 		await tween.finished
 		message_tweening = false
 		message_finished.emit()
@@ -120,8 +134,10 @@ func dash_cooldown(dur:float):
 const CARD_AMOUNT = 3
 func display_cards():
 	var player_mut:Array[MutationData] = get_current_mutations()
+	print(player_mut)
 	var mutation_copy:Array[MutationData] = Global.ALL_MUTATIONS.duplicate()
-	mutation_copy.filter(func (x):return !player_mut.has(x))
+	print(mutation_copy)
+	mutation_copy = mutation_copy.filter(func (x):return !player_mut.has(x))
 	mutation_copy.shuffle()
 	var offset:float = 1.0
 	for card:MUTATION_CARD in card_cont.get_children():
@@ -147,20 +163,31 @@ func get_current_mutations()->Array[MutationData]:
 	else: return []
 
 func add_mutation(mutation:MutationData):
-	if mutation_display_1.texture == null:
-		mutation_display_1.texture = Global.assign_texture(mutation)
-	elif mutation_display_2.texture == null:
+	if mutation_display_2.texture == null:
 		mutation_display_2.texture = Global.assign_texture(mutation)
+	elif mutation_display_1.texture == null:
+		mutation_display_1.texture = Global.assign_texture(mutation)
 	else:
 		display_message("Mutations are Full!")
 		
 		push_error("Both Displays Are None Empty. Cannot assign new mutation!")
 		return
 	if Global.player:
-		Global.player.current_mutations.append(mutation)
+		assert(!Global.player.current_mutations.has(mutation),"Already holding "+mutation.name)
+		Global.player.add_mutation(mutation)
 	print(mutation.name," Added!")
 	reveal_cards(mutation)
 	
+	pass
+
+func on_mutation_removed(mut:MutationData):
+	display_message(mut.name+" removed!")
+	Global.player.remove_mutation(mut)
+	var mut_tex:Texture = Global.assign_texture(mut)
+	if mutation_display_1.texture == mut_tex:
+		mutation_display_1.texture = null
+	elif mutation_display_2.texture == mut_tex:
+		mutation_display_2.texture = null
 	pass
 
 func reveal_cards(selected_mut:MutationData):
@@ -175,10 +202,12 @@ func reveal_cards(selected_mut:MutationData):
 	on_mutation_selection_end(selected_mut,unselected_mutations)
 	pass
 
-
+#mutation menu initialization
 func on_init_mut_select():
+	mutation_delet_display.assign_mut_to_texture()
 	mutation_menu_transotion(true)
 	await vis_changed
+	tween_visibility(mutation_delet_display,true,0.2)
 	text_box.play_dialog("Mutation Intro")
 	await text_box.dialog_finished
 	tween_visibility(mut_button_cont,true)
@@ -189,7 +218,7 @@ func mut_name_to_txt(mutation:MutationData)->String:
 	print(mutation.rgb_color_for_text)
 	mutation.txt_color = "#"+mutation.rgb_color_for_text.to_html(false)
 	return "[color="+mutation.txt_color+"]"+"[shake]"+mutation.name+"[/shake][/color]"
-	pass
+
 
 func on_mutation_selection_end(selected_mut:MutationData,unselected_mutations:Array[MutationData]):
 	var text_lines:DialogLine = DialogLine.new()
@@ -207,9 +236,18 @@ func on_mutation_selection_end(selected_mut:MutationData,unselected_mutations:Ar
 
 var cards_displayed:bool
 func _on_accept_choice_pressed() -> void:
+	if Global.player:
+		if Global.player.current_mutations.size()>1 and !cards_displayed:
+			display_message("You are holding too many Mutations!")
+			await message_finished
+			display_message("Remove at least one Mutation by clicking on its icon!")
+			return
 	tween_visibility(mut_button_cont,false)
 	await vis_changed
 	if !cards_displayed:
+		tween_visibility(mutation_delet_display,false)
+		await vis_changed
+		await get_tree().create_timer(0.3).timeout
 		display_cards()
 		cards_displayed = true
 	else:
@@ -220,6 +258,15 @@ func _on_accept_choice_pressed() -> void:
 		pass
 
 func mutation_menu_transotion(to_visible:bool):
+	if to_visible: 
+		song_off(song)
+		await volume_changed
+		song_on(mutation_song)
+	else:
+		song_off(mutation_song)
+		await volume_changed
+		song_on(song)
+	
 	darken_screen()
 	await vis_changed
 	tween_visibility(mutation_menu,to_visible)

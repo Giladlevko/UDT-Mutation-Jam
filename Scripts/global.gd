@@ -25,7 +25,7 @@ const MUTATION_DESCRIPTIONS:Dictionary = {
 	"ICE":"+Fire Damage\n-Freeze Time\n+Strength\n+Shield",
 	"SPEED":"-Health\n-Freeze Time\n-Strength\n+Speed",
 	"SHIELD":"+Health\n-Speed\n+Shield",
-	"SPLIT":"+Bullet Split\n+Split Chance",
+	"SPLIT":"+Bullet Split\n+Fire Rate\n+Split Chance",
 }
 
 var player:PLAYER
@@ -48,7 +48,6 @@ func assign_texture(mutation:MutationData)->Texture:
 func get_mutation_description(mutation:MutationData)->String:
 	var short_name = match_mutation_name_to_short_name(mutation.name)
 	return MUTATION_DESCRIPTIONS[short_name]
-	pass
 
 func switch_scenes(new_scene_path:String):
 	var current_scene = get_tree().current_scene

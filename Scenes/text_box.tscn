@@ -6,10 +6,10 @@
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ot2p7"]
 bg_color = Color(0, 0, 0, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
 border_color = Color(1, 1, 1, 1)
 corner_radius_top_left = 5
 corner_radius_top_right = 5
@@ -81,3 +81,23 @@ theme = ExtResource("2_0kxgl")
 bbcode_enabled = true
 text = "[wave]E[/wave]"
 horizontal_alignment = 1
+
+[node name="skip_cont" type="MarginContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_top = 98.0
+offset_right = -5.0
+offset_bottom = 40.0
+grow_horizontal = 0
+
+[node name="skip_button" type="Button" parent="Panel/skip_cont"]
+custom_minimum_size = Vector2(100, 30)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = ExtResource("2_0kxgl")
+text = "Skip Dialog"
+
+[connection signal="pressed" from="Panel/skip_cont/skip_button" to="." method="_on_skip_button_pressed"]

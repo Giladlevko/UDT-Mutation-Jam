@@ -10,8 +10,8 @@ func _ready() -> void:
 	pass
 
 func _physics_process(delta: float) -> void:
-	health_bar.position = position+Vector2(-health_bar.bar_size.x/2,-50)
-	update_timer +=delta
+	health_bar.global_position = global_position+Vector2(health_bar.bar_size.x,-50)
+	update_timer +=delta *creature_time_scale
 	if Global.player:
 		look_at(Global.player.global_position)
 	if update_timer >= UPDATE_INTERVAL:
@@ -44,7 +44,7 @@ var is_spitting:bool
 func spit_anim():
 	if is_spitting:return
 	is_spitting = true
-	var tween:=create_tween().set_trans(Tween.TRANS_ELASTIC).set_parallel()
+	var tween:=create_tween().set_trans(Tween.TRANS_ELASTIC).set_parallel().set_speed_scale(creature_time_scale)
 	tween.tween_property(self,"scale",Vector2(0.7,1.3),0.4)
 	tween.tween_property(self,"scale",Vector2(1.3,0.7),0.4).set_delay(0.4)
 	tween.tween_property(self,"scale",Vector2(1,1),0.5).set_delay(0.8)
