@@ -47,8 +47,6 @@ func _ready() -> void:
 func initialize_setup():
 	recalculate_stats()
 	hurt_area.area_entered.connect(on_hurt_area_body_entered)
-	hurt_area.collision_layer = collision_layer
-	hurt_area.collision_mask = collision_mask
 	health_bar.max_health = health
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -120,10 +118,11 @@ func shoot_projectile(gun:GUN):
 		if !bullet_mutations.is_empty():
 			bullet.bullet_mutation = bullet_mutations.pick_random()
 		bullet.damage = attack_power
+		bullet.rotation = rotation
 		bullet.direction = Vector2(cos(rot),sin(rot))
 		bullet.global_position = gun.barrel.global_position
-		bullet.collision_mask = collision_mask
-		bullet.collision_layer = collision_layer
+		bullet.collision_mask = hurt_area.collision_mask
+		bullet.collision_layer = hurt_area.collision_layer
 		owner.add_child(bullet)
 		bullet_dir_sign*=-1
 	await get_tree().create_timer(projectile_cooldown).timeout
@@ -131,12 +130,15 @@ func shoot_projectile(gun:GUN):
 	pass
 	pass
 
-func knock_back(strength:float = 5):
-	velocity -= Vector2(cos(rotation),sin(rotation)) * strength
+func knock_back(strength:float = 5,rot:float = rotation):
+	velocity -= Vector2(cos(rot),sin(rot)) * strength
 	pass
 
 signal is_taking_damage
+var creature_taking_damage:bool
 func take_damage(val:float):
+	if creature_taking_damage:return
+	creature_taking_damage = true
 	is_taking_damage.emit()
 	assert(health_bar)
 	health-=val
@@ -158,7 +160,9 @@ func hurt_anim():
 		tween.tween_callback(hurt_shader_toggle.bind(false))
 		tween.tween_interval(initial_wait_time)
 		await tween.finished
+		creature_taking_damage = false
 		initial_wait_time-=0.05
+	
 	hurt_anim_finished.emit()
 	pass
 
@@ -187,14 +191,21 @@ func hurt_shader_toggle(active:bool):
 	anim.set_instance_shader_parameter("is_active",active)
 
 func on_hurt_area_body_entered(area:Area2D):
-	if area is PROJECTILE:
+	if area is PROJECTILE and !creature_taking_damage:
 		take_damage(area.damage)
+		var knock_scale: = 70
+		if self is PLAYER: knock_scale*=5
+		#var angle_to_projectile:float = global_position.direction_to(area.global_position).angle()
+		#angle_to_projectile = snappedf(angle_to_projectile,PI/2)
+		knock_back(knock_scale*area.damage,area.rotation+PI)
 		if area.bullet_mutation:
 			if area.bullet_mutation.name == "Fire Mutation":burn_creature()
 			elif area.bullet_mutation.name == "Ice Mutation":freeze_creature()
 	pass
-
+var is_dead:bool
 func kill_creature():
+	if is_dead:return
+	is_dead = true
 	death_anim()
 	await death_anim_finished
 	if self is PLAYER:

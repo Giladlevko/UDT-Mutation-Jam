@@ -14,8 +14,8 @@
 
 [sub_resource type="Resource" id="Resource_afpow"]
 script = ExtResource("2_1f0kj")
-damage_from_fire = 1.0
-freeze_time = 1.0
+damage_from_fire = 5.0
+freeze_time = 2.0
 attack_power = 10.0
 speed = 100.0
 health = 100.0
@@ -70,7 +70,7 @@ _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 2
 
 [node name="Enemy" type="CharacterBody2D" node_paths=PackedStringArray("anim", "colli", "hurt_area", "hurt_colli", "health_bar", "shoot_sfx", "hurt_sfx", "dead_sfx", "particles")]
-collision_layer = 2
+collision_mask = 2
 script = ExtResource("1_hghv2")
 anim = NodePath("AnimatedSprite2D")
 colli = NodePath("CollisionShape2D")
@@ -94,7 +94,7 @@ shape = SubResource("CircleShape2D_ne65n")
 [node name="navigation" type="Node2D" parent="."]
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="navigation"]
-target_desired_distance = 100.0
+target_desired_distance = 250.0
 avoidance_enabled = true
 radius = 50.0
 neighbor_distance = 100.0
@@ -112,6 +112,7 @@ script = ExtResource("4_0830c")
 position = Vector2(12, 0)
 
 [node name="hurt_area" type="Area2D" parent="."]
+collision_layer = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="hurt_area"]
 shape = SubResource("CircleShape2D_0830c")

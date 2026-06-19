@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://5e0f8dgtn21d"]
+
+[ext_resource type="Script" uid="uid://qvdmriie84aa" path="res://Scripts/dungeon_hallway.gd" id="1_mj5l2"]
+[ext_resource type="TileSet" uid="uid://bi0fye1uhqk24" path="res://Scenes/dungeon_tiles.tres" id="2_lna5w"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_lna5w"]
+
+[node name="dungeon_hallway" type="Node2D" node_paths=PackedStringArray("tile_map", "polygon", "nav_reg")]
+script = ExtResource("1_mj5l2")
+hallway_type = 0
+tile_map = NodePath("TileMapLayer")
+polygon = NodePath("Polygon2D")
+nav_reg = NodePath("NavigationRegion2D")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+tile_set = ExtResource("2_lna5w")
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+navigation_polygon = SubResource("NavigationPolygon_lna5w")
+
+[node name="NavigationLink2D" type="NavigationLink2D" parent="."]
+start_position = Vector2(10, 0)
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+visible = false

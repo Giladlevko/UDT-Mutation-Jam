@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://bul002ips7q5b"]
+
+[ext_resource type="Texture2D" uid="uid://b4iruy4gxsdkg" path="res://icon.svg" id="1_681ux"]
+[ext_resource type="Script" uid="uid://b5n3o2vjueex" path="res://Scripts/dungeon_room.gd" id="1_xue0f"]
+[ext_resource type="TileSet" uid="uid://bi0fye1uhqk24" path="res://Scenes/dungeon_tiles.tres" id="2_xue0f"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_5awog"]
+agent_radius = 32.0
+
+[node name="dungeon_room" type="Node2D" node_paths=PackedStringArray("tile_map", "polygon", "nav_reg")]
+script = ExtResource("1_xue0f")
+tile_map = NodePath("TileMapLayer")
+polygon = NodePath("Polygon2D")
+nav_reg = NodePath("NavigationRegion2D")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+tile_set = ExtResource("2_xue0f")
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+visible = false
+color = Color(1, 0, 0, 0.215686)
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+navigation_polygon = SubResource("NavigationPolygon_5awog")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.2, 0.2)
+texture = ExtResource("1_681ux")

@@ -43,7 +43,7 @@ func _ready() -> void:
 	SignalBus.mutation_selected.connect(add_mutation)
 	SignalBus.display_message.connect(display_message)
 	SignalBus.remove_mutation_from_diplay.connect(on_mutation_removed)
-	song_on(song,-15,5)
+	#song_on(song,-15,5)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

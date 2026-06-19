@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://dbfvx0grahmc8"]
+[gd_scene load_steps=27 format=3 uid="uid://dbfvx0grahmc8"]
 
 [ext_resource type="Script" uid="uid://cpanfg41ublgn" path="res://Scripts/player.gd" id="1_v0iea"]
 [ext_resource type="PackedScene" uid="uid://clg72b0wvnmb0" path="res://Scenes/game_ui.tscn" id="2_cvnsp"]
@@ -9,16 +9,17 @@
 [ext_resource type="Script" uid="uid://owaf6dcijagk" path="res://Scripts/gun.gd" id="5_3smsa"]
 [ext_resource type="Texture2D" uid="uid://cychwq8rppne" path="res://Assets/sprites/player/gun.png" id="5_x3wgy"]
 [ext_resource type="PackedScene" uid="uid://bqti7278jk71g" path="res://Scenes/health_bar.tscn" id="6_8erm5"]
-[ext_resource type="AudioStream" uid="uid://bvniacyvnah7d" path="res://Assets/Audio/sfx/sfx_footstep.ogg" id="10_ukyrk"]
 [ext_resource type="AudioStream" uid="uid://ch8e66f0duslp" path="res://Assets/Audio/sfx/sfx_enemy_damage.ogg" id="11_7dp3o"]
+[ext_resource type="AudioStream" uid="uid://crfw2qxt46sfh" path="res://Assets/Audio/sfx/sfx_footstep3.ogg" id="11_fd4e3"]
 [ext_resource type="AudioStream" uid="uid://de60q6m7wf50b" path="res://Assets/Audio/sfx/sfx_player_damage.ogg" id="12_h4iuc"]
 [ext_resource type="AudioStream" uid="uid://ybi622tfvca1" path="res://Assets/Audio/sfx/sfx_gunshot.ogg" id="13_fd4e3"]
 [ext_resource type="Texture2D" uid="uid://babdkvql6ykon" path="res://Assets/sprites/UI/mutations/dna_small.png" id="14_7dp3o"]
+[ext_resource type="AudioStream" uid="uid://cd0vlhf8px4jk" path="res://Assets/Audio/sfx/sfx_woosh1.ogg" id="14_h4iuc"]
 
 [sub_resource type="Resource" id="Resource_vgqql"]
 script = ExtResource("2_vgqql")
-damage_from_fire = 1.0
-freeze_time = 1.0
+damage_from_fire = 5.0
+freeze_time = 2.0
 attack_power = 10.0
 speed = 100.0
 health = 100.0
@@ -48,9 +49,10 @@ animations = [{
 radius = 13.0
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_qqcod"]
+playback_mode = 1
 random_pitch = 1.15
 streams_count = 1
-stream_0/stream = ExtResource("10_ukyrk")
+stream_0/stream = ExtResource("11_fd4e3")
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_igrcy"]
 random_pitch = 1.15
@@ -67,11 +69,17 @@ random_pitch = 1.15
 streams_count = 1
 stream_0/stream = ExtResource("13_fd4e3")
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_fd4e3"]
+random_pitch = 1.15
+streams_count = 1
+stream_0/stream = ExtResource("14_h4iuc")
+
 [sub_resource type="Curve" id="Curve_h4iuc"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 2
 
 [node name="player" type="CharacterBody2D" node_paths=PackedStringArray("anim", "colli", "hurt_area", "hurt_colli", "health_bar", "shoot_sfx", "hurt_sfx", "dead_sfx")]
+collision_mask = 2
 script = ExtResource("1_v0iea")
 anim = NodePath("AnimatedSprite2D")
 colli = NodePath("CollisionShape2D")
@@ -121,6 +129,7 @@ texture = ExtResource("5_x3wgy")
 position = Vector2(54, -2)
 
 [node name="hurt_area" type="Area2D" parent="."]
+collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="hurt_area"]
 shape = SubResource("CircleShape2D_f1ek2")
@@ -130,7 +139,7 @@ debug_color = Color(0, 0.638963, 0.37141, 0.42)
 
 [node name="walk" type="AudioStreamPlayer2D" parent="audio"]
 stream = SubResource("AudioStreamRandomizer_qqcod")
-volume_db = -15.0
+volume_db = -20.0
 max_distance = 200.0
 
 [node name="hurt" type="AudioStreamPlayer2D" parent="audio"]
@@ -146,6 +155,11 @@ max_distance = 200.0
 stream = SubResource("AudioStreamRandomizer_l6n3p")
 volume_db = -23.0
 max_distance = 200.0
+
+[node name="dash" type="AudioStreamPlayer2D" parent="audio"]
+stream = SubResource("AudioStreamRandomizer_fd4e3")
+volume_db = -15.0
+pitch_scale = 1.4
 
 [node name="vfx" type="Node2D" parent="."]
 
