@@ -5,30 +5,55 @@ var damage_amount:float = 10
 var can_dash:bool = true
 var gun_cooldown:float = 0.2
 @onready var cam: PLAYER_CAM = $Camera2D
-
+@onready var walk: AudioStreamPlayer2D = $audio/walk
 @onready var gun: Node2D = $gun
+var player_taking_damage:bool
+@onready var dash_sfx: AudioStreamPlayer2D = $audio/dash
 
 func _ready() -> void:
 	Global.player = self
 	speed = 100
 	initialize_setup()
-	
+	is_taking_damage.connect(on_taking_damage)
 	SignalBus.dash_ready.connect(on_dash_ready)
+	hurt_anim_finished.connect(regain_health)
+	is_taking_damage.connect(on_player_take_damage)
 
 func on_dash_ready():
 	can_dash = true
 
+func on_taking_damage():
+	const CAM_FREEZE_TIME = 0.3
+	const FREEZE_TIME_SCALE = 0.2
+	freeze_frame(CAM_FREEZE_TIME,FREEZE_TIME_SCALE)
+
+func freeze_frame(dur:float,time_scale:float):
+	Engine.time_scale = time_scale
+	Engine.time_scale = time_scale
+	await get_tree().create_timer(dur,true,false,true).timeout
+	Engine.time_scale = 1.0
+
 func mutation_cards():
 	SignalBus.display_cards.emit(current_mutations)
 
-func taking_damage(damage_type:STATES):
-	match damage_type:
-		STATES.TAKING_DAMAGE:
-			normal_damage()
+func on_player_take_damage():
+	player_taking_damage = true
 
-func normal_damage():
-	health -= damage_amount
-	#hurt_anim here
+var is_regaining_health:bool
+func regain_health():
+	if is_regaining_health:return
+	is_regaining_health = true
+	await get_tree().create_timer(5).timeout
+	player_taking_damage = false
+	var new_health:float
+	while(health<health_bar.max_health and !player_taking_damage):
+		new_health = clampf(health+3,0,health_bar.max_health)
+		var tween:=create_tween().set_speed_scale(creature_time_scale)
+		health = new_health
+		tween.tween_callback(health_bar.set_health.bind(new_health))
+		tween.tween_interval(1)
+		await tween.finished
+	is_regaining_health = false
 
 
 func _physics_process(delta: float) -> void:
@@ -54,7 +79,6 @@ func idle():
 	velocity = lerp(velocity,Vector2.ZERO,0.5)
 	if movement_action_pressed():
 		change_state(STATES.RUNNING,state)
-	check_dash()
 	
 
 func movement_action_pressed()->bool:
@@ -86,14 +110,24 @@ func move(delta:float):
 		anim.flip_h = (x_dir == -1)
 	velocity = lerp(velocity,vel,0.5)
 	check_dash()
+	step_timer()
+
+var in_step_cooldown:bool
+func step_timer():
+	if in_step_cooldown:return
+	in_step_cooldown = true
+	await get_tree().create_timer(0.5*1/creature_time_scale).timeout
+	in_step_cooldown = false
+	if state == STATES.RUNNING:
+		walk.play()
 
 func check_dash():
 	if can_dash and Input.is_action_just_pressed("DASH"):
 		change_state(STATES.DASH)
 
 func dash(delta:float):
-	const DASH_SPEED = 2500
-	
+	var DASH_SPEED = 25*speed
+	dash_sfx.play()
 	var x_dir:= Input.get_axis("LEFT", "RIGHT")
 	var y_dir := Input.get_axis("UP","DOWN")
 	var direction:Vector2 = Vector2(x_dir,y_dir)

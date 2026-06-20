@@ -1,4 +1,6 @@
-[gd_resource type="Theme" load_steps=5 format=3 uid="uid://rgyna2d0tcac"]
+[gd_resource type="Theme" load_steps=8 format=3 uid="uid://rgyna2d0tcac"]
+
+[ext_resource type="FontFile" uid="uid://boex4g38s5jhi" path="res://Assets/sprites/UI/PixelOperator8.ttf" id="1_g7f11"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pyarg"]
 bg_color = Color(0, 0, 0, 1)
@@ -24,15 +26,60 @@ corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8yvjt"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3alg7"]
-bg_color = Color(0.212305, 0.212305, 0.212305, 1)
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+expand_margin_left = 1.0
+expand_margin_top = 1.0
+expand_margin_right = 1.0
+expand_margin_bottom = 1.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g7f11"]
+bg_color = Color(0, 1, 1, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u03s2"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 1, 1, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
 
 [resource]
+default_font = ExtResource("1_g7f11")
 Button/colors/font_color = Color(1, 1, 1, 1)
 Button/styles/hover = SubResource("StyleBoxFlat_pyarg")
 Button/styles/normal = SubResource("StyleBoxFlat_5tlc3")
 Button/styles/pressed = SubResource("StyleBoxFlat_pyarg")
+Panel/styles/panel = SubResource("StyleBoxFlat_8yvjt")
 ProgressBar/styles/background = SubResource("StyleBoxFlat_3alg7")
 ProgressBar/styles/fill = SubResource("StyleBoxFlat_g7f11")
+TooltipPanel/styles/panel = SubResource("StyleBoxFlat_u03s2")

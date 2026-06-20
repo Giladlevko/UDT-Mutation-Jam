@@ -1,12 +1,41 @@
-[gd_scene load_steps=3 format=3 uid="uid://bga6u4enbd7fm"]
+[gd_scene load_steps=8 format=3 uid="uid://bga6u4enbd7fm"]
 
 [ext_resource type="Script" uid="uid://srl74w5ipska" path="res://Scripts/bullet.gd" id="1_xjght"]
+[ext_resource type="Texture2D" uid="uid://babdkvql6ykon" path="res://Assets/sprites/UI/mutations/dna_small.png" id="2_oduel"]
+[ext_resource type="Texture2D" uid="uid://cgdubh3rxppa" path="res://Assets/sprites/player/bullet.png" id="2_ycag2"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_4mw4s"]
-radius = 2.0
+radius = 5.0
+
+[sub_resource type="Curve" id="Curve_ycag2"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -2.25434, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_6afsh"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -2.54322, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_ycag2"]
+offsets = PackedFloat32Array(0, 0.539474, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0.701961, 1, 1, 1, 0)
 
 [node name="bullet" type="Area2D"]
 script = ExtResource("1_xjght")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_4mw4s")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_ycag2")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+amount = 18
+texture = ExtResource("2_oduel")
+emission_shape = 1
+emission_sphere_radius = 3.0
+gravity = Vector2(0, 0)
+orbit_velocity_curve = SubResource("Curve_ycag2")
+scale_amount_min = 0.0
+scale_amount_max = 0.4
+scale_amount_curve = SubResource("Curve_6afsh")
+color_ramp = SubResource("Gradient_ycag2")
