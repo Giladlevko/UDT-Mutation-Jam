@@ -18,6 +18,8 @@ var forced_end:bool
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	modulate.a = 0
+	buttons = [skip_button]
+	connect_buttons(0.2,1.1)
 	line_finished.connect(on_line_finished)
 	pass # Replace with function body.
 

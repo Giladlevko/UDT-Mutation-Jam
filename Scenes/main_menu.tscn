@@ -1,8 +1,18 @@
-[gd_scene load_steps=2 format=3 uid="uid://cgcrk6imk7y2b"]
+[gd_scene load_steps=10 format=3 uid="uid://cgcrk6imk7y2b"]
 
 [ext_resource type="Script" uid="uid://b2fatneuc3a36" path="res://Scripts/main_menu.gd" id="1_28flt"]
+[ext_resource type="AudioStream" uid="uid://cx3ketoo7j5oj" path="res://Assets/Audio/sfx/sfx_ui_highlight (1).ogg" id="2_ce3w2"]
+[ext_resource type="Shader" uid="uid://bwd31woa55j2f" path="res://Scripts/moving_background.gdshader" id="2_cp0ys"]
+[ext_resource type="AudioStream" uid="uid://dvhyh4sqv4rju" path="res://Assets/Audio/sfx/sfx_ui_selected (1).ogg" id="3_n45e2"]
+[ext_resource type="Texture2D" uid="uid://bcmhxv7iveiw3" path="res://Assets/sprites/UI/mutations/dna_dark.png" id="3_yhxw7"]
+[ext_resource type="AudioStream" uid="uid://b0ma0n006n5pw" path="res://Assets/Audio/music/Ticking_Intro_133bpm_V1.2.ogg" id="4_opfnp"]
+[ext_resource type="Theme" uid="uid://rgyna2d0tcac" path="res://Scenes/UI_theme.tres" id="4_trj04"]
+[ext_resource type="Texture2D" uid="uid://bl0abs8hhmv47" path="res://Assets/sprites/UI/mutations/mystery.png" id="5_yhxw7"]
 
-[node name="main_menu" type="Control" node_paths=PackedStringArray("dark_screen")]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_16hvj"]
+shader = ExtResource("2_cp0ys")
+
+[node name="main_menu" type="Control" node_paths=PackedStringArray("click_sfx", "hover_sfx", "song", "dark_screen")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -10,12 +20,129 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_28flt")
+click_sfx = NodePath("audio/click")
+hover_sfx = NodePath("audio/hover")
+song = NodePath("audio/song")
 dark_screen = NodePath("dark_screen")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="MarginContainer"]
+layout_mode = 2
+color = Color(0, 0, 0, 1)
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer"]
+texture_repeat = 2
+material = SubResource("ShaderMaterial_16hvj")
+layout_mode = 2
+texture = ExtResource("3_yhxw7")
+stretch_mode = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="title" type="Panel" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(500, 70)
+layout_mode = 2
+theme = ExtResource("4_trj04")
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/title"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -72.0
+offset_top = -11.5
+offset_right = 72.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("4_trj04")
+theme_override_font_sizes/font_size = 32
+text = "Turtle Gone Rouge!"
+horizontal_alignment = 1
+
+[node name="HSeparator2" type="HSeparator" parent="MarginContainer/VBoxContainer"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+theme_override_constants/separation = 110
+
+[node name="buttons" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="start" type="Button" parent="MarginContainer/VBoxContainer/buttons"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = ExtResource("4_trj04")
+theme_override_font_sizes/font_size = 24
+text = "Go Rouge!"
+
+[node name="credits" type="Button" parent="MarginContainer/VBoxContainer/buttons"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("4_trj04")
+theme_override_font_sizes/font_size = 24
+text = "Credits!"
+
+[node name="quit" type="Button" parent="MarginContainer/VBoxContainer/buttons"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("4_trj04")
+theme_override_font_sizes/font_size = 24
+text = "Quit!"
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Panel" type="Panel" parent="MarginContainer/MarginContainer"]
+custom_minimum_size = Vector2(89, 80)
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("4_trj04")
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/MarginContainer/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+tooltip_text = "
+Controls:
+Shoot: Left Mouse
+Movement: A,W,D,S - Left, Up, Right, Down
+Dash: Shift
+"
+theme = ExtResource("4_trj04")
+texture = ExtResource("5_yhxw7")
+stretch_mode = 3
 
 [node name="dark_screen" type="ColorRect" parent="."]
 visible = false
@@ -26,3 +153,22 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
+
+[node name="audio" type="Node" parent="."]
+
+[node name="click" type="AudioStreamPlayer" parent="audio"]
+stream = ExtResource("2_ce3w2")
+volume_db = -17.0
+
+[node name="hover" type="AudioStreamPlayer" parent="audio"]
+stream = ExtResource("3_n45e2")
+volume_db = -20.0
+
+[node name="song" type="AudioStreamPlayer" parent="audio"]
+stream = ExtResource("4_opfnp")
+volume_db = -80.0
+parameters/looping = true
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/buttons/start" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/buttons/credits" to="." method="_on_credits_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/buttons/quit" to="." method="_on_quit_pressed"]

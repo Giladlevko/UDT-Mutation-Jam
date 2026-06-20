@@ -47,7 +47,7 @@ func _ready() -> void:
 func initialize_setup():
 	recalculate_stats()
 	hurt_area.area_entered.connect(on_hurt_area_body_entered)
-	health_bar.max_health = health
+
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -67,7 +67,7 @@ func recalculate_stats(recalc_health:bool = true):
 	projectile_amount = base_stats.projectile_amount
 	projectile_cooldown = base_stats.projectile_cooldown * creature_time_scale
 	projectile_chance_to_split = base_stats.projectile_chance_to_split
-	
+	var enemies_health_vis:bool
 	for mutation:MutationData in current_mutations:
 		
 		if recalc_health: health *= mutation.health_mult
@@ -78,9 +78,13 @@ func recalculate_stats(recalc_health:bool = true):
 		freeze_time *= mutation.freeze_time_mult
 		protection_from_damage += mutation.protection_bonus
 		projectile_amount *= mutation.projectile_mult
+		enemies_health_vis = enemies_health_vis or mutation.enemies_health_vis
 		projectile_cooldown *= mutation.projectile_cool_mult
 		projectile_chance_to_split = max(projectile_chance_to_split,mutation.projectile_chance_to_split)
-	health_bar.set_health(health)
+	if self is PLAYER:Global.enemies_health_visible = enemies_health_vis
+	if recalc_health:
+		health_bar.update_max(health)
+		health_bar.set_health(health)
 	assert(projectile_amount>0,"Can't shoot Zero bullets!")
 	print("projectile_chance_to_split: ",projectile_chance_to_split)
 	protection_from_damage = clampf(protection_from_damage, 0, 10)
@@ -101,8 +105,12 @@ func shoot_projectile(gun:GUN):
 	can_shoot = false
 	var starter_angle:float = 0.0
 	var projectils_to_shoot:int = 1
-	if randi_range(1,10)<=10*projectile_chance_to_split:
-		projectils_to_shoot = projectile_amount
+	if projectile_amount>1:
+		if randi_range(1,10)<=10*projectile_chance_to_split:
+			projectils_to_shoot = projectile_amount
+			if randi_range(1,10)<=10*projectile_chance_to_split:
+				projectils_to_shoot+=1
+				clamp(projectils_to_shoot,1,3)
 	if projectils_to_shoot>1:
 		starter_angle = PI*projectile_amount/(16)
 	var bullet_dir_sign:int = 1
@@ -141,7 +149,7 @@ func take_damage(val:float):
 	creature_taking_damage = true
 	is_taking_damage.emit()
 	assert(health_bar)
-	health-=val
+	health-=val-protection_from_damage
 	health_bar.set_health(health)
 	if health<=0:
 		kill_creature()

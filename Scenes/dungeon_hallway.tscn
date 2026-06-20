@@ -21,5 +21,8 @@ navigation_polygon = SubResource("NavigationPolygon_lna5w")
 [node name="NavigationLink2D" type="NavigationLink2D" parent="."]
 start_position = Vector2(10, 0)
 
+[node name="NavigationLink2D2" type="NavigationLink2D" parent="."]
+start_position = Vector2(10, 0)
+
 [node name="Polygon2D" type="Polygon2D" parent="."]
 visible = false

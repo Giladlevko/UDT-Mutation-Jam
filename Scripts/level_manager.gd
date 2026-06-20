@@ -1,6 +1,6 @@
 extends Node2D
 class_name LEVEL_MANAGER
-@onready var dungeon_room: DUNGEON_ROOM = $dungeon_room
+
 
 @onready var player: PLAYER = $player
 

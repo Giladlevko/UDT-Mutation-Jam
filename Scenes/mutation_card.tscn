@@ -1,8 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://coqysvcynx4x"]
+[gd_scene load_steps=7 format=3 uid="uid://coqysvcynx4x"]
 
 [ext_resource type="Script" uid="uid://id2ombwry7p1" path="res://Scripts/mutation_card.gd" id="1_k6i3b"]
 [ext_resource type="Theme" uid="uid://rgyna2d0tcac" path="res://Scenes/UI_theme.tres" id="2_voi0s"]
 [ext_resource type="Texture2D" uid="uid://bl0abs8hhmv47" path="res://Assets/sprites/UI/mutations/mystery.png" id="3_voi0s"]
+[ext_resource type="AudioStream" uid="uid://cx3ketoo7j5oj" path="res://Assets/Audio/sfx/sfx_ui_highlight (1).ogg" id="4_304yd"]
+[ext_resource type="AudioStream" uid="uid://dvhyh4sqv4rju" path="res://Assets/Audio/sfx/sfx_ui_selected (1).ogg" id="5_jho02"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_voi0s"]
 bg_color = Color(0, 0, 0, 1)
@@ -16,7 +18,7 @@ corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
-[node name="mutation_card" type="Control"]
+[node name="mutation_card" type="Control" node_paths=PackedStringArray("click_sfx", "hover_sfx")]
 layout_mode = 3
 anchors_preset = 10
 anchor_right = 1.0
@@ -24,9 +26,11 @@ grow_horizontal = 2
 size_flags_vertical = 0
 script = ExtResource("1_k6i3b")
 base_tex = ExtResource("3_voi0s")
+click_sfx = NodePath("audio/click")
+hover_sfx = NodePath("audio/hover")
 
 [node name="card_button" type="Button" parent="."]
-custom_minimum_size = Vector2(150, 230)
+custom_minimum_size = Vector2(210, 270)
 layout_mode = 1
 offset_right = 128.0
 offset_bottom = 128.0
@@ -64,12 +68,23 @@ texture = ExtResource("3_voi0s")
 stretch_mode = 5
 
 [node name="stats" type="Label" parent="card_button/VBoxContainer"]
-custom_minimum_size = Vector2(100, 90)
+custom_minimum_size = Vector2(180, 130)
 layout_mode = 2
+size_flags_horizontal = 4
 theme = ExtResource("2_voi0s")
 text = "Stats"
 horizontal_alignment = 1
 autowrap_mode = 3
+
+[node name="audio" type="Node" parent="."]
+
+[node name="click" type="AudioStreamPlayer" parent="audio"]
+stream = ExtResource("4_304yd")
+volume_db = -17.0
+
+[node name="hover" type="AudioStreamPlayer" parent="audio"]
+stream = ExtResource("5_jho02")
+volume_db = -20.0
 
 [connection signal="mouse_entered" from="card_button" to="." method="_on_card_button_mouse_entered"]
 [connection signal="mouse_exited" from="card_button" to="." method="_on_card_button_mouse_exited"]

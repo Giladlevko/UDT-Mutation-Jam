@@ -1,15 +1,17 @@
 extends Node
 
+var enemies_health_visible:bool = false
+
 const FIRE_MUTATION = preload("res://Scripts/Mutations/fire_mutation.tres")
 const ICE_MUTATION = preload("res://Scripts/Mutations/ice_mutation.tres")
 const QUICK_MUTATION = preload("res://Scripts/Mutations/quick_mutation.tres")
 const SHIELD_MUTATION = preload("res://Scripts/Mutations/shield_mutation.tres")
 const SPLIT_PROJECTILE = preload("res://Scripts/Mutations/split_projectile.tres")
-
-enum mutations{FIRE,ICE,SHIELD,QUICK,SPLIT_PROJECTILE,}
+const HEALTH_MUTATION = preload("res://Scripts/Mutations/health_mutation.tres")
+enum mutations{FIRE,ICE,SHIELD,QUICK,SPLIT_PROJECTILE,HEALTH_MUTATION}
 
 const ALL_MUTATIONS:Array[MutationData] = [
-	FIRE_MUTATION,ICE_MUTATION,QUICK_MUTATION,SHIELD_MUTATION,SPLIT_PROJECTILE
+	FIRE_MUTATION,ICE_MUTATION,QUICK_MUTATION,SHIELD_MUTATION,SPLIT_PROJECTILE,HEALTH_MUTATION
 	]
 
 const mutation_textures:Dictionary = {
@@ -17,7 +19,8 @@ const mutation_textures:Dictionary = {
 	"ICE": "res://Assets/sprites/UI/mutations/ice.png",
 	"SPLIT": "res://Assets/sprites/UI/mutations/split.png",
 	"SPEED": "res://Assets/sprites/UI/mutations/speed.png",
-	"SHIELD": "res://Assets/sprites/UI/mutations/shield.png"
+	"SHIELD": "res://Assets/sprites/UI/mutations/shield.png",
+	"HEALTH": "res://Assets/sprites/UI/mutations/health_vis.png"
 }
 
 const MUTATION_DESCRIPTIONS:Dictionary = {
@@ -26,6 +29,7 @@ const MUTATION_DESCRIPTIONS:Dictionary = {
 	"SPEED":"-Health\n-Freeze Time\n-Strength\n+Speed",
 	"SHIELD":"+Health\n-Speed\n+Shield",
 	"SPLIT":"+Bullet Split\n+Fire Rate\n+Split Chance",
+	"HEALTH":"+Health\n+Enemies Health Is\nVisible"
 }
 
 var player:PLAYER
@@ -37,6 +41,7 @@ func match_mutation_name_to_short_name(short_name:String):
 		"Quick Mutation": return "SPEED"
 		"Split Mutation": return "SPLIT"
 		"Shield Mutation": return "SHIELD"
+		"Health Mutation":return "HEALTH"
 
 func assign_texture(mutation:MutationData)->Texture:
 	var texture_path:String

@@ -2,7 +2,7 @@ extends Area2D
 class_name PROJECTILE
 var direction:Vector2
 @export var speed:float = 1000
-@export var lifetime:float = 1
+@export var lifetime:float = 0.5
 @export var bullet_mutation:MutationData
 @onready var cpu_particles: CPUParticles2D = $CPUParticles2D
 

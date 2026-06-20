@@ -1,19 +1,20 @@
 [gd_scene load_steps=5 format=3 uid="uid://cwqb0wwblpymn"]
 
 [ext_resource type="Script" uid="uid://chu8bmlu7n0vh" path="res://Scripts/level_manager.gd" id="1_7p6j4"]
+[ext_resource type="PackedScene" uid="uid://bld68pwd6tdik" path="res://Scenes/dungeon_gen.tscn" id="2_7p6j4"]
 [ext_resource type="PackedScene" uid="uid://dbfvx0grahmc8" path="res://Scenes/player.tscn" id="2_8ffim"]
 [ext_resource type="PackedScene" uid="uid://d2w8l0kfb0f7o" path="res://Scenes/enemy.tscn" id="3_xfk5q"]
-[ext_resource type="PackedScene" uid="uid://bul002ips7q5b" path="res://Scenes/dungeon_room.tscn" id="4_7p6j4"]
 
 [node name="Level_1" type="Node2D"]
 script = ExtResource("1_7p6j4")
 
-[node name="dungeon_room" parent="." instance=ExtResource("4_7p6j4")]
+[node name="dungeon_gen" parent="." instance=ExtResource("2_7p6j4")]
+room_amount = 4
 
 [node name="player" parent="." instance=ExtResource("2_8ffim")]
 
 [node name="Enemy" parent="." instance=ExtResource("3_xfk5q")]
-position = Vector2(186, 285)
+position = Vector2(126, 8)
 
 [node name="Enemy2" parent="." instance=ExtResource("3_xfk5q")]
 position = Vector2(128, -46)

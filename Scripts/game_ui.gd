@@ -1,7 +1,11 @@
 extends UI
 @onready var pause: Button = $MarginContainer/pause_button_cont/pause
-@onready var resume: Button = $MarginContainer/pause_menu/NinePatchRect/VBoxContainer/resume
-@onready var back_to_main: Button = $MarginContainer/pause_menu/NinePatchRect/VBoxContainer/back_to_main
+
+@onready var resume: Button = $MarginContainer/pause_menu/panel/VBoxContainer/resume
+@onready var back_to_main: Button = $MarginContainer/pause_menu/panel/VBoxContainer/back_to_main
+@onready var text_box: TEXT_BOX = $text_cont/TextBox
+
+
 const MUT_CARD = preload("res://Scenes/mutation_card.tscn")
 @onready var countdown_label: Label = $MarginContainer/countdown_cont/countdown_label
 @onready var countdown_cont: MarginContainer = $MarginContainer/countdown_cont
@@ -19,7 +23,6 @@ const MUT_CARD = preload("res://Scenes/mutation_card.tscn")
 @onready var card_cont: MarginContainer = $MarginContainer/mutation_menu/card_cont
 
 @onready var mutation_menu: Control = $MarginContainer/mutation_menu
-@onready var text_box: TEXT_BOX = $MarginContainer/mutation_menu/text_cont/TextBox
 @onready var accept_choice: Button = $MarginContainer/mutation_menu/mut_button_cont/accept_choice
 @onready var mut_button_cont: MarginContainer = $MarginContainer/mutation_menu/mut_button_cont
 @onready var mutation_delet_display: DEL_MUT_DISPLAY = $MarginContainer/mutation_menu/delete_mut_cont/mutation_delet_display
@@ -38,12 +41,16 @@ func _ready() -> void:
 	buttons = [pause,resume,back_to_main]
 	countdown_label.text = ""
 	enter_trans()
+	connect_buttons()
+	accept_choice.mouse_entered.connect(button_mouse_entered.bind(accept_choice,1.1,0.2))
+	accept_choice.mouse_exited.connect(button_mouse_exited.bind(accept_choice,0.2))
+	
 	SignalBus.start_dash_cooldown.connect(dash_cooldown)
 	SignalBus.init_mutation_selection.connect(on_init_mut_select)
 	SignalBus.mutation_selected.connect(add_mutation)
 	SignalBus.display_message.connect(display_message)
 	SignalBus.remove_mutation_from_diplay.connect(on_mutation_removed)
-	#song_on(song,-15,5)
+	song_on(song,-15,5)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -236,6 +243,7 @@ func on_mutation_selection_end(selected_mut:MutationData,unselected_mutations:Ar
 
 var cards_displayed:bool
 func _on_accept_choice_pressed() -> void:
+	click_sfx.play()
 	if Global.player:
 		if Global.player.current_mutations.size()>1 and !cards_displayed:
 			display_message("You are holding too many Mutations!")

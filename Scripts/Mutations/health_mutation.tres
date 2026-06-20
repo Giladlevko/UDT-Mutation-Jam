@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="MutationData" load_steps=2 format=3 uid="uid://c5owjennsv3e4"]
+
+[ext_resource type="Script" uid="uid://dicwgk5dwandi" path="res://Scripts/mutation_data.gd" id="1_awnrk"]
+
+[resource]
+script = ExtResource("1_awnrk")
+name = "Health Mutation"
+health_mult = 1.4
+fire_damage_mult = 1.0
+freeze_time_mult = 1.0
+attack_power_mult = 1.0
+speed_mult = 1.0
+protection_bonus = 0
+enemies_health_vis = true
+projectile_mult = 1
+projectile_cool_mult = 1.0
+projectile_chance_to_split = 0.1
+rgb_color_for_text = Color(0, 1, 0, 1)
+metadata/_custom_type_script = "uid://dicwgk5dwandi"

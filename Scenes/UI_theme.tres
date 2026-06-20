@@ -1,4 +1,6 @@
-[gd_resource type="Theme" load_steps=7 format=3 uid="uid://rgyna2d0tcac"]
+[gd_resource type="Theme" load_steps=8 format=3 uid="uid://rgyna2d0tcac"]
+
+[ext_resource type="FontFile" uid="uid://boex4g38s5jhi" path="res://Assets/sprites/UI/PixelOperator8.ttf" id="1_g7f11"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pyarg"]
 bg_color = Color(0, 0, 0, 1)
@@ -72,6 +74,7 @@ corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 
 [resource]
+default_font = ExtResource("1_g7f11")
 Button/colors/font_color = Color(1, 1, 1, 1)
 Button/styles/hover = SubResource("StyleBoxFlat_pyarg")
 Button/styles/normal = SubResource("StyleBoxFlat_5tlc3")

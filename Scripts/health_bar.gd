@@ -24,6 +24,11 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	pass
 
+func update_max(val:float):
+	max_health = val
+	health_bar.max_value = max_health
+	damage_bar.max_value = max_health
+
 func set_health(new_health:float):
 	var old_health: = health_bar.value
 	health_bar.value =  new_health

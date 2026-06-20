@@ -2,7 +2,8 @@ extends DUNGEON_ROOM
 class_name DUNGEON_HALLWAY
 enum hallway_types{VERTICAL,HORIZONTAL}
 @export var hallway_type:hallway_types = hallway_types.HORIZONTAL
-@onready var nav_link: NavigationLink2D = $NavigationLink2D
+@onready var nav_link1: NavigationLink2D = $NavigationLink2D
+@onready var nav_link2: NavigationLink2D = $NavigationLink2D2
 
 var hallway_max_mult = 10
 var hallway_min_mult = 5

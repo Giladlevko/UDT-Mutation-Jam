@@ -79,7 +79,6 @@ func idle():
 	velocity = lerp(velocity,Vector2.ZERO,0.5)
 	if movement_action_pressed():
 		change_state(STATES.RUNNING,state)
-	check_dash()
 	
 
 func movement_action_pressed()->bool:

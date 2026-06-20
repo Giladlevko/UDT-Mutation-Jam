@@ -14,13 +14,13 @@ func _ready() -> void:
 			var room = DUNG_ROOM.instantiate()
 			current_room = current_hall_way.add_dungeon_room(room)
 			room_amount-=1
-			await get_tree().create_timer(1).timeout
+			#await get_tree().create_timer(1).timeout
 			current_hall_way = null
 		elif current_room:
 			var hall = DUNG_HALLWAY.instantiate()
 			current_hall_way = current_room.add_dungeon_hallway(hall)
 			assert(current_hall_way)
-			await get_tree().create_timer(1).timeout
+			#await get_tree().create_timer(1).timeout
 			current_room = null
 			pass
 		else:

@@ -1,8 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://biawi0iex0w1a"]
+[gd_scene load_steps=7 format=3 uid="uid://biawi0iex0w1a"]
 
 [ext_resource type="Script" uid="uid://didpxj0u6ekhn" path="res://Scripts/text_box.gd" id="1_nwibb"]
 [ext_resource type="Theme" uid="uid://rgyna2d0tcac" path="res://Scenes/UI_theme.tres" id="2_0kxgl"]
 [ext_resource type="Resource" uid="uid://bfj75tnev1g75" path="res://dialog_texts/dialog_resource.tres" id="2_ot2p7"]
+[ext_resource type="AudioStream" uid="uid://cx3ketoo7j5oj" path="res://Assets/Audio/sfx/sfx_ui_highlight (1).ogg" id="4_8gqem"]
+[ext_resource type="AudioStream" uid="uid://dvhyh4sqv4rju" path="res://Assets/Audio/sfx/sfx_ui_selected (1).ogg" id="5_1q4u4"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ot2p7"]
 bg_color = Color(0, 0, 0, 1)
@@ -16,7 +18,7 @@ corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 
-[node name="TextBox" type="Control"]
+[node name="TextBox" type="Control" node_paths=PackedStringArray("click_sfx", "hover_sfx")]
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
@@ -27,6 +29,8 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_nwibb")
 dialog_data = ExtResource("2_ot2p7")
+click_sfx = NodePath("audio/click")
+hover_sfx = NodePath("audio/hover")
 
 [node name="Panel" type="Panel" parent="."]
 custom_minimum_size = Vector2(300, 100)
@@ -52,21 +56,22 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 5
-theme_override_constants/margin_top = 5
-theme_override_constants/margin_right = 5
-theme_override_constants/margin_bottom = 5
+theme_override_constants/margin_left = 7
+theme_override_constants/margin_top = 7
+theme_override_constants/margin_right = 7
+theme_override_constants/margin_bottom = 7
 
 [node name="Label" type="RichTextLabel" parent="Panel/MarginContainer"]
+clip_contents = false
 layout_mode = 2
 theme = ExtResource("2_0kxgl")
 bbcode_enabled = true
 text = "[wave]wave[/wave]"
-fit_content = true
 scroll_active = false
 
 [node name="end_label" type="RichTextLabel" parent="Panel"]
 visible = false
+clip_contents = false
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -99,5 +104,15 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 theme = ExtResource("2_0kxgl")
 text = "Skip Dialog"
+
+[node name="audio" type="Node" parent="."]
+
+[node name="click" type="AudioStreamPlayer" parent="audio"]
+stream = ExtResource("4_8gqem")
+volume_db = -17.0
+
+[node name="hover" type="AudioStreamPlayer" parent="audio"]
+stream = ExtResource("5_1q4u4")
+volume_db = -20.0
 
 [connection signal="pressed" from="Panel/skip_cont/skip_button" to="." method="_on_skip_button_pressed"]

@@ -165,8 +165,10 @@ func add_dungeon_hallway(passage:DUNGEON_HALLWAY)->DUNGEON_HALLWAY:
 	passage.exit_point = passage.entry_point+passage.hallway_length*room_to_wall
 	passage.global_position = to_global(tile_top_left)
 	open_entrance(passage,passage.entry_point)
-	passage.nav_link.start_position = passage.nav_link.to_local(passage.entry_point-2*tile_size*room_to_wall)
-	passage.nav_link.end_position = passage.nav_link.to_local(passage.exit_point+2*tile_size*room_to_wall)
+	passage.nav_link1.start_position = passage.nav_link1.to_local(passage.entry_point-2*tile_size*room_to_wall)
+	passage.nav_link1.end_position = passage.nav_link1.to_local(passage.entry_point+2*tile_size*room_to_wall)
+	passage.nav_link2.start_position = passage.nav_link2.to_local(passage.exit_point-2*tile_size*room_to_wall)
+	passage.nav_link2.end_position = passage.nav_link2.to_local(passage.exit_point+2*tile_size*room_to_wall)
 	return passage
 
 

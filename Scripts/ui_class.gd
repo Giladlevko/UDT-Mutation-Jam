@@ -77,7 +77,7 @@ func tween_scale(enlarge:bool,node:Control,dur:float = 0.2,to_scale:float = 1.3)
 	if !enlarge: to_scale = 1
 	tween.tween_property(node,"scale",to_scale*Vector2.ONE,dur)
 
-func song_off(music:AudioStreamPlayer = song,dur:float = 0.4):
+func song_off(music:AudioStreamPlayer = song,dur:float = 0.6):
 	tween_music(db_to_linear(-80),music,dur)
 	await volume_changed
 	music.playing = false
@@ -90,4 +90,6 @@ func song_on(music:AudioStreamPlayer = song,db_val:float = -15,dur:float = 5):
 func handle_scene_transition(next_scene:String):
 	darken_screen()
 	await vis_changed
+	song_off()
+	await volume_changed
 	Global.switch_scenes(next_scene)

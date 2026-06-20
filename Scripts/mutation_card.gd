@@ -14,6 +14,7 @@ class_name MUTATION_CARD
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	
 	modulate.a = 0
 	stats.text = ""
 	mutation_name.text = ""
@@ -86,12 +87,14 @@ func anim_card():
 func _on_card_pressed() -> void:
 	assign_texture(mutation_type)
 	SignalBus.mutation_selected.emit(mutation_type)
+	click_sfx.play()
 	print(mutation_type.name)
 	pass # Replace with function body.
 
 
 func _on_card_button_mouse_entered() -> void:
 	if card_button.disabled:return
+	hover_sfx.play()
 	tween_scale(true,card_button,0.2,1.2)
 	anim_card()
 	pass # Replace with function body.
