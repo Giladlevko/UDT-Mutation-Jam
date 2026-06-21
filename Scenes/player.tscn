@@ -18,7 +18,7 @@
 
 [sub_resource type="Resource" id="Resource_vgqql"]
 script = ExtResource("2_vgqql")
-damage_from_fire = 5.0
+damage_from_fire = 6.0
 freeze_time = 2.0
 attack_power = 10.0
 speed = 100.0
@@ -78,7 +78,7 @@ stream_0/stream = ExtResource("14_h4iuc")
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 2
 
-[node name="player" type="CharacterBody2D" node_paths=PackedStringArray("anim", "colli", "hurt_area", "hurt_colli", "health_bar", "shoot_sfx", "hurt_sfx", "dead_sfx")]
+[node name="player" type="CharacterBody2D" node_paths=PackedStringArray("anim", "colli", "hurt_area", "hurt_colli", "health_bar", "shoot_sfx", "hurt_sfx", "dead_sfx", "particles")]
 collision_mask = 2
 script = ExtResource("1_v0iea")
 anim = NodePath("AnimatedSprite2D")
@@ -90,6 +90,7 @@ base_stats = SubResource("Resource_vgqql")
 shoot_sfx = NodePath("audio/shoot")
 hurt_sfx = NodePath("audio/hurt")
 dead_sfx = NodePath("audio/dead")
+particles = NodePath("vfx/CPUParticles2D")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_cvnsp")
@@ -101,6 +102,7 @@ sprite_frames = SubResource("SpriteFrames_6t5aa")
 animation = &"idle"
 
 [node name="Camera2D" type="Camera2D" parent="."]
+modulate = Color(2, 2, 2, 1)
 zoom = Vector2(2, 2)
 position_smoothing_enabled = true
 script = ExtResource("4_3smsa")
@@ -109,8 +111,14 @@ script = ExtResource("4_3smsa")
 
 [node name="health_bar" parent="CanvasLayer" instance=ExtResource("6_8erm5")]
 anchors_preset = -1
+anchor_left = 0.07
 anchor_top = 0.02
+anchor_right = 0.07
 anchor_bottom = 0.02
+offset_left = 0.360001
+offset_top = -2.96
+offset_right = 0.360001
+offset_bottom = -2.96
 grow_vertical = 1
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -139,7 +147,7 @@ debug_color = Color(0, 0.638963, 0.37141, 0.42)
 
 [node name="walk" type="AudioStreamPlayer2D" parent="audio"]
 stream = SubResource("AudioStreamRandomizer_qqcod")
-volume_db = -20.0
+volume_db = -18.5
 max_distance = 200.0
 
 [node name="hurt" type="AudioStreamPlayer2D" parent="audio"]

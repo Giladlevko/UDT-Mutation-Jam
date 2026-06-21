@@ -43,6 +43,7 @@ func _on_mut_but_2_pressed() -> void:
 	mut_2 = null
 	mutation_2_tex.texture = null
 	mutation_2_tex.tooltip_text = "Empty"
+	
 	pass # Replace with function body.
 
 

@@ -41,12 +41,14 @@ var creature_time_scale:float = 1
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	SignalBus.reset_level.connect(on_phase_finished)
 	pass # Replace with function body.
 
 
 func initialize_setup():
 	recalculate_stats()
 	hurt_area.area_entered.connect(on_hurt_area_body_entered)
+	
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -65,7 +67,7 @@ func recalculate_stats(recalc_health:bool = true):
 	freeze_time = base_stats.damage_from_fire
 	protection_from_damage = base_stats.protection_from_damage
 	projectile_amount = base_stats.projectile_amount
-	projectile_cooldown = base_stats.projectile_cooldown * creature_time_scale
+	projectile_cooldown = base_stats.projectile_cooldown
 	projectile_chance_to_split = base_stats.projectile_chance_to_split
 	var enemies_health_vis:bool
 	for mutation:MutationData in current_mutations:
@@ -144,7 +146,7 @@ func knock_back(strength:float = 5,rot:float = rotation):
 
 signal is_taking_damage
 var creature_taking_damage:bool
-func take_damage(val:float):
+func take_damage(val:float,sfx_on:bool = true):
 	if creature_taking_damage:return
 	creature_taking_damage = true
 	is_taking_damage.emit()
@@ -153,11 +155,11 @@ func take_damage(val:float):
 	health_bar.set_health(health)
 	if health<=0:
 		kill_creature()
-	else:hurt_anim()
+	else:hurt_anim(sfx_on)
 
 signal hurt_anim_finished
-func hurt_anim():
-	hurt_sfx.play()
+func hurt_anim(sfx_on:bool = true):
+	if sfx_on:hurt_sfx.play()
 	const FLASH_AMOUNT:int = 3
 	var initial_wait_time:float = 0.15
 	hurt_shader_color(Color(1,1,1))
@@ -217,34 +219,43 @@ func kill_creature():
 	death_anim()
 	await death_anim_finished
 	if self is PLAYER:
-		get_tree().reload_current_scene()
+		SignalBus.reset_game.emit()
 		return
 	queue_free()
 
 var on_fire:bool
 var frozen:bool
 func burn_creature():
+	if on_fire or frozen:return
 	on_fire = true
 	particles.modulate = Color(0.8,0,0)
 	creature_time_scale = 1.0
 	recalculate_stats(false)
 	particles.emitting = true
-	for i in damage_from_fire:
-		var tween:= create_tween()
-		tween.tween_callback(take_damage.bind(2))
-		tween.tween_interval(1)
-		if frozen: return
-		await tween.finished
+	for i in ceil(damage_from_fire/2.0):
+		var fire_tween: = create_tween()
+		fire_tween.tween_callback(take_damage.bind(5.0,false))
+		fire_tween.tween_interval(1)
+		if frozen: break
+		await fire_tween.finished
 	particles.emitting = false
+	on_fire = false
 	pass
 func freeze_creature():
+	if frozen or on_fire:return
 	frozen = true
-	particles.modulate = Color(0.43, 0.6, 1.0)
+	particles.modulate = Color(0.64, 0.76, 1.0)
 	particles.emitting = true
-	creature_time_scale = 0.1
+	creature_time_scale = 0.5
 	recalculate_stats(false)#don't recalculate health
 	await get_tree().create_timer(freeze_time).timeout
-	if on_fire: return
 	creature_time_scale = 1.0
+	frozen = false
 	recalculate_stats(false)#don't recalculate health
 	particles.emitting = false
+
+func on_phase_finished():
+	creature_time_scale = 1.0
+	particles.emitting = false
+	recalculate_stats()
+	pass

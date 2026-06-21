@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="DialogLine" load_steps=2 format=3 uid="uid://c7dfvoalv28ug"]
+
+[ext_resource type="Script" uid="uid://bey5c0r582piw" path="res://dialog_texts/dialog_line.gd" id="1_12uav"]
+
+[resource]
+script = ExtResource("1_12uav")
+speaker = "The Mad Turtle"
+lines = Array[String](["Enough is enough...", "I have had it up to here with these disgusting Creatures!", "There is only a place for one pathetic creature no one likes in these wretched sewers...", "And thats ME!"])
+metadata/_custom_type_script = "uid://bey5c0r582piw"

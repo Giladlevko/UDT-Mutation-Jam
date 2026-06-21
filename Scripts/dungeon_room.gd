@@ -5,8 +5,8 @@ class_name DUNGEON_ROOM
 @export var polygon: Polygon2D
 
 @export var room_amount:int = 5
-@export var max_length_mult:int = 30
-@export var min_length_mult:int = 10
+@export var max_length_mult:int = 36
+@export var min_length_mult:int = 16
 @export var nav_reg: NavigationRegion2D
 
 @export var total_dungeon_rooms:int = 2
@@ -49,10 +49,18 @@ func init_room(draw_tiles:bool = true):
 	bot_left_corner = Vector2i(-room_h_size/tile_size/2,room_v_size/tile_size/2)*tile_size
 	bot_right_corner = Vector2i(room_h_size/tile_size/2,room_v_size/tile_size/2)*tile_size
 	
-	#top_left_corner = snap_to_tile(top_left_corner)
-	#top_right_corner = snap_to_tile(top_right_corner)
-	#bot_left_corner = snap_to_tile(bot_left_corner)
-	#bot_right_corner = snap_to_tile(bot_right_corner)
+	top_left_corner = snap_to_tile(top_left_corner)
+	top_right_corner = snap_to_tile(top_right_corner)
+	bot_left_corner = snap_to_tile(bot_left_corner)
+	bot_right_corner = snap_to_tile(bot_right_corner)
+	
+	if self is not DUNGEON_HALLWAY:
+		var corners:Global.room_corners = Global.room_corners.new(
+			to_global(top_left_corner),to_global(top_right_corner),
+			to_global(bot_right_corner),to_global(bot_left_corner)
+			)
+		SignalBus.room_added.emit(corners)
+
 	
 	var points:PackedVector2Array = [top_left_corner,top_right_corner,bot_right_corner,bot_left_corner]
 	#for i in points.size():
@@ -78,7 +86,7 @@ func snap_to_tile(point:Vector2i)->Vector2i:
 	return point
 
 func place_tiles_from_two_points(a:Vector2i,b:Vector2i,remove_tile:bool = false):
-	var tile_id = 0
+	var tile_id = 1
 	a = tile_map.local_to_map(a)
 	b = tile_map.local_to_map(b)
 	var direction:Vector2i
@@ -98,10 +106,10 @@ func place_tiles_from_two_points(a:Vector2i,b:Vector2i,remove_tile:bool = false)
 		#var coord: = tile_map.local_to_map(current)
 
 		if remove_tile:tile_id=-1
-		tile_map.set_cell(current,tile_id,Vector2i(1,1),0)
+		tile_map.set_cell(current,tile_id,Vector2i(0,0),0)
 		current+=direction
 	
-	tile_map.set_cell(b,tile_id,Vector2i(1,1),0)
+	tile_map.set_cell(b,tile_id,Vector2i(0,0),0)
 	pass
 
 func rand_wall():

@@ -19,3 +19,9 @@ func _process(delta: float) -> void:
 func _on_back_to_main_pressed() -> void:
 	handle_scene_transition("res://Scenes/main_menu.tscn")
 	pass # Replace with function body.
+
+
+func _on_rich_text_label_meta_clicked(meta: Variant) -> void:
+	base_button_pressed()
+	OS.shell_open(str(meta))
+	pass # Replace with function body.

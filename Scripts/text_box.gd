@@ -13,6 +13,8 @@ var effect_end:String
 var dialog_ended:bool
 var forced_end:bool
 @onready var skip_button: Button = $Panel/skip_cont/skip_button
+@onready var name_panel: Panel = $Panel/name_cont/name_panel
+@onready var name_label: Label = $Panel/name_cont/name_panel/name_label
 
 
 # Called when the node enters the scene tree for the first time.
@@ -21,6 +23,7 @@ func _ready() -> void:
 	buttons = [skip_button]
 	connect_buttons(0.2,1.1)
 	line_finished.connect(on_line_finished)
+	#play_dialog("Game Intro")
 	pass # Replace with function body.
 
 
@@ -36,9 +39,20 @@ func select_text(id: String)->DialogLine:
 		return dialog_data.entries[id]
 	return null
 
+func display_speaker_name(id: String):
+	name_panel.visible = false
+	if dialog_data.entries.has(id):
+		var speaker_name:String = dialog_data.entries[id].speaker
+		if speaker_name != "Game":
+			name_label.text = speaker_name
+			name_panel.custom_minimum_size.x = (
+				speaker_name.length()*name_label.get_theme_font_size("font_size")
+				)
+			tween_visibility(name_panel,true)
 
 func play_dialog(dialog_name:String,effect:String = "wave"):
 	forced_end = false
+	display_speaker_name(dialog_name)
 	reset_text()
 	tween_visibility(self,true)
 	dialog_ended = false
@@ -53,6 +67,7 @@ func play_dialog(dialog_name:String,effect:String = "wave"):
 		if line != text_lines.lines[-1]:
 			await input_pressed
 			
+	user_skiped()
 	dialog_ended = true
 	
 
@@ -61,8 +76,7 @@ func get_reveal_dur(message:String)->float:
 
 func user_skiped()->bool:
 	if forced_end:
-		tween_visibility(self,false)
-		dialog_finished.emit()
+		on_dialog_end()
 		return true
 	return false
 
@@ -104,16 +118,24 @@ func _input(event):
 				label.visible_ratio = 1
 				await line_tween.finished
 				await line_finished
+				
 			input_pressed.emit()
 			print("Moving to next dialog line!")
 	else:
 		if event.is_action_pressed("Continue Dialog") and !modulate.a == 0:
-			tween_visibility(self,false)
-			dialog_finished.emit()
+			on_dialog_end()
 
+func on_dialog_end():
+	tween_visibility(self,false)
+	dialog_finished.emit()
+	#line_tween.stop()
 
 func _on_skip_button_pressed() -> void:
+	if dialog_ended:
+		on_dialog_end()
+		return
 	forced_end = true
 	line_finished.emit()
 	input_pressed.emit()
+
 	pass # Replace with function body.

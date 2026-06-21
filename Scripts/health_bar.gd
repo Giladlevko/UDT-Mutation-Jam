@@ -8,6 +8,8 @@ class_name HEALTH_BAR
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	if owner is ENEMY:visible = false
+	
 	health_bar.custom_minimum_size = bar_size
 	damage_bar.custom_minimum_size = bar_size
 	health_bar.size = bar_size
@@ -28,6 +30,8 @@ func update_max(val:float):
 	max_health = val
 	health_bar.max_value = max_health
 	damage_bar.max_value = max_health
+	health_bar.value = max_health
+	damage_bar.value = max_health
 
 func set_health(new_health:float):
 	var old_health: = health_bar.value
