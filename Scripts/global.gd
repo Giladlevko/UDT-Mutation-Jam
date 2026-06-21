@@ -24,8 +24,8 @@ const mutation_textures:Dictionary = {
 }
 
 const MUTATION_DESCRIPTIONS:Dictionary = {
-	"FIRE": "-Fire Damage\n-Freeze Time\n+Speed",
-	"ICE":"+Fire Damage\n-Freeze Time\n+Strength\n+Shield",
+	"FIRE": "-Fire Damage Recived\n-Freeze Time\n+Speed",
+	"ICE":"+Fire Damage Recived\n-Freeze Time\n+Strength\n+Shield",
 	"SPEED":"-Health\n-Freeze Time\n-Strength\n+Speed",
 	"SHIELD":"+Health\n-Speed\n+Shield",
 	"SPLIT":"+Bullet Split\n+Fire Rate\n+Split Chance",
@@ -33,6 +33,16 @@ const MUTATION_DESCRIPTIONS:Dictionary = {
 }
 
 var player:PLAYER
+
+var rooms:Array[room_corners]
+
+var phase_index:int = 1
+
+var enemies_mutation:Array[MutationData]
+
+func _ready() -> void:
+	SignalBus.room_added.connect(on_room_added)
+	
 
 func match_mutation_name_to_short_name(short_name:String):
 	match short_name :
@@ -53,6 +63,29 @@ func assign_texture(mutation:MutationData)->Texture:
 func get_mutation_description(mutation:MutationData)->String:
 	var short_name = match_mutation_name_to_short_name(mutation.name)
 	return MUTATION_DESCRIPTIONS[short_name]
+
+
+class room_corners:
+	func _init(TL:Vector2i,TR:Vector2i,BR:Vector2i,BL:Vector2i) -> void:
+		top_left = TL
+		top_right = TR
+		bot_right = BR
+		bot_left = BL
+	var top_left:Vector2i
+	var top_right:Vector2i
+	var bot_right:Vector2i
+	var bot_left:Vector2i
+	func has_point(point:Vector2)->bool:
+		if point.x < top_right.x and point.x > top_left.x:
+			if point.y > top_left.y and point.y < bot_left.y:
+				return true
+		return false
+
+func on_room_added(room:room_corners):
+	rooms.append(room)
+	pass
+
+
 
 func switch_scenes(new_scene_path:String):
 	var current_scene = get_tree().current_scene

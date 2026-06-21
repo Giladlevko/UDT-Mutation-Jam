@@ -95,16 +95,14 @@ shape = SubResource("CircleShape2D_ne65n")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="navigation"]
 path_desired_distance = 70.0
-target_desired_distance = 170.0
+target_desired_distance = 120.0
 avoidance_enabled = true
 radius = 50.0
 neighbor_distance = 50.0
 time_horizon_agents = 0.1
 time_horizon_obstacles = 0.1
 max_speed = 200.0
-debug_enabled = true
 debug_use_custom = true
-debug_path_custom_color = Color(0, 0.537255, 0, 1)
 debug_path_custom_line_width = 0.5
 
 [node name="gun" type="Node2D" parent="."]
@@ -123,6 +121,7 @@ debug_color = Color(1, 0.00696271, 0.0518057, 0.42)
 [node name="Node" type="Node" parent="."]
 
 [node name="health_bar" parent="Node" instance=ExtResource("5_0830c")]
+visible = false
 offset_left = -576.0
 offset_top = -374.0
 offset_right = -576.0

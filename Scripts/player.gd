@@ -16,11 +16,16 @@ func _ready() -> void:
 	initialize_setup()
 	is_taking_damage.connect(on_taking_damage)
 	SignalBus.dash_ready.connect(on_dash_ready)
+	SignalBus.reset_level.connect(on_level_reset)
 	hurt_anim_finished.connect(regain_health)
 	is_taking_damage.connect(on_player_take_damage)
 
 func on_dash_ready():
 	can_dash = true
+
+func on_level_reset():
+	cam.position_smoothing_enabled = false
+	cam.set_deferred("position_smoothing_enabled",true)
 
 func on_taking_damage():
 	const CAM_FREEZE_TIME = 0.3
@@ -158,7 +163,7 @@ func enter_state(state_name:STATES):
 			can_dash = false
 			await get_tree().create_timer(DASH_TIME).timeout
 			change_state(STATES.RUNNING)
-			const dash_cooldown = 1.5
+			const dash_cooldown:float = 1.2
 			SignalBus.start_dash_cooldown.emit(dash_cooldown)
 ##function for handleing state exits
 func exit_state(state_name):

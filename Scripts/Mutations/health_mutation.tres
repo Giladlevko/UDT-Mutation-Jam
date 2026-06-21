@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_awnrk")
 name = "Health Mutation"
-health_mult = 1.4
+health_mult = 1.6
 fire_damage_mult = 1.0
 freeze_time_mult = 1.0
 attack_power_mult = 1.0

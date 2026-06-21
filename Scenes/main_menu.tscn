@@ -5,9 +5,9 @@
 [ext_resource type="Shader" uid="uid://bwd31woa55j2f" path="res://Scripts/moving_background.gdshader" id="2_cp0ys"]
 [ext_resource type="AudioStream" uid="uid://dvhyh4sqv4rju" path="res://Assets/Audio/sfx/sfx_ui_selected (1).ogg" id="3_n45e2"]
 [ext_resource type="Texture2D" uid="uid://bcmhxv7iveiw3" path="res://Assets/sprites/UI/mutations/dna_dark.png" id="3_yhxw7"]
-[ext_resource type="AudioStream" uid="uid://b0ma0n006n5pw" path="res://Assets/Audio/music/Ticking_Intro_133bpm_V1.2.ogg" id="4_opfnp"]
 [ext_resource type="Theme" uid="uid://rgyna2d0tcac" path="res://Scenes/UI_theme.tres" id="4_trj04"]
 [ext_resource type="Texture2D" uid="uid://bl0abs8hhmv47" path="res://Assets/sprites/UI/mutations/mystery.png" id="5_yhxw7"]
+[ext_resource type="AudioStream" uid="uid://drno4mc371ys4" path="res://Assets/Audio/music/MainMenu_Loop_125bpm.ogg" id="8_yhxw7"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_16hvj"]
 shader = ExtResource("2_cp0ys")
@@ -74,7 +74,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("4_trj04")
 theme_override_font_sizes/font_size = 32
-text = "Turtle Gone Rouge!"
+text = "Turtle Gone Rogue!"
 horizontal_alignment = 1
 
 [node name="HSeparator2" type="HSeparator" parent="MarginContainer/VBoxContainer"]
@@ -93,7 +93,7 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 theme = ExtResource("4_trj04")
 theme_override_font_sizes/font_size = 24
-text = "Go Rouge!"
+text = "Go Rogue!"
 
 [node name="credits" type="Button" parent="MarginContainer/VBoxContainer/buttons"]
 custom_minimum_size = Vector2(200, 50)
@@ -165,7 +165,7 @@ stream = ExtResource("3_n45e2")
 volume_db = -20.0
 
 [node name="song" type="AudioStreamPlayer" parent="audio"]
-stream = ExtResource("4_opfnp")
+stream = ExtResource("8_yhxw7")
 volume_db = -80.0
 parameters/looping = true
 

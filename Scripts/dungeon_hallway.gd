@@ -5,8 +5,8 @@ enum hallway_types{VERTICAL,HORIZONTAL}
 @onready var nav_link1: NavigationLink2D = $NavigationLink2D
 @onready var nav_link2: NavigationLink2D = $NavigationLink2D2
 
-var hallway_max_mult = 10
-var hallway_min_mult = 5
+var hallway_max_mult = 12
+var hallway_min_mult = 8
 var entry_point:Vector2
 var exit_point:Vector2
 var hallway_length:int = 1

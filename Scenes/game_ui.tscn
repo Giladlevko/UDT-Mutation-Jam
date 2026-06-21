@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://biawi0iex0w1a" path="res://Scenes/text_box.tscn" id="6_1t2s1"]
 [ext_resource type="PackedScene" uid="uid://206dh6yu2idv" path="res://Scenes/mutation_delet_display.tscn" id="7_3t1kc"]
 [ext_resource type="AudioStream" uid="uid://dak31xccel8bt" path="res://Assets/Audio/music/Ticking_Loop_133bpm_V1.2.ogg" id="8_rxsu6"]
-[ext_resource type="AudioStream" uid="uid://b0ma0n006n5pw" path="res://Assets/Audio/music/Ticking_Intro_133bpm_V1.2.ogg" id="9_y8vuf"]
+[ext_resource type="AudioStream" uid="uid://cm1lv3rj4e5rc" path="res://Assets/Audio/music/MutationsSelection_Loop_114bpm.ogg" id="9_dvsk4"]
 [ext_resource type="AudioStream" uid="uid://cx3ketoo7j5oj" path="res://Assets/Audio/sfx/sfx_ui_highlight (1).ogg" id="10_dvsk4"]
 [ext_resource type="AudioStream" uid="uid://dvhyh4sqv4rju" path="res://Assets/Audio/sfx/sfx_ui_selected (1).ogg" id="11_74ohg"]
 
@@ -51,13 +51,38 @@ layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
 theme_override_constants/margin_left = 32
-theme_override_constants/margin_top = 32
+theme_override_constants/margin_top = 48
 
-[node name="pause" type="Button" parent="MarginContainer/pause_button_cont"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/pause_button_cont"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="pause" type="Button" parent="MarginContainer/pause_button_cont/VBoxContainer"]
 custom_minimum_size = Vector2(100, 40)
 layout_mode = 2
 theme = ExtResource("2_bw2rt")
 text = "Pause"
+
+[node name="Panel" type="Panel" parent="MarginContainer/pause_button_cont/VBoxContainer"]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+theme = ExtResource("2_bw2rt")
+
+[node name="time_label" type="Label" parent="MarginContainer/pause_button_cont/VBoxContainer/Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -8.0
+offset_right = 20.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "1:1"
+horizontal_alignment = 1
 
 [node name="countdown_cont" type="MarginContainer" parent="MarginContainer"]
 layout_mode = 2
@@ -272,6 +297,23 @@ theme_override_constants/margin_bottom = 219
 layout_mode = 2
 size_flags_horizontal = 0
 
+[node name="skip_cont" type="MarginContainer" parent="MarginContainer/mutation_menu"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 40.0
+grow_horizontal = 0
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+
+[node name="skip_mut_selec" type="Button" parent="MarginContainer/mutation_menu/skip_cont"]
+custom_minimum_size = Vector2(80, 40)
+layout_mode = 2
+theme = ExtResource("2_bw2rt")
+text = "Skip"
+
 [node name="message_cont" type="MarginContainer" parent="MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
@@ -318,6 +360,68 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
+[node name="death_cont" type="MarginContainer" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="death_cont"]
+custom_minimum_size = Vector2(300, 200)
+layout_mode = 2
+theme = ExtResource("2_bw2rt")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="death_cont/Panel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 40.0
+grow_horizontal = 2
+theme_override_constants/separation = 12
+
+[node name="Control" type="Control" parent="death_cont/Panel/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="death_cont/Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("2_bw2rt")
+text = "The Mad Turtle 
+is Dead!"
+horizontal_alignment = 1
+
+[node name="Control2" type="Control" parent="death_cont/Panel/VBoxContainer"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+
+[node name="restart_but" type="Button" parent="death_cont/Panel/VBoxContainer"]
+clip_contents = true
+custom_minimum_size = Vector2(150, 40)
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("2_bw2rt")
+text = "Restart!"
+
+[node name="back_to_main" type="Button" parent="death_cont/Panel/VBoxContainer"]
+clip_contents = true
+custom_minimum_size = Vector2(150, 40)
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("2_bw2rt")
+text = "Main Menu"
+
 [node name="ColorRect" type="ColorRect" parent="."]
 visible = false
 layout_mode = 1
@@ -336,7 +440,8 @@ volume_db = -15.0
 parameters/looping = true
 
 [node name="mutation_song" type="AudioStreamPlayer" parent="songs"]
-stream = ExtResource("9_y8vuf")
+stream = ExtResource("9_dvsk4")
+parameters/looping = true
 
 [node name="audio" type="Node" parent="."]
 
@@ -348,7 +453,16 @@ volume_db = -17.0
 stream = ExtResource("11_74ohg")
 volume_db = -20.0
 
-[connection signal="pressed" from="MarginContainer/pause_button_cont/pause" to="." method="_on_pause_pressed"]
+[node name="game_length" type="Timer" parent="."]
+process_mode = 1
+wait_time = 60.0
+autostart = true
+
+[connection signal="pressed" from="MarginContainer/pause_button_cont/VBoxContainer/pause" to="." method="_on_pause_pressed"]
 [connection signal="pressed" from="MarginContainer/pause_menu/panel/VBoxContainer/resume" to="." method="_on_pause_pressed"]
 [connection signal="pressed" from="MarginContainer/pause_menu/panel/VBoxContainer/back_to_main" to="." method="_on_back_to_main_pressed"]
 [connection signal="pressed" from="MarginContainer/mutation_menu/mut_button_cont/accept_choice" to="." method="_on_accept_choice_pressed"]
+[connection signal="pressed" from="MarginContainer/mutation_menu/skip_cont/skip_mut_selec" to="." method="_on_skip_mut_selec_pressed"]
+[connection signal="pressed" from="death_cont/Panel/VBoxContainer/restart_but" to="." method="_on_restart_but_pressed"]
+[connection signal="pressed" from="death_cont/Panel/VBoxContainer/back_to_main" to="." method="_on_back_to_main_pressed"]
+[connection signal="timeout" from="game_length" to="." method="_on_game_length_timeout"]

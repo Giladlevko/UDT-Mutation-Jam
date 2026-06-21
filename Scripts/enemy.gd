@@ -6,15 +6,24 @@ const UPDATE_INTERVAL = 0.35
 
 var update_timer:float
 func _ready() -> void:
+	health_bar.visible = Global.enemies_health_visible
+	var angle_to_player:float = global_position.angle_to_point(Global.player.global_position)
+	global_rotation = angle_to_player
 	initialize_setup()
 	pass
 
+func spawn_anim():
+	anim.modulate.a = 0
+	var tween:Tween = create_tween()
+	tween.tween_property(anim,"modulate",Color(1,1,1,1),0.3)
+	
+
 func _physics_process(delta: float) -> void:
-	health_bar.visible = Global.enemies_health_visible
 	health_bar.global_position = global_position+Vector2(health_bar.bar_size.x,-50)
 	update_timer +=delta *creature_time_scale
 	if Global.player:
-		look_at(Global.player.global_position)
+		var angle_to_player:float = global_position.angle_to_point(Global.player.global_position)
+		global_rotation = rotate_toward(global_rotation,angle_to_player,delta*creature_time_scale)
 	if update_timer >= UPDATE_INTERVAL:
 		update_timer = 0.0
 		set_nav_point()
@@ -45,7 +54,7 @@ var is_spitting:bool
 func spit_anim():
 	if is_spitting:return
 	is_spitting = true
-	var tween:=create_tween().set_trans(Tween.TRANS_ELASTIC).set_parallel().set_speed_scale(creature_time_scale*1/projectile_cooldown)
+	var tween:=create_tween().set_trans(Tween.TRANS_ELASTIC).set_parallel().set_speed_scale(1/projectile_cooldown)
 	tween.tween_property(self,"scale",Vector2(0.7,1.3),0.4)
 	tween.tween_property(self,"scale",Vector2(1.3,0.7),0.4).set_delay(0.4)
 	tween.tween_property(self,"scale",Vector2(1,1),0.5).set_delay(0.8)

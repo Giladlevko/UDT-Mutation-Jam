@@ -1,6 +1,6 @@
 extends Node2D
 class_name DUNGEON_GENERATOR
-@export var room_amount:int = 5
+@export var room_amount:int = 4
 const DUNG_ROOM = preload("res://Scenes/dungeon_room.tscn")
 const DUNG_HALLWAY = preload("res://Scenes/dungeon_hallway.tscn")
 # Called when the node enters the scene tree for the first time.
