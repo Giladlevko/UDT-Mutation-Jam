@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://clg72b0wvnmb0"]
+[gd_scene load_steps=13 format=3 uid="uid://clg72b0wvnmb0"]
 
 [ext_resource type="Script" uid="uid://hl6vx05w5wh4" path="res://Scripts/game_ui.gd" id="1_gek4i"]
 [ext_resource type="Theme" uid="uid://rgyna2d0tcac" path="res://Scenes/UI_theme.tres" id="2_bw2rt"]
@@ -11,15 +11,6 @@
 [ext_resource type="AudioStream" uid="uid://cm1lv3rj4e5rc" path="res://Assets/Audio/music/MutationsSelection_Loop_114bpm.ogg" id="9_dvsk4"]
 [ext_resource type="AudioStream" uid="uid://cx3ketoo7j5oj" path="res://Assets/Audio/sfx/sfx_ui_highlight (1).ogg" id="10_dvsk4"]
 [ext_resource type="AudioStream" uid="uid://dvhyh4sqv4rju" path="res://Assets/Audio/sfx/sfx_ui_selected (1).ogg" id="11_74ohg"]
-
-[sub_resource type="Environment" id="Environment_3t1kc"]
-background_mode = 3
-glow_enabled = true
-glow_normalized = true
-glow_intensity = 0.05
-glow_strength = 2.0
-glow_hdr_threshold = 4.0
-glow_hdr_scale = 4.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_y8vuf"]
 shader = ExtResource("5_3t1kc")
@@ -218,9 +209,6 @@ offset_right = 80.0
 offset_bottom = 80.0
 theme = ExtResource("2_bw2rt")
 stretch_mode = 5
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="MarginContainer/mutation_display/HBoxContainer"]
-environment = SubResource("Environment_3t1kc")
 
 [node name="mutation_menu" type="Control" parent="MarginContainer"]
 visible = false
@@ -455,7 +443,7 @@ volume_db = -20.0
 
 [node name="game_length" type="Timer" parent="."]
 process_mode = 1
-wait_time = 60.0
+wait_time = 90.0
 autostart = true
 
 [connection signal="pressed" from="MarginContainer/pause_button_cont/VBoxContainer/pause" to="." method="_on_pause_pressed"]

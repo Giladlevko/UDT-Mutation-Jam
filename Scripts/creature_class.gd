@@ -232,20 +232,19 @@ func burn_creature():
 	creature_time_scale = 1.0
 	recalculate_stats(false)
 	particles.emitting = true
-	for i in damage_from_fire:
-		
-		var tween:= create_tween()
-		tween.tween_callback(take_damage.bind(2,false))
-		tween.tween_interval(1)
+	for i in ceil(damage_from_fire/2.0):
+		var fire_tween: = create_tween()
+		fire_tween.tween_callback(take_damage.bind(5.0,false))
+		fire_tween.tween_interval(1)
 		if frozen: break
-		await tween.finished
+		await fire_tween.finished
 	particles.emitting = false
 	on_fire = false
 	pass
 func freeze_creature():
 	if frozen or on_fire:return
 	frozen = true
-	particles.modulate = Color(0.43, 0.6, 1.0)
+	particles.modulate = Color(0.64, 0.76, 1.0)
 	particles.emitting = true
 	creature_time_scale = 0.5
 	recalculate_stats(false)#don't recalculate health

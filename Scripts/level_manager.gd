@@ -1,7 +1,7 @@
 extends Node2D
 class_name LEVEL_MANAGER
 @onready var enemies_spawn_cool: Timer = $timers/enemies_spawn_cool
-@onready var game_length: Timer = $timers/game_length
+
 @onready var enemies: Node = $enemies
 
 @onready var dungeon_generator: DUNGEON_GENERATOR = $dungeon_gen
@@ -63,18 +63,25 @@ func enemy_spawn():
 	if enemies_count <= enemies_to_spwan_max:
 		for i in enemies_to_spwan_max - enemies_count:
 			add_enemy()
-	enemies_spawn_cool.start()
+	if !waiting_for_enemies_to_die:
+		enemies_spawn_cool.start()
 	pass
 
 
 func _on_enemies_spawn_cool_timeout() -> void:
 	enemy_spawn()
+	
 	pass # Replace with function body.
 
 
 func on_game_timer_end():
 	waiting_for_enemies_to_die = true
-	enemies_spawn_cool.stop()
+	if enemies.get_child_count()==0:
+		SignalBus.init_mutation_selection.emit()
+	if enemies.get_child_count()>=1:
+		enemies_spawn_cool.stop()
+		SignalBus.display_message.emit("Eliminate the enemies to get to the next phase!",3)
+		
 	pass
 
 func on_level_reset():

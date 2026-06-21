@@ -68,6 +68,7 @@ theme = ExtResource("2_0kxgl")
 bbcode_enabled = true
 text = "[wave]wave[/wave]"
 scroll_active = false
+visible_characters_behavior = 1
 
 [node name="end_label" type="RichTextLabel" parent="Panel"]
 visible = false

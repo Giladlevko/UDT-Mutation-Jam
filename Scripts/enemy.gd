@@ -6,6 +6,7 @@ const UPDATE_INTERVAL = 0.35
 
 var update_timer:float
 func _ready() -> void:
+	spawn_anim()
 	health_bar.visible = Global.enemies_health_visible
 	var angle_to_player:float = global_position.angle_to_point(Global.player.global_position)
 	global_rotation = angle_to_player
@@ -14,8 +15,9 @@ func _ready() -> void:
 
 func spawn_anim():
 	anim.modulate.a = 0
-	var tween:Tween = create_tween()
+	var tween:Tween = create_tween().set_parallel()
 	tween.tween_property(anim,"modulate",Color(1,1,1,1),0.3)
+	tween.tween_property(anim,"scale",Vector2(1,1),0.3)
 	
 
 func _physics_process(delta: float) -> void:

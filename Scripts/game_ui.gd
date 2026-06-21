@@ -235,6 +235,8 @@ func on_mutation_removed(mut:MutationData):
 	pass
 
 func reveal_cards(selected_mut:MutationData):
+	#reset the enemies mutation
+	Global.enemies_mutation.clear()
 	var cards:Array = card_cont.get_children()
 	var unselected_mutations:Array[MutationData]
 	cards.reverse()
@@ -320,6 +322,7 @@ func mutation_menu_transotion(to_visible:bool):
 	get_tree().paused = to_visible
 	darken_screen()
 	await vis_changed
+	await get_tree().create_timer(0.15).timeout
 	if !to_visible:SignalBus.reset_level.emit()
 	tween_visibility(skip_mut_selec,to_visible)
 	await vis_changed
@@ -332,12 +335,11 @@ func mutation_menu_transotion(to_visible:bool):
 
 func _on_game_length_timeout() -> void:
 	game_length.stop()
-	display_message("Eliminate the enemies to get to the next phase!",3)
 	SignalBus.game_timer_finished.emit()
 	pass # Replace with function body.
 
 func next_phase():
-	Global.enemies_mutation.clear()
+	
 	on_init_mut_select()
 
 func on_game_reset(to_scene:String = "res://Scenes/main_menu.tscn"):

@@ -14,7 +14,7 @@
 
 [sub_resource type="Resource" id="Resource_afpow"]
 script = ExtResource("2_1f0kj")
-damage_from_fire = 5.0
+damage_from_fire = 6.0
 freeze_time = 2.0
 attack_power = 10.0
 speed = 100.0
@@ -84,8 +84,10 @@ dead_sfx = NodePath("audio/dead")
 particles = NodePath("vfx/CPUParticles2D")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+modulate = Color(1, 1, 1, 0)
 material = SubResource("ShaderMaterial_1dp5w")
 position = Vector2(3, -2)
+scale = Vector2(1e-05, 1e-05)
 sprite_frames = SubResource("SpriteFrames_hghv2")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
