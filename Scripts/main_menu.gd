@@ -2,6 +2,8 @@ extends UI
 @onready var start: Button = $MarginContainer/VBoxContainer/buttons/start
 @onready var credits: Button = $MarginContainer/VBoxContainer/buttons/credits
 @onready var quit: Button = $MarginContainer/VBoxContainer/buttons/quit
+@onready var controls_button: TextureButton = $MarginContainer/MarginContainer/Panel/controls_button
+@onready var controls_cont: MarginContainer = $MarginContainer/controls_cont
 
 
 # Called when the node enters the scene tree for the first time.
@@ -33,3 +35,8 @@ func _on_quit_pressed() -> void:
 func _on_credits_pressed() -> void:
 	handle_scene_transition("res://Scenes/credits.tscn")
 	pass # Replace with function body.
+
+
+func _on_controls_button_pressed() -> void:
+	tween_visibility(controls_cont,!controls_cont.visible)
+	pass

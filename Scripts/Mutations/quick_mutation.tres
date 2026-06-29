@@ -11,6 +11,7 @@ freeze_time_mult = 0.5
 attack_power_mult = 0.8
 speed_mult = 1.6
 protection_bonus = 0
+enemies_health_vis = false
 projectile_mult = 1
 projectile_cool_mult = 1.0
 projectile_chance_to_split = 0.1

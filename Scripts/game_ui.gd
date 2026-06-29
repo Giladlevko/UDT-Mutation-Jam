@@ -71,8 +71,8 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	#if Input.is_action_just_pressed("Debug Test"):
-		#next_phase()
+	if Input.is_action_just_pressed("Debug Test"):
+		next_phase()
 	
 	var minutes:int = round(game_length.time_left)/60
 	var sec:int = round(game_length.time_left) - minutes*60
@@ -191,6 +191,11 @@ func display_cards():
 		card.move_card(offset)
 		await get_tree().create_timer(0.4).timeout
 		offset-=1
+	var cards:Array = card_cont.get_children()
+	cards.reverse()
+	for card:MUTATION_CARD in cards:
+		card.reveal_card()
+		await get_tree().create_timer(0.05).timeout
 
 signal removed_cards
 func remove_cards():
@@ -219,7 +224,7 @@ func add_mutation(mutation:MutationData):
 		assert(!Global.player.current_mutations.has(mutation),"Already holding "+mutation.name)
 		Global.player.add_mutation(mutation)
 	print(mutation.name," Added!")
-	reveal_cards(mutation)
+	disable_cards(mutation)
 	
 	pass
 
@@ -234,7 +239,7 @@ func on_mutation_removed(mut:MutationData):
 		mutation_display_2.texture = null
 	pass
 
-func reveal_cards(selected_mut:MutationData):
+func disable_cards(selected_mut:MutationData):
 	#reset the enemies mutation
 	Global.enemies_mutation.clear()
 	var cards:Array = card_cont.get_children()
@@ -244,8 +249,7 @@ func reveal_cards(selected_mut:MutationData):
 		if card.mutation_type !=selected_mut:
 			unselected_mutations.append(card.mutation_type)
 			Global.enemies_mutation = unselected_mutations.duplicate()
-		card.disable_card_and_reveal()
-		await get_tree().create_timer(0.1).timeout
+		card.disable_card()
 	on_mutation_selection_end(selected_mut,unselected_mutations)
 	pass
 
@@ -253,11 +257,11 @@ func reveal_cards(selected_mut:MutationData):
 func on_init_mut_select():
 	mutation_delet_display.assign_mut_to_texture()
 	mutation_menu_transotion(true)
-	await vis_changed
-	tween_visibility(mutation_delet_display,true,0.2)
+	await mut_tansition_finished
 	text_box.play_dialog("Mutation Intro")
 	await text_box.dialog_finished
 	tween_visibility(mut_button_cont,true)
+	accept_choice.disabled = false
 	pass
 
 func mut_name_to_txt(mutation:MutationData)->String:
@@ -279,6 +283,8 @@ func on_mutation_selection_end(selected_mut:MutationData,unselected_mutations:Ar
 	text_box.play_dialog("Mutation Selection End")
 	await text_box.dialog_finished
 	tween_visibility(mut_button_cont,true)
+	await vis_changed
+	accept_choice.disabled = false
 	pass
 
 var cards_displayed:bool
@@ -290,6 +296,7 @@ func _on_accept_choice_pressed() -> void:
 			display_message("Remove at least one Mutation by clicking on its icon!")
 			return
 	tween_visibility(mut_button_cont,false)
+	accept_choice.disabled = true
 	await vis_changed
 	
 	if !cards_displayed:
@@ -306,6 +313,8 @@ func _on_accept_choice_pressed() -> void:
 		mutation_menu_transotion(false)
 		pass
 
+
+signal mut_tansition_finished
 func mutation_menu_transotion(to_visible:bool):
 	if to_visible: 
 		song_off(song)
@@ -320,16 +329,20 @@ func mutation_menu_transotion(to_visible:bool):
 		
 		
 	get_tree().paused = to_visible
+	
 	darken_screen()
 	await vis_changed
 	await get_tree().create_timer(0.15).timeout
 	if !to_visible:SignalBus.reset_level.emit()
+	tween_visibility(mut_button_cont,false)
+	accept_choice.disabled = true
+	tween_visibility(mutation_delet_display,to_visible)
 	tween_visibility(skip_mut_selec,to_visible)
-	await vis_changed
 	tween_visibility(mutation_menu,to_visible)
 	await vis_changed
 	lighten_screen()
 	await vis_changed
+	mut_tansition_finished.emit()
 	if !to_visible:game_length.start()
 
 

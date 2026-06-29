@@ -25,7 +25,7 @@ speed = 100.0
 health = 100.0
 protection_from_damage = 0
 projectile_amount = 1
-projectile_cooldown = 0.3
+projectile_cooldown = 0.4
 projectile_chance_to_split = 0.1
 metadata/_custom_type_script = "uid://xxcb07qv28jf"
 

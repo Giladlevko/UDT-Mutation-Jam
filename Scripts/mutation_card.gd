@@ -14,7 +14,7 @@ class_name MUTATION_CARD
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	
+	card_button.disabled = true
 	modulate.a = 0
 	stats.text = ""
 	mutation_name.text = ""
@@ -49,7 +49,7 @@ func remove_card():
 	reset_card()
 
 func reset_card():
-	card_button.disabled = false
+	card_button.disabled = true
 	card_texture.texture = base_tex
 	mutation_name.text = ""
 	stats.text = ""
@@ -68,9 +68,13 @@ func assign_texture(mutation:MutationData):
 	
 	
 
-func disable_card_and_reveal():
+func reveal_card():
+	card_button.disabled = false
 	assign_texture(mutation_type)
 	anim_card()
+
+
+func disable_card():
 	card_button.disabled = true
 	card_button.set_pressed_no_signal(true)
 
@@ -85,7 +89,6 @@ func anim_card():
 	pass
 
 func _on_card_pressed() -> void:
-	assign_texture(mutation_type)
 	SignalBus.mutation_selected.emit(mutation_type)
 	click_sfx.play()
 	print(mutation_type.name)

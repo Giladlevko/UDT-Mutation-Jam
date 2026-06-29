@@ -122,7 +122,7 @@ func _input(event):
 			input_pressed.emit()
 			print("Moving to next dialog line!")
 	else:
-		if event.is_action_pressed("Continue Dialog") and !modulate.a == 0:
+		if event.is_action_pressed("Continue Dialog") and modulate.a != 0:
 			on_dialog_end()
 
 func on_dialog_end():
@@ -131,7 +131,7 @@ func on_dialog_end():
 	#line_tween.stop()
 
 func _on_skip_button_pressed() -> void:
-	if dialog_ended:
+	if dialog_ended and modulate.a != 0:
 		on_dialog_end()
 		return
 	forced_end = true

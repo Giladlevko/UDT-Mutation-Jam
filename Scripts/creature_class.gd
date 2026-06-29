@@ -156,6 +156,7 @@ func take_damage(val:float,sfx_on:bool = true):
 	if health<=0:
 		kill_creature()
 	else:hurt_anim(sfx_on)
+	
 
 signal hurt_anim_finished
 func hurt_anim(sfx_on:bool = true):

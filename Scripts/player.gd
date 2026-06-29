@@ -72,7 +72,7 @@ func _physics_process(delta: float) -> void:
 func constant_state():
 	move_and_slide()
 	look_at(get_global_mouse_position())
-	if Input.is_action_just_pressed("SHOOT") and can_shoot:
+	if Input.is_action_pressed("SHOOT") and can_shoot:
 		shoot_projectile(gun)
 		cam_shake()
 		knock_back(1000)
