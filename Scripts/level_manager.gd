@@ -16,7 +16,7 @@ var waiting_for_enemies_to_die:bool = false
 func _ready() -> void:
 	SignalBus.reset_level.connect(on_level_reset)
 	SignalBus.game_timer_finished.connect(on_game_timer_end)
-	enemies_spawn_cool.wait_time = clamp(20-2*Global.phase_index,2,20)
+	enemies_spawn_cool.wait_time = clamp(18-2*Global.phase_index,2,18)
 	
 	enemy_spawn()
 	pass # Replace with function body.

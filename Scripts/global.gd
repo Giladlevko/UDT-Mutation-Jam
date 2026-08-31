@@ -25,7 +25,7 @@ const mutation_textures:Dictionary = {
 
 const MUTATION_DESCRIPTIONS:Dictionary = {
 	"FIRE": "-Fire Damage Recived\n-Freeze Time\n+Speed",
-	"ICE":"+Fire Damage Recived\n-Freeze Time\n+Strength\n+Shield",
+	"ICE":"+Fire Damage Recived\n-Freeze Time\n+Strength\n+Shield\n-Speed",
 	"SPEED":"-Health\n-Freeze Time\n-Strength\n+Speed",
 	"SHIELD":"+Health\n-Speed\n+Shield",
 	"SPLIT":"+Bullet Split\n+Fire Rate\n+Split Chance",

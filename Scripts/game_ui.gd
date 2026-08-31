@@ -71,12 +71,14 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	if Input.is_action_just_pressed("Debug Test"):
-		next_phase()
+	#if Input.is_action_just_pressed("Debug Test"):
+		#next_phase()
 	
 	var minutes:int = round(game_length.time_left)/60
 	var sec:int = round(game_length.time_left) - minutes*60
-	time_label.text = str(minutes)+" : "+str(sec)
+	time_label.text = str(minutes)+" : "
+	if sec<10: time_label.text+="0"
+	time_label.text+=str(sec)
 	
 	#if Input.is_action_just_pressed("DOWN"):
 		#remove_cards()

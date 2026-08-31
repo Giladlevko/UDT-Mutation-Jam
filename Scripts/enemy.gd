@@ -7,7 +7,7 @@ const UPDATE_INTERVAL = 0.35
 var update_timer:float
 func _ready() -> void:
 	spawn_anim()
-	health_bar.visible = Global.enemies_health_visible
+	
 	var angle_to_player:float = global_position.angle_to_point(Global.player.global_position)
 	global_rotation = angle_to_player
 	initialize_setup()
@@ -18,6 +18,8 @@ func spawn_anim():
 	var tween:Tween = create_tween().set_parallel()
 	tween.tween_property(anim,"modulate",Color(1,1,1,1),0.3)
 	tween.tween_property(anim,"scale",Vector2(1,1),0.3)
+	if(Global.enemies_health_visible):
+		tween.chain().tween_property(health_bar,"visible",true,0.3)
 	
 
 func _physics_process(delta: float) -> void:

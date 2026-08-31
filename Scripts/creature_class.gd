@@ -228,6 +228,7 @@ var on_fire:bool
 var frozen:bool
 func burn_creature():
 	if on_fire or frozen:return
+	var fire_damage:float = 5.0
 	on_fire = true
 	particles.modulate = Color(0.8,0,0)
 	creature_time_scale = 1.0
@@ -235,7 +236,7 @@ func burn_creature():
 	particles.emitting = true
 	for i in ceil(damage_from_fire/2.0):
 		var fire_tween: = create_tween()
-		fire_tween.tween_callback(take_damage.bind(5.0,false))
+		fire_tween.tween_callback(take_damage.bind(fire_damage,false))
 		fire_tween.tween_interval(1)
 		if frozen: break
 		await fire_tween.finished

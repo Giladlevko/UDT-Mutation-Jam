@@ -20,6 +20,7 @@ func _ready() -> void:
 	hurt_anim_finished.connect(regain_health)
 	is_taking_damage.connect(on_player_take_damage)
 
+
 func on_dash_ready():
 	can_dash = true
 
