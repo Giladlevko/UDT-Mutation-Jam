@@ -37,6 +37,9 @@ const MUT_CARD = preload("res://Scenes/mutation_card.tscn")
 @onready var restart_but: Button = $death_cont/Panel/VBoxContainer/restart_but
 @onready var death_cont: MarginContainer = $death_cont
 
+@onready var ammo_label: Label = $MarginContainer/ammo_cont/ammo_panel/HBoxContainer/ammo_label
+
+
 var mutations_just_removed:Array[MutationData]
 
 var in_countdown:bool
@@ -62,6 +65,7 @@ func _ready() -> void:
 	SignalBus.display_message.connect(display_message)
 	SignalBus.remove_mutation_from_diplay.connect(on_mutation_removed)
 	SignalBus.reset_game.connect(on_player_death)
+	SignalBus.player_shot.connect(update_ammo_label)
 	message_finished.connect(display_awaiting_messages)
 	song_on(song,-15,5)
 	
@@ -171,7 +175,12 @@ func dash_cooldown(dur:float):
 	await tween.finished
 	SignalBus.dash_ready.emit()
 	
-	
+
+
+func update_ammo_label(curr_ammo:int,max_ammo:int)->void:
+	ammo_label.text = str(curr_ammo)+"/"+str(max_ammo)
+
+
 const CARD_AMOUNT = 3
 func display_cards():
 	var player_mut:Array[MutationData] = get_current_mutations()

@@ -1,7 +1,8 @@
-[gd_scene load_steps=13 format=3 uid="uid://clg72b0wvnmb0"]
+[gd_scene load_steps=14 format=3 uid="uid://clg72b0wvnmb0"]
 
 [ext_resource type="Script" uid="uid://hl6vx05w5wh4" path="res://Scripts/game_ui.gd" id="1_gek4i"]
 [ext_resource type="Theme" uid="uid://rgyna2d0tcac" path="res://Scenes/UI_theme.tres" id="2_bw2rt"]
+[ext_resource type="Texture2D" uid="uid://cgdubh3rxppa" path="res://Assets/sprites/player/bullet.png" id="3_74ohg"]
 [ext_resource type="PackedScene" uid="uid://coqysvcynx4x" path="res://Scenes/mutation_card.tscn" id="3_xjnnq"]
 [ext_resource type="Texture2D" uid="uid://bcmhxv7iveiw3" path="res://Assets/sprites/UI/mutations/dna_dark.png" id="4_gjn1n"]
 [ext_resource type="Shader" uid="uid://bwd31woa55j2f" path="res://Scripts/moving_background.gdshader" id="5_3t1kc"]
@@ -74,6 +75,47 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "1:1"
 horizontal_alignment = 1
+
+[node name="ammo_cont" type="MarginContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
+
+[node name="ammo_panel" type="Panel" parent="MarginContainer/ammo_cont"]
+custom_minimum_size = Vector2(125, 30)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme = ExtResource("2_bw2rt")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/ammo_cont/ammo_panel"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -8.0
+offset_right = 120.0
+offset_bottom = 8.0
+grow_vertical = 2
+theme_override_constants/separation = 1
+
+[node name="ammo_label" type="Label" parent="MarginContainer/ammo_cont/ammo_panel/HBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "100/100"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/ammo_cont/ammo_panel/HBoxContainer"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+texture = ExtResource("3_74ohg")
 
 [node name="countdown_cont" type="MarginContainer" parent="MarginContainer"]
 layout_mode = 2

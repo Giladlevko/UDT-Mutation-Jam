@@ -135,10 +135,14 @@ func shoot_projectile(gun:GUN):
 		bullet.collision_layer = hurt_area.collision_layer
 		owner.add_child(bullet)
 		bullet_dir_sign*=-1
+	handle_projectile_cooldown()
+	pass
+	pass
+
+func handle_projectile_cooldown():
+	if(can_shoot):return
 	await get_tree().create_timer(projectile_cooldown).timeout
 	can_shoot = true
-	pass
-	pass
 
 func knock_back(strength:float = 5,rot:float = rotation):
 	velocity -= Vector2(cos(rot),sin(rot)) * strength

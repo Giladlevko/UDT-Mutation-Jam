@@ -169,6 +169,12 @@ stream = SubResource("AudioStreamRandomizer_fd4e3")
 volume_db = -15.0
 pitch_scale = 1.4
 
+[node name="no_ammo" type="AudioStreamPlayer2D" parent="audio"]
+stream = SubResource("AudioStreamRandomizer_l6n3p")
+volume_db = -23.0
+pitch_scale = 4.0
+max_distance = 200.0
+
 [node name="vfx" type="Node2D" parent="."]
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="vfx"]

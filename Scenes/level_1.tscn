@@ -19,5 +19,7 @@ modulate = Color(2, 2, 2, 1)
 
 [node name="enemies_spawn_cool" type="Timer" parent="timers"]
 
+[node name="ammo_packs" type="Node" parent="."]
+
 [connection signal="child_exiting_tree" from="enemies" to="." method="_on_enemies_child_exiting_tree"]
 [connection signal="timeout" from="timers/enemies_spawn_cool" to="." method="_on_enemies_spawn_cool_timeout"]

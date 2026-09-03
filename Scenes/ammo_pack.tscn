@@ -1,0 +1,55 @@
+[gd_scene load_steps=9 format=3 uid="uid://ducdbbmklqfcd"]
+
+[ext_resource type="Texture2D" uid="uid://hrgb4lmvboyt" path="res://Assets/sprites/player/ammo_pack.png" id="1_xyhtp"]
+[ext_resource type="Script" uid="uid://dwh08fxvfoqf8" path="res://Scripts/ammo_pack.gd" id="2_gkw8x"]
+[ext_resource type="Texture2D" uid="uid://cgdubh3rxppa" path="res://Assets/sprites/player/bullet.png" id="3_yn5o3"]
+[ext_resource type="AudioStream" uid="uid://dvhyh4sqv4rju" path="res://Assets/Audio/sfx/sfx_ui_selected (1).ogg" id="4_7au7j"]
+
+[sub_resource type="Curve" id="Curve_7au7j"]
+_limits = [0.0, 0.2, 0.0, 1.0]
+_data = [Vector2(0, 0.2), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_cryh0"]
+offsets = PackedFloat32Array(0, 0.320896, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_yn5o3"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_cryh0"]
+random_pitch = 1.15
+streams_count = 1
+stream_0/stream = ExtResource("4_7au7j")
+
+[node name="ammo_pack" type="Sprite2D"]
+texture = ExtResource("1_xyhtp")
+region_enabled = true
+region_rect = Rect2(0, 0, 18, 18)
+script = ExtResource("2_gkw8x")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+amount = 24
+texture = ExtResource("3_yn5o3")
+emission_shape = 1
+emission_sphere_radius = 8.0
+direction = Vector2(1, -1)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 10.0
+initial_velocity_max = 10.0
+orbit_velocity_min = 0.1
+orbit_velocity_max = 0.1
+scale_amount_curve = SubResource("Curve_7au7j")
+color_ramp = SubResource("Gradient_cryh0")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_yn5o3")
+
+[node name="pickup_sfx" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource("AudioStreamRandomizer_cryh0")
+volume_db = -3.0
+pitch_scale = 0.06
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

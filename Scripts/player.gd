@@ -8,15 +8,35 @@ var gun_cooldown:float = 0.2
 @onready var walk: AudioStreamPlayer2D = $audio/walk
 @onready var gun: Node2D = $gun
 var player_taking_damage:bool
+
+var has_bullets:bool = true
+
+var curr_ammo:int:
+	set(val):
+		curr_ammo = clamp(val,0,Global.player_max_ammo)
+		has_bullets = (curr_ammo > 0)
+		#call the player shot to update the ammo label
+		SignalBus.player_shot.emit(curr_ammo,Global.player_max_ammo)
+		
+		if(curr_ammo <= int(0.25 * Global.player_max_ammo) && (
+			curr_ammo % int(0.10 * Global.player_max_ammo) == 0) ):
+			SignalBus.low_ammo.emit()
+
+
 @onready var dash_sfx: AudioStreamPlayer2D = $audio/dash
+@onready var no_ammo: AudioStreamPlayer2D = $audio/no_ammo
+
 
 func _ready() -> void:
 	Global.player = self
+
 	speed = 100
 	initialize_setup()
 	is_taking_damage.connect(on_taking_damage)
 	SignalBus.dash_ready.connect(on_dash_ready)
 	SignalBus.reset_level.connect(on_level_reset)
+	
+	
 	hurt_anim_finished.connect(regain_health)
 	is_taking_damage.connect(on_player_take_damage)
 
@@ -74,9 +94,21 @@ func constant_state():
 	move_and_slide()
 	look_at(get_global_mouse_position())
 	if Input.is_action_pressed("SHOOT") and can_shoot:
-		shoot_projectile(gun)
-		cam_shake()
-		knock_back(1000)
+		player_shoot()
+
+
+func player_shoot()->void:
+	if(!has_bullets):
+		if(can_shoot):
+			can_shoot = false
+			no_ammo.play()
+			self.handle_projectile_cooldown()
+		return
+	curr_ammo -= 1
+	shoot_projectile(gun)
+	cam_shake()
+	knock_back(1000)
+
 
 func cam_shake():
 	cam.shake()

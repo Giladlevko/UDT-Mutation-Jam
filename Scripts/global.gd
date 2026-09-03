@@ -34,6 +34,12 @@ const MUTATION_DESCRIPTIONS:Dictionary = {
 
 var player:PLAYER
 
+var player_max_ammo:int = 20:
+	set(val):
+		player_max_ammo = val
+		player.curr_ammo = player_max_ammo
+		
+
 var rooms:Array[room_corners]
 
 var phase_index:int = 1
