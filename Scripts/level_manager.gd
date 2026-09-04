@@ -55,8 +55,8 @@ func rand_pos(room_corners:Global.room_corners)->Vector2i:
 
 
 func on_player_low_ammo():
+	SignalBus.display_message.emit("Find more bullets!")
 	if (ammo_packs.get_child_count() == 0):
-		SignalBus.display_message.emit("Find more Ammo!")
 		add_ammo_pack()
 
 func add_ammo_pack():

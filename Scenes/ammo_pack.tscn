@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://ducdbbmklqfcd"]
+[gd_scene load_steps=11 format=3 uid="uid://ducdbbmklqfcd"]
 
 [ext_resource type="Texture2D" uid="uid://hrgb4lmvboyt" path="res://Assets/sprites/player/ammo_pack.png" id="1_xyhtp"]
 [ext_resource type="Script" uid="uid://dwh08fxvfoqf8" path="res://Scripts/ammo_pack.gd" id="2_gkw8x"]
 [ext_resource type="Texture2D" uid="uid://cgdubh3rxppa" path="res://Assets/sprites/player/bullet.png" id="3_yn5o3"]
-[ext_resource type="AudioStream" uid="uid://dvhyh4sqv4rju" path="res://Assets/Audio/sfx/sfx_ui_selected (1).ogg" id="4_7au7j"]
+[ext_resource type="AudioStream" uid="uid://ybi622tfvca1" path="res://Assets/Audio/sfx/sfx_gunshot.ogg" id="4_7au7j"]
+[ext_resource type="AudioStream" uid="uid://dvhyh4sqv4rju" path="res://Assets/Audio/sfx/sfx_ui_selected (1).ogg" id="5_cryh0"]
 
 [sub_resource type="Curve" id="Curve_7au7j"]
 _limits = [0.0, 0.2, 0.0, 1.0]
@@ -15,11 +16,17 @@ offsets = PackedFloat32Array(0, 0.320896, 1)
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_yn5o3"]
+radius = 20.0
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_cryh0"]
 random_pitch = 1.15
 streams_count = 1
 stream_0/stream = ExtResource("4_7au7j")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_wxnvy"]
+random_pitch = 1.15
+streams_count = 1
+stream_0/stream = ExtResource("5_cryh0")
 
 [node name="ammo_pack" type="Sprite2D"]
 texture = ExtResource("1_xyhtp")
@@ -49,7 +56,12 @@ shape = SubResource("CircleShape2D_yn5o3")
 
 [node name="pickup_sfx" type="AudioStreamPlayer2D" parent="."]
 stream = SubResource("AudioStreamRandomizer_cryh0")
-volume_db = -3.0
-pitch_scale = 0.06
+volume_db = -18.651
+pitch_scale = 4.0
+
+[node name="spawn_sfx" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource("AudioStreamRandomizer_wxnvy")
+volume_db = -11.0
+pitch_scale = 0.05
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

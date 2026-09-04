@@ -15,13 +15,15 @@ var curr_ammo:int:
 	set(val):
 		curr_ammo = clamp(val,0,Global.player_max_ammo)
 		has_bullets = (curr_ammo > 0)
-		#call the player shot to update the ammo label
-		SignalBus.player_shot.emit(curr_ammo,Global.player_max_ammo)
 		
-		if(curr_ammo <= int(0.25 * Global.player_max_ammo) && (
-			curr_ammo % int(0.10 * Global.player_max_ammo) == 0) ):
-			SignalBus.low_ammo.emit()
-
+		var is_low:bool = false
+		SignalBus.player_shot.emit(curr_ammo,Global.player_max_ammo)
+		if(curr_ammo <= int(0.25 * Global.player_max_ammo)):
+			if (curr_ammo % int(0.10 * Global.player_max_ammo) == 0):
+				SignalBus.low_ammo.emit()
+			is_low = true
+		#call the player shot to update the ammo label
+		SignalBus.player_shot.emit(curr_ammo,Global.player_max_ammo,is_low)
 
 @onready var dash_sfx: AudioStreamPlayer2D = $audio/dash
 @onready var no_ammo: AudioStreamPlayer2D = $audio/no_ammo

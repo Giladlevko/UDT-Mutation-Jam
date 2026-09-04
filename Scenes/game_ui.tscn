@@ -101,20 +101,20 @@ offset_bottom = 8.0
 grow_vertical = 2
 theme_override_constants/separation = 1
 
-[node name="ammo_label" type="Label" parent="MarginContainer/ammo_cont/ammo_panel/HBoxContainer"]
+[node name="ammo_label" type="RichTextLabel" parent="MarginContainer/ammo_cont/ammo_panel/HBoxContainer"]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 size_flags_horizontal = 4
+bbcode_enabled = true
 text = "100/100"
 horizontal_alignment = 1
 vertical_alignment = 1
-autowrap_mode = 3
 
 [node name="TextureRect" type="TextureRect" parent="MarginContainer/ammo_cont/ammo_panel/HBoxContainer"]
 custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
 size_flags_horizontal = 4
-size_flags_vertical = 0
+size_flags_vertical = 4
 texture = ExtResource("3_74ohg")
 
 [node name="countdown_cont" type="MarginContainer" parent="MarginContainer"]

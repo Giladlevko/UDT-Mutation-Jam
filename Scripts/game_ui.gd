@@ -37,7 +37,7 @@ const MUT_CARD = preload("res://Scenes/mutation_card.tscn")
 @onready var restart_but: Button = $death_cont/Panel/VBoxContainer/restart_but
 @onready var death_cont: MarginContainer = $death_cont
 
-@onready var ammo_label: Label = $MarginContainer/ammo_cont/ammo_panel/HBoxContainer/ammo_label
+@onready var ammo_label: RichTextLabel = $MarginContainer/ammo_cont/ammo_panel/HBoxContainer/ammo_label
 
 
 var mutations_just_removed:Array[MutationData]
@@ -177,8 +177,14 @@ func dash_cooldown(dur:float):
 	
 
 
-func update_ammo_label(curr_ammo:int,max_ammo:int)->void:
-	ammo_label.text = str(curr_ammo)+"/"+str(max_ammo)
+func update_ammo_label(curr_ammo:int,max_ammo:int,is_low:bool = false)->void:
+	if curr_ammo == max_ammo:
+		ammo_label.text = ( "[rainbow speed=1.0][shake rate=200.0 level=10]"+
+		str(curr_ammo)+"[/shake][/rainbow]/"+str(max_ammo) )
+	elif(!is_low):
+		ammo_label.text = str(curr_ammo)+"/"+str(max_ammo)
+	else:
+		ammo_label.text = "[pulse freq=2.0]"+str(curr_ammo)+"[/pulse]/"+str(max_ammo)
 
 
 const CARD_AMOUNT = 3
