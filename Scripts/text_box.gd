@@ -122,13 +122,18 @@ func _input(event):
 			input_pressed.emit()
 			print("Moving to next dialog line!")
 	else:
-		if event.is_action_pressed("Continue Dialog") and modulate.a != 0:
+		if event.is_action_pressed("Continue Dialog") and modulate.a == 1:
 			on_dialog_end()
 
+var ending_dialog:bool = false
 func on_dialog_end():
+	if(ending_dialog):return
+	ending_dialog = true
 	tween_visibility(self,false)
 	dialog_finished.emit()
 	#line_tween.stop()
+	await self.vis_changed
+	ending_dialog = false
 
 func _on_skip_button_pressed() -> void:
 	if dialog_ended and modulate.a != 0:

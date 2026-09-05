@@ -119,6 +119,7 @@ func on_level_reset():
 	Global.rooms.clear()
 	dungeon_generator.queue_free()
 	player.global_position = Vector2.ZERO
+	player.recalculate_stats()
 	for enemy:ENEMY in enemies.get_children():
 		enemy.queue_free()
 	for ammo:AMMO_PACK in ammo_packs.get_children():
