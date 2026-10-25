@@ -1,5 +1,6 @@
-[gd_resource type="Theme" load_steps=8 format=3 uid="uid://rgyna2d0tcac"]
+[gd_resource type="Theme" load_steps=12 format=3 uid="uid://rgyna2d0tcac"]
 
+[ext_resource type="Texture2D" uid="uid://cgvr11n1bsqgc" path="res://Assets/sprites/UI/slider_grabber.png" id="1_5tlc3"]
 [ext_resource type="FontFile" uid="uid://boex4g38s5jhi" path="res://Assets/sprites/UI/PixelOperator8.ttf" id="1_g7f11"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pyarg"]
@@ -25,6 +26,49 @@ corner_radius_top_left = 10
 corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_louyb"]
+bg_color = Color(0, 1, 1, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+border_blend = true
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_txeu7"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 1, 1, 1)
+border_blend = true
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_om0su"]
+content_margin_left = 5.0
+content_margin_top = 5.0
+content_margin_right = 5.0
+content_margin_bottom = 5.0
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+border_blend = true
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8yvjt"]
 bg_color = Color(0, 0, 0, 1)
@@ -79,6 +123,11 @@ Button/colors/font_color = Color(1, 1, 1, 1)
 Button/styles/hover = SubResource("StyleBoxFlat_pyarg")
 Button/styles/normal = SubResource("StyleBoxFlat_5tlc3")
 Button/styles/pressed = SubResource("StyleBoxFlat_pyarg")
+HSlider/icons/grabber = ExtResource("1_5tlc3")
+HSlider/icons/grabber_highlight = ExtResource("1_5tlc3")
+HSlider/styles/grabber_area = SubResource("StyleBoxFlat_louyb")
+HSlider/styles/grabber_area_highlight = SubResource("StyleBoxFlat_txeu7")
+HSlider/styles/slider = SubResource("StyleBoxFlat_om0su")
 Panel/styles/panel = SubResource("StyleBoxFlat_8yvjt")
 ProgressBar/styles/background = SubResource("StyleBoxFlat_3alg7")
 ProgressBar/styles/fill = SubResource("StyleBoxFlat_g7f11")

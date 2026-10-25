@@ -137,7 +137,6 @@ func shoot_projectile(gun:GUN):
 		bullet_dir_sign*=-1
 	handle_projectile_cooldown()
 	pass
-	pass
 
 func handle_projectile_cooldown():
 	if(can_shoot):return

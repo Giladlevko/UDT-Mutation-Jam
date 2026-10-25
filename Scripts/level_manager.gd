@@ -104,7 +104,7 @@ func _on_enemies_spawn_cool_timeout() -> void:
 
 func on_game_timer_end():
 	waiting_for_enemies_to_die = true
-	if enemies.get_child_count()==0:
+	if enemies.get_child_count()==0 and !player.is_dead:
 		SignalBus.init_mutation_selection.emit()
 	if enemies.get_child_count()>=1:
 		enemies_spawn_cool.stop()
