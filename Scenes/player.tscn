@@ -149,31 +149,37 @@ debug_color = Color(0, 0.638963, 0.37141, 0.42)
 stream = SubResource("AudioStreamRandomizer_qqcod")
 volume_db = -18.5
 max_distance = 200.0
+bus = &"sfx"
 
 [node name="hurt" type="AudioStreamPlayer2D" parent="audio"]
 stream = SubResource("AudioStreamRandomizer_igrcy")
 volume_db = -10.0
 max_distance = 200.0
+bus = &"sfx"
 
 [node name="dead" type="AudioStreamPlayer2D" parent="audio"]
 stream = SubResource("AudioStreamRandomizer_fs7ks")
 max_distance = 200.0
+bus = &"sfx"
 
 [node name="shoot" type="AudioStreamPlayer2D" parent="audio"]
 stream = SubResource("AudioStreamRandomizer_l6n3p")
 volume_db = -23.0
 max_distance = 200.0
+bus = &"sfx"
 
 [node name="dash" type="AudioStreamPlayer2D" parent="audio"]
 stream = SubResource("AudioStreamRandomizer_fd4e3")
 volume_db = -15.0
 pitch_scale = 1.4
+bus = &"sfx"
 
 [node name="no_ammo" type="AudioStreamPlayer2D" parent="audio"]
 stream = SubResource("AudioStreamRandomizer_l6n3p")
 volume_db = -23.0
 pitch_scale = 4.0
 max_distance = 200.0
+bus = &"sfx"
 
 [node name="vfx" type="Node2D" parent="."]
 

@@ -46,6 +46,13 @@ var phase_index:int = 1
 
 var enemies_mutation:Array[MutationData]
 
+var audio_value:Dictionary[StringName,int] = {
+	"SFX": 50,
+	"Music": 50,
+	"UI": 50,
+	"Global": 50
+}
+
 func _ready() -> void:
 	SignalBus.room_added.connect(on_room_added)
 	

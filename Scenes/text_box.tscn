@@ -141,9 +141,11 @@ text = "Name"
 [node name="click" type="AudioStreamPlayer" parent="audio"]
 stream = ExtResource("4_8gqem")
 volume_db = -17.0
+bus = &"UI"
 
 [node name="hover" type="AudioStreamPlayer" parent="audio"]
 stream = ExtResource("5_1q4u4")
 volume_db = -20.0
+bus = &"UI"
 
 [connection signal="pressed" from="Panel/skip_cont/skip_button" to="." method="_on_skip_button_pressed"]

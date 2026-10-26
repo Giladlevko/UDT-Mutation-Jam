@@ -4,11 +4,13 @@ extends UI
 @onready var quit: Button = $MarginContainer/VBoxContainer/buttons/quit
 @onready var controls_button: TextureButton = $MarginContainer/MarginContainer/Panel/controls_button
 @onready var controls_cont: MarginContainer = $MarginContainer/controls_cont
+@onready var audio_settings: Button = $MarginContainer/VBoxContainer/buttons/audio_settings
+@onready var audio_controler: AUDIO_CONTROLER = $MarginContainer/audio_controler
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	buttons = [start,credits,quit]
+	buttons = [start,credits,quit,audio_settings]
 	connect_buttons()
 	enter_trans()
 	song_on(song,-15,3)
@@ -40,3 +42,8 @@ func _on_credits_pressed() -> void:
 func _on_controls_button_pressed() -> void:
 	tween_visibility(controls_cont,!controls_cont.visible)
 	pass
+
+
+func _on_audio_settings_pressed() -> void:
+	audio_controler.tween_visibility(audio_controler,true)
+	pass # Replace with function body.

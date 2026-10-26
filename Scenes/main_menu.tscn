@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://cgcrk6imk7y2b"]
+[gd_scene load_steps=11 format=3 uid="uid://cgcrk6imk7y2b"]
 
 [ext_resource type="Script" uid="uid://b2fatneuc3a36" path="res://Scripts/main_menu.gd" id="1_28flt"]
 [ext_resource type="AudioStream" uid="uid://cx3ketoo7j5oj" path="res://Assets/Audio/sfx/sfx_ui_highlight (1).ogg" id="2_ce3w2"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://bcmhxv7iveiw3" path="res://Assets/sprites/UI/mutations/dna_dark.png" id="3_yhxw7"]
 [ext_resource type="Theme" uid="uid://rgyna2d0tcac" path="res://Scenes/UI_theme.tres" id="4_trj04"]
 [ext_resource type="Texture2D" uid="uid://bl0abs8hhmv47" path="res://Assets/sprites/UI/mutations/mystery.png" id="5_yhxw7"]
+[ext_resource type="PackedScene" uid="uid://drtqumv7fnau3" path="res://Scenes/audio_controler.tscn" id="6_trj04"]
 [ext_resource type="AudioStream" uid="uid://drno4mc371ys4" path="res://Assets/Audio/music/MainMenu_Loop_125bpm.ogg" id="8_yhxw7"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_16hvj"]
@@ -103,6 +104,14 @@ theme = ExtResource("4_trj04")
 theme_override_font_sizes/font_size = 24
 text = "Credits!"
 
+[node name="audio_settings" type="Button" parent="MarginContainer/VBoxContainer/buttons"]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+theme = ExtResource("4_trj04")
+theme_override_font_sizes/font_size = 24
+text = "Audio!"
+
 [node name="quit" type="Button" parent="MarginContainer/VBoxContainer/buttons"]
 custom_minimum_size = Vector2(200, 50)
 layout_mode = 2
@@ -185,6 +194,10 @@ texture_pressed = ExtResource("5_yhxw7")
 texture_hover = ExtResource("5_yhxw7")
 stretch_mode = 3
 
+[node name="audio_controler" parent="MarginContainer" instance=ExtResource("6_trj04")]
+visible = false
+layout_mode = 2
+
 [node name="dark_screen" type="ColorRect" parent="."]
 visible = false
 layout_mode = 1
@@ -200,17 +213,21 @@ color = Color(0, 0, 0, 1)
 [node name="click" type="AudioStreamPlayer" parent="audio"]
 stream = ExtResource("2_ce3w2")
 volume_db = -17.0
+bus = &"UI"
 
 [node name="hover" type="AudioStreamPlayer" parent="audio"]
 stream = ExtResource("3_n45e2")
 volume_db = -20.0
+bus = &"UI"
 
 [node name="song" type="AudioStreamPlayer" parent="audio"]
 stream = ExtResource("8_yhxw7")
 volume_db = -80.0
+bus = &"music"
 parameters/looping = true
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/buttons/start" to="." method="_on_start_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/buttons/credits" to="." method="_on_credits_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/buttons/audio_settings" to="." method="_on_audio_settings_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/buttons/quit" to="." method="_on_quit_pressed"]
 [connection signal="pressed" from="MarginContainer/MarginContainer/Panel/controls_button" to="." method="_on_controls_button_pressed"]

@@ -4,7 +4,7 @@
 [ext_resource type="Theme" uid="uid://rgyna2d0tcac" path="res://Scenes/UI_theme.tres" id="1_r18jl"]
 [ext_resource type="AudioStream" uid="uid://cx3ketoo7j5oj" path="res://Assets/Audio/sfx/sfx_ui_highlight (1).ogg" id="3_xelri"]
 [ext_resource type="AudioStream" uid="uid://dvhyh4sqv4rju" path="res://Assets/Audio/sfx/sfx_ui_selected (1).ogg" id="4_uah1q"]
-[ext_resource type="AudioStream" uid="uid://b0ma0n006n5pw" path="res://Assets/Audio/music/Ticking_Intro_133bpm_V1.2.ogg" id="5_7emq5"]
+[ext_resource type="AudioStream" uid="uid://6opfc2yhxuo8" path="res://Assets/Audio/music/RT_Credits_Loop_127bpm.ogg" id="5_xelri"]
 
 [node name="credits" type="Control" node_paths=PackedStringArray("click_sfx", "hover_sfx", "song", "dark_screen")]
 layout_mode = 3
@@ -71,17 +71,17 @@ horizontal_alignment = 1
 [node name="HSeparator2" type="HSeparator" parent="Panel/VBoxContainer"]
 modulate = Color(1, 1, 1, 0)
 layout_mode = 2
-theme_override_constants/separation = 70
+theme_override_constants/separation = 50
 
 [node name="Panel" type="Panel" parent="Panel/VBoxContainer"]
-custom_minimum_size = Vector2(550, 350)
+custom_minimum_size = Vector2(600, 450)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme = ExtResource("1_r18jl")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="Panel/VBoxContainer/Panel"]
-custom_minimum_size = Vector2(500, 300)
+custom_minimum_size = Vector2(550, 300)
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -105,8 +105,10 @@ text = "Lead & Programmer: [color=FUCHSIA]Mr.lad[/color]
 Artist: [color=#fd9029]Uncle Sams[/color]
 [url=https://uncle-sams.itch.io/][color=#478fff]Uncle Sams' Itch page![/color][/url]
 
-Musician: [color=GREEN]SirRibbotJr[/color]
-[url=https://sirribbotjr.itch.io/][color=#478fff]SirRibbotJr's Itch page![/color][/url]"
+Musician: [color=GREEN]easternunit100 (AKA SirRibbotJr)[/color]
+[url=https://easternunit100.itch.io/][color=478fff]easternunit100's Itch Page![/color][/url]
+[url=https://sirribbotjr.itch.io/][color=#478fff]SirRibbotJr's Itch page![/color][/url]
+"
 fit_content = true
 scroll_active = false
 horizontal_alignment = 1
@@ -143,14 +145,17 @@ color = Color(0, 0, 0, 1)
 [node name="click" type="AudioStreamPlayer" parent="audio"]
 stream = ExtResource("3_xelri")
 volume_db = -17.0
+bus = &"UI"
 
 [node name="hover" type="AudioStreamPlayer" parent="audio"]
 stream = ExtResource("4_uah1q")
 volume_db = -20.0
+bus = &"UI"
 
 [node name="song" type="AudioStreamPlayer" parent="audio"]
-stream = ExtResource("5_7emq5")
+stream = ExtResource("5_xelri")
 volume_db = -80.0
+bus = &"music"
 parameters/looping = true
 
 [connection signal="meta_clicked" from="Panel/VBoxContainer/Panel/RichTextLabel" to="." method="_on_rich_text_label_meta_clicked"]

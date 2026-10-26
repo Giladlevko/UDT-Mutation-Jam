@@ -21,8 +21,15 @@ class_name AUDIO_CONTROLER
 func _ready() -> void:
 	buttons.push_back(close_button)
 	connect_buttons()
+	update_slider_to_real_audio()
+	
 	pass # Replace with function body.
 
+func update_slider_to_real_audio():
+	sfx_slider.value = Global.audio_value["SFX"]
+	music_slider.value = Global.audio_value["Music"]
+	ui_slider.value = Global.audio_value["UI"]
+	global_slider.value = Global.audio_value["Global"]
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -36,6 +43,7 @@ func _on_music_slider_value_changed(value: float) -> void:
 	var vol_mult:float = music_slider.max_value/2.0
 	var new_vol:float = BASE_MUSIC_VOL * (value / vol_mult)
 	AudioServer.set_bus_volume_linear(index,new_vol)
+	Global.audio_value["Music"] = int(value)
 
 
 func _on_sfx_slider_value_changed(value: float) -> void:
@@ -44,6 +52,7 @@ func _on_sfx_slider_value_changed(value: float) -> void:
 	var vol_mult:float = sfx_slider.max_value/2.0
 	var new_vol:float = BASE_SFX_VOL * (value / vol_mult)
 	AudioServer.set_bus_volume_linear(index,new_vol)
+	Global.audio_value["SFX"] = int(value)
 
 
 func _on_global_slider_value_changed(value: float) -> void:
@@ -52,6 +61,7 @@ func _on_global_slider_value_changed(value: float) -> void:
 	var vol_mult:float = global_slider.max_value/2.0
 	var new_vol:float = BASE_GLOBAL_VOL * (value / vol_mult)
 	AudioServer.set_bus_volume_linear(index,new_vol)
+	Global.audio_value["Global"] = int(value)
 
 
 func _on_ui_slider_value_changed(value: float) -> void:
@@ -60,6 +70,7 @@ func _on_ui_slider_value_changed(value: float) -> void:
 	var vol_mult:float = ui_slider.max_value/2.0
 	var new_vol:float = BASE_UI_VOL * (value / vol_mult)
 	AudioServer.set_bus_volume_linear(index,new_vol)
+	Global.audio_value["UI"] = int(value)
 
 
 func _on_close_button_pressed() -> void:

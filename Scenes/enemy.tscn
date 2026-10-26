@@ -137,20 +137,24 @@ bar_size = Vector2(30, 5)
 [node name="walk" type="AudioStreamPlayer2D" parent="audio"]
 stream = SubResource("AudioStreamRandomizer_m4x7e")
 max_distance = 200.0
+bus = &"sfx"
 
 [node name="hurt" type="AudioStreamPlayer2D" parent="audio"]
 stream = SubResource("AudioStreamRandomizer_vt4ob")
 volume_db = -15.0
 max_distance = 1000.0
+bus = &"sfx"
 
 [node name="dead" type="AudioStreamPlayer2D" parent="audio"]
 stream = SubResource("AudioStreamRandomizer_hgeoe")
 max_distance = 1000.0
+bus = &"sfx"
 
 [node name="shoot" type="AudioStreamPlayer2D" parent="audio"]
 stream = SubResource("AudioStreamRandomizer_tk7xo")
 volume_db = -15.0
 max_distance = 500.0
+bus = &"sfx"
 
 [node name="vfx" type="Node2D" parent="."]
 

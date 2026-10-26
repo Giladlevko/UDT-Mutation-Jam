@@ -2,6 +2,8 @@ extends UI
 
 @onready var pause: Button = $MarginContainer/pause_button_cont/VBoxContainer/pause
 
+@onready var audio_settings: Button = $MarginContainer/pause_menu/panel/VBoxContainer/audio_settings
+
 @onready var resume: Button = $MarginContainer/pause_menu/panel/VBoxContainer/resume
 @onready var back_to_main: Button = $MarginContainer/pause_menu/panel/VBoxContainer/back_to_main
 @onready var text_box: TEXT_BOX = $text_cont/TextBox
@@ -39,6 +41,8 @@ const MUT_CARD = preload("res://Scenes/mutation_card.tscn")
 
 @onready var ammo_label: RichTextLabel = $MarginContainer/ammo_cont/ammo_panel/HBoxContainer/ammo_label
 
+@onready var audio_controler: AUDIO_CONTROLER = $MarginContainer/pause_menu/audio_controler
+@onready var gamplay_song: AudioStreamPlayer = $songs/gamplay_song
 
 var mutations_just_removed:Array[MutationData]
 
@@ -47,12 +51,25 @@ var in_countdown:bool
 signal countdown_finished
 signal message_finished
 
+var gameplay_songs:Array[AudioStream] = [
+	preload("res://Assets/Audio/music/FULL_IMPLEMENTATION_Ticking_133bpm_V1.2.ogg"),
+	preload("res://Assets/Audio/music/Droid_Pluckey_130bpm_10barsIntro.ogg")
+	]
+
+@onready var song_index:int = randi_range(0,gameplay_songs.size()-1)
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	if get_tree().paused:get_tree().paused = false
 	message_label.text = ""
 	message_panel.modulate.a = 0
-	buttons = [pause,resume,back_to_main,back_to_main_from_death,restart_but,skip_mut_selec]
+	buttons = [
+		pause,resume,audio_settings,back_to_main,
+		back_to_main_from_death,restart_but,skip_mut_selec
+	]
+	
+	gamplay_song.stream = (gameplay_songs[song_index])
+	
 	countdown_label.text = ""
 	enter_trans()
 	connect_buttons()
@@ -129,6 +146,8 @@ func _on_pause_pressed() -> void:
 			countdown()
 			await countdown_finished
 			get_tree().paused = false
+	if(audio_controler.visible):
+		audio_controler.tween_visibility(audio_controler,false)
 	pass # Replace with function body.
 
 
@@ -390,3 +409,18 @@ func _on_restart_but_pressed() -> void:
 func _on_skip_mut_selec_pressed() -> void:
 	text_box._on_skip_button_pressed()
 	mutation_menu_transotion(false)
+
+
+func _on_audio_settings_pressed() -> void:
+	audio_controler.tween_visibility(audio_controler,true)
+	pass # Replace with function body.
+
+
+
+func _on_gamplay_song_finished() -> void:
+	var downtime:float = 1.5
+	await get_tree().create_timer(downtime).timeout
+	song_index = (song_index+1)%(gameplay_songs.size())
+	gamplay_song.stream = (gameplay_songs[song_index])
+	song_on(gamplay_song)
+	pass # Replace with function body.

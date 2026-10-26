@@ -85,6 +85,7 @@ func song_off(music:AudioStreamPlayer = song,dur:float = 0.6):
 func song_on(music:AudioStreamPlayer = song,db_val:float = -15,dur:float = 5):
 	music.volume_linear = db_to_linear(-80)
 	music.playing = true
+	music.play()
 	tween_music(db_to_linear(db_val),music,dur)
 
 func handle_scene_transition(next_scene:String):

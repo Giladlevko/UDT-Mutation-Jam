@@ -81,10 +81,12 @@ autowrap_mode = 3
 [node name="click" type="AudioStreamPlayer" parent="audio"]
 stream = ExtResource("4_304yd")
 volume_db = -17.0
+bus = &"UI"
 
 [node name="hover" type="AudioStreamPlayer" parent="audio"]
 stream = ExtResource("5_jho02")
 volume_db = -20.0
+bus = &"UI"
 
 [connection signal="mouse_entered" from="card_button" to="." method="_on_card_button_mouse_entered"]
 [connection signal="mouse_exited" from="card_button" to="." method="_on_card_button_mouse_exited"]

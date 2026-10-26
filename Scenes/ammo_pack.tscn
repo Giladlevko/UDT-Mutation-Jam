@@ -58,10 +58,12 @@ shape = SubResource("CircleShape2D_yn5o3")
 stream = SubResource("AudioStreamRandomizer_cryh0")
 volume_db = -18.651
 pitch_scale = 4.0
+bus = &"sfx"
 
 [node name="spawn_sfx" type="AudioStreamPlayer2D" parent="."]
 stream = SubResource("AudioStreamRandomizer_wxnvy")
 volume_db = -11.0
 pitch_scale = 0.05
+bus = &"sfx"
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
